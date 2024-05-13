@@ -1,13 +1,10 @@
 package es.gob.info.ant.inicializacion;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import es.gob.info.ant.dto.CacheProvinciasDto;
 import es.gob.info.ant.models.service.ICacheProvinciasService;
 import jakarta.annotation.PostConstruct;
 
@@ -22,7 +19,8 @@ public class InicializacionAplicacion {
 	@PostConstruct
 	public void iniciarAplicacion() {
 		LOGGER.info("Inicializando la lista de las provincias cacheadas");
-		List<CacheProvinciasDto> listaProv = provinciasService.listarProvincias();
+		//Pageable pageable = PageRequest.of(0, 10);
+		//Page<CacheProvinciasDto> listaProv = provinciasService.listarProvincias(pageable);
 		LOGGER.info("Consulta cacheada  - OKEY");
 		
 	}

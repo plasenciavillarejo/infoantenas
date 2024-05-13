@@ -55,6 +55,20 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!--  INI: Depencencia cache -->
+		<!--  ###################### -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+		</dependency>
+		<!--  FIN: Depencencia cache -->
+		<!--  ###################### -->
+
 	</dependencies>
 
 	<build>
