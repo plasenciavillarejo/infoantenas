@@ -14,12 +14,12 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(schema = "GIS", name = "CacheProvincias")
+@Table(schema = "GIS", name = "Cacheprovincias")
 public class CacheProvincias implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(length = 2)
+	@Column(length = 2, name = "codProvincia")
 	@NotNull
 	private Long codProvincia;
 	
