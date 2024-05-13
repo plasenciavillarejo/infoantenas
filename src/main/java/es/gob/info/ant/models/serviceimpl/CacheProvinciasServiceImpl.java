@@ -1,8 +1,10 @@
 package es.gob.info.ant.models.serviceimpl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +19,10 @@ public class CacheProvinciasServiceImpl implements ICacheProvinciasService {
 	private ICacheProvinciasDao provinciasDao;
 	
 	@Override
+	@Cacheable(value = "provinciasCacheadas")
 	@Transactional(readOnly = true)
-	public List<CacheProvinciasDto> listarProvincias() {
-		return provinciasDao.listarProvincias();
+	public Slice<CacheProvinciasDto> listarProvincias(Pageable pageable) {
+		return provinciasDao.listarProvincias(pageable);
 	}
 
 }
