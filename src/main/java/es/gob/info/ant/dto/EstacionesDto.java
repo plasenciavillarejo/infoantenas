@@ -23,7 +23,7 @@ public class EstacionesDto implements Serializable {
 	private String provincia;
 
 	private String referencia;
-
+	
 	public EstacionesDto(String emplazamiento, String codEstacion, String operador, String tpSistema, String banda,
 			BigDecimal limite, String provincia, String referencia) {
 		super();
@@ -35,6 +35,14 @@ public class EstacionesDto implements Serializable {
 		this.limite = limite;
 		this.provincia = provincia;
 		this.referencia = referencia;
+	}
+
+	public EstacionesDto(String operador, String referencia, String banda,  String emplazamiento) {
+		super();
+		this.operador = operador;
+		this.referencia = referencia;
+		this.banda = banda;
+		this.emplazamiento = emplazamiento;
 	}
 
 	private static final long serialVersionUID = 2123265538919145836L;

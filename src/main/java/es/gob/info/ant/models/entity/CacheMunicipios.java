@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -36,6 +38,9 @@ public class CacheMunicipios implements Serializable {
 	@Column(name = "nombreRegistroEntidadesLocales", length = 100)
 	@NotNull
 	private String nombreRegistroEntidadesLocales;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private CacheProvincias cacheProvincias;
 	
 	private static final long serialVersionUID = -6728337971854003804L;
 		

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto;
 import es.gob.info.ant.dto.EstacionesDto;
 import es.gob.info.ant.models.dao.IEstacionesDao;
 import es.gob.info.ant.models.service.IEstacionesService;
@@ -20,7 +21,7 @@ public class EstacionesServiceImpl implements IEstacionesService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<EstacionesDto> listadoEstaciones(String emplazamiento) {
+	public List<DatosCaracteristicasTecnicasDto> listadoEstaciones(String emplazamiento) {
 		return estacionesDao.listadoEstaciones(emplazamiento);
 	}
 	
