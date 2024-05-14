@@ -17,6 +17,7 @@ import es.gob.info.ant.dto.DetallesAntenaDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.models.service.IEmplazamientosService;
 import es.gob.info.ant.models.service.IEstacionesService;
+import es.gob.info.ant.models.service.IMedicionesService;
 import es.gob.info.ant.service.IDetalleAntenasService;
 
 @Service
@@ -30,6 +31,9 @@ public class DetalleAntenasServiceImpl implements IDetalleAntenasService {
 	@Autowired
 	private IEmplazamientosService emplazamientosService;
 	
+	@Autowired
+	private IMedicionesService medicionesService;
+	
 	@Override
 	public Page<DetallesAntenaDto> obtenerDetalleAntenas(String codEmplazamiento, Pageable page,
 			PaginadorDto paginador) {
@@ -42,7 +46,7 @@ public class DetalleAntenasServiceImpl implements IDetalleAntenasService {
 			LOGGER.info("Configurando el tampo del paginador");
 			paginador.setInboxSize((int)estaciones.getTotalElements());
 			
-			LOGGER.info("Rellenamos los datos de datosLocalizacion");
+			LOGGER.info("Rellenamos los datos de datosLocalizacion, datosCaracteristicasTecnicas y nivelesMedios");
 			estaciones.forEach(estacion -> {
 				DatosLocalizacionDto datosLocalizacion = new DatosLocalizacionDto();
 				datosLocalizacion.setCodEstacion(estacion.getCodEstacion());
@@ -56,6 +60,8 @@ public class DetalleAntenasServiceImpl implements IDetalleAntenasService {
 				datosCaracteristicasTecnicas.setOperador(estacion.getOperador());
 				datosCaracteristicasTecnicas.setReferencia(estacion.getReferencia());
 				estacion.setDatosCaracteristicasTecnicas(datosCaracteristicasTecnicas);
+				
+				estacion.setNivelesMedios(medicionesService.listarMediciones(estacion.getEmplazamiento()));
 			});			
 
 		} catch (Exception e) {

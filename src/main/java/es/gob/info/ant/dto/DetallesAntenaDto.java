@@ -2,6 +2,7 @@ package es.gob.info.ant.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import lombok.Data;
 
@@ -28,8 +29,8 @@ public class DetallesAntenaDto implements Serializable {
 	
 	private DatosCaracteristicasTecnicasDto datosCaracteristicasTecnicas;
 	
-	//private Mediciones
-	
+	private List<NivelesMediosDto> nivelesMedios;
+		
 	public DetallesAntenaDto(String emplazamiento, String codEstacion, String operador, String tpSistema, String banda,
 			BigDecimal limite, String provincia, String referencia) {
 		super();
