@@ -19,10 +19,11 @@ public class Sondas implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(length = 20)
+	@Column(name = "emplazamiento", length = 20)
 	@NotNull
 	private String emplazamiento;
 	
+	@Column(name = "idEstado")
 	@NotNull
 	private int idEstado;
 	
@@ -34,30 +35,32 @@ public class Sondas implements Serializable {
 	@Column(name = "longitud_ghms", length = 10)
 	private String longitudGhms;
 	
-	@Column(precision = 9, scale = 6)
+	@Column(name = "latitud", precision = 9, scale = 6)
 	private BigDecimal latitud;
 
-	@Column(precision = 9, scale = 6)
+	@Column(name = "longitud", precision = 9, scale = 6)
 	private BigDecimal longitud;
 		
-	@Column(precision = 9, scale = 6)
-	private BigDecimal latitudCC;
+	@Column(name = "latitudCC", precision = 9, scale = 6)
+	private BigDecimal latitudCc;
 	
-	@Column(precision = 9, scale = 6)
-	private BigDecimal longitudCC;
+	@Column(name = "longitudCC", precision = 9, scale = 6)
+	private BigDecimal longitudCc;
 	
-	@Column(precision = 9, scale = 6)
-	private BigDecimal latitudIDEE;
+	@Column(name = "latitudIDEE", precision = 9, scale = 6)
+	private BigDecimal latitudIdee;
 	
-	@Column(precision = 9, scale = 6)
-	private BigDecimal longitudIDEE;
+	@Column(name = "longitudIDEE", precision = 9, scale = 6)
+	private BigDecimal longitudIdee;
 	
-	@Column(length = 250)
+	@Column(name = "descripcion", length = 250)
 	private String descripcion;
 	
+	@Column(name = "idUbicacion")
 	@NotNull
 	private int idUbicacion;
 	
+	@Column(name = "estado")
 	@NotNull
 	private int estado;
 

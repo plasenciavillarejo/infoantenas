@@ -18,56 +18,56 @@ public class Emplazamientos implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(length = 64)
+	@Column(name="emplazamiento", length = 64)
 	private String emplazamiento;
 	
-	@Column(length = 70)
+	@Column(name="direccion", length = 70)
 	private String direccion;
 	
-	@Column(length = 64)
+	@Column(name="localidad", length = 64)
 	private String localidad;
 	
-	@Column(length = 70)
+	@Column(name="municipio", length = 70)
 	private String municipio;
 	
-	@Column(length = 25)
+	@Column(name="provincia", length = 25)
 	private String provincia;
 	
-	@Column(length = 10)
+	@Column(name="latitud_ghms", length = 10)
 	private String latitudGhms;
 	
-	@Column(length = 10)
+	@Column(name="longitud_ghms", length = 10)
 	private String longitudGhms; 
 	
-	@Column(precision = 9, scale = 6)
+	@Column(name="latitud", precision = 9, scale = 6)
 	private BigDecimal latitud;
 	
-	@Column(precision = 9, scale = 6)
+	@Column(name="longitud", precision = 9, scale = 6)
 	private BigDecimal longitud;
 	
-	@Column(precision = 9, scale = 6)
-	private BigDecimal latitudCC;
+	@Column(name="latitudCC", precision = 9, scale = 6)
+	private BigDecimal latitudCc;
 	
-	@Column(precision = 9, scale = 6)
-	private BigDecimal longitudCC;
+	@Column(name="longitudCC", precision = 9, scale = 6)
+	private BigDecimal longitudCc;
 	
-	@Column(precision = 9, scale = 6)
-	private BigDecimal latitudIDEE;
+	@Column(name="latitudIDEE", precision = 9, scale = 6)
+	private BigDecimal latitudIdee;
 	
-	@Column(precision = 9, scale = 6)
-	private BigDecimal longitudIDEE;
+	@Column(name="longitudIDEE", precision = 9, scale = 6)
+	private BigDecimal longitudIdee;
 	
-	@Column(length = 14)
+	@Column(name="fechaActualizacion", length = 14)
 	private String fechaActualizacion;
 	
-	@Column(length = 255)
+	@Column(name="observaciones", length = 255)
 	private String observaciones;
 	
-	@Column(precision = 9, scale = 6)
-	private BigDecimal latitudETRS89;
+	@Column(name="latitudETRS89", precision = 9, scale = 6)
+	private BigDecimal latitudEtrs;
 	
-	@Column(precision = 9, scale = 6)
-	private BigDecimal longitudETRS89;
+	@Column(name="longitudETRS89", precision = 9, scale = 6)
+	private BigDecimal longitudEtrs;
 		
 	private static final long serialVersionUID = 224304427164547755L;
 	

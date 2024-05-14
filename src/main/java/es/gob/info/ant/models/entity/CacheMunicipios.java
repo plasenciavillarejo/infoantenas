@@ -18,22 +18,22 @@ public class CacheMunicipios implements Serializable {
 	@EmbeddedId
 	private CacheMunicipiosPk cacheMunicipiosPk;
 	
-	@Column(precision = 9, scale = 6)
+	@Column(name = "latitudEsquinaInferiorIzquierda", precision = 9, scale = 6)
 	private BigDecimal latitudEsquinaInferiorIzquierda;
 	
-	@Column(precision = 9, scale = 6)
+	@Column(name = "longitudEsquinaInferiorIzquierda", precision = 9, scale = 6)
 	private BigDecimal longitudEsquinaInferiorIzquierda;
 
-	@Column(precision = 9, scale = 6)
+	@Column(name = "latitudEsquinaSuperiorDerecha", precision = 9, scale = 6)
 	private BigDecimal latitudEsquinaSuperiorDerecha;
 	
-	@Column(precision = 9, scale = 6)
+	@Column(name = "longitudEsquinaSuperiorDerecha", precision = 9, scale = 6)
 	private BigDecimal longitudEsquinaSuperiorDerecha;
 	
-	@Column(length = 15)
+	@Column(name = "proyeccion", length = 15)
 	private String proyeccion;
 	
-	@Column(length = 100)
+	@Column(name = "nombreRegistroEntidadesLocales", length = 100)
 	@NotNull
 	private String nombreRegistroEntidadesLocales;
 	

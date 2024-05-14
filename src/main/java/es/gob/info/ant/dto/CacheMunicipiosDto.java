@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 public class CacheMunicipiosDto implements Serializable {
 
-
 	private Long codProvincia;
 
 	private Long codMunicipio;

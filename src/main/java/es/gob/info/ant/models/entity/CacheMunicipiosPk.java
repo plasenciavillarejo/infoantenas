@@ -9,11 +9,11 @@ import jakarta.validation.constraints.NotNull;
 @Embeddable
 public class CacheMunicipiosPk implements Serializable {
 
-	@Column(length = 2)
+	@Column(name = "codProvincia", length = 2)
 	@NotNull
 	private Long codProvincia;
 	
-	@Column(length = 3)
+	@Column(name = "codMunicipio", length = 3)
 	@NotNull
 	private Long codMunicipio;
 	

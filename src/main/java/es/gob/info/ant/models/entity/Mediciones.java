@@ -18,22 +18,21 @@ public class Mediciones implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(length = 64)
+	@Column(name = "emplazamiento", length = 64)
 	private String emplazamiento;
 	
-	@Column(precision = 5, scale = 1)
+	@Column(name = "distancia", precision = 5, scale = 1)
 	private BigDecimal distancia; 
 
-	@Column(precision = 5, scale = 1)
+	@Column(name = "acimut", precision = 5, scale = 1)
 	private BigDecimal acimut; 
 
-	@Column(length = 25)
+	@Column(name = "medida", length = 25)
 	private String medida;
 	
-	@Column(length = 25)
+	@Column(name = "provincia", length = 25)
 	private String provincia;
 	
-	// Indica el nombre de la columna a la que se refiere
 	@Column(name = "año")
 	private int anio;
 
