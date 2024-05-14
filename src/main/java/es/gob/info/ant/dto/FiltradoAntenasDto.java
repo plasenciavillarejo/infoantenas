@@ -2,11 +2,12 @@ package es.gob.info.ant.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import lombok.Data;
 
 @Data
-public class EmplazamientosDto implements Serializable {
+public class FiltradoAntenasDto implements Serializable {
 
 	private String emplazamiento;
 
@@ -42,6 +43,10 @@ public class EmplazamientosDto implements Serializable {
 
 	private BigDecimal longitudEtrs;
 
+	private List<DatosCaracteristicasTecnicasDto> datosCaracteristicasTecnicas;
+	
+	private List<NivelesMediosDto> nivelesMedios;
+	
 	private static final long serialVersionUID = 6871980887181329666L;
 	
 }
