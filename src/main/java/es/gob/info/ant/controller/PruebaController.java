@@ -28,6 +28,8 @@ import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.models.entity.Emplazamientos;
 import es.gob.info.ant.models.service.ICacheMunicipiosService;
 import es.gob.info.ant.models.service.ICacheProvinciasService;
+import es.gob.info.ant.models.service.IEstacionesService;
+import es.gob.info.ant.service.IDetalleAntenasService;
 import es.gob.info.ant.service.ILocalizacionAntenasService;
 import es.gob.info.ant.service.IProvinciasService;
 
@@ -47,6 +49,12 @@ public class PruebaController {
 	
 	@Autowired
 	private ILocalizacionAntenasService localizacionAntenasService;
+	
+	@Autowired
+	private IDetalleAntenasService detalleAntenasService;
+	
+	@Autowired
+	private IEstacionesService estacionesService;
 	
 	@GetMapping(value = "/listadoProvincias")
 	public ResponseEntity<Slice<CacheProvinciasDto>> listarProvincias(@PageableDefault(page = 1, size = 10) Pageable pageable,
@@ -99,5 +107,24 @@ public class PruebaController {
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
-	
+	@GetMapping(value = "/detalleAntenas")
+	public ResponseEntity<Object> localizarAntenas(@PageableDefault(page = 1, size = 10) Pageable pageable,
+			@SortDefault(sort = "emplazamiento", direction = Direction.ASC) Sort sort,
+			@RequestParam(value = "emplazamiento", required = false) String emplazamiento) {
+		
+		LOGGER.info("Recibiendo los datos para el filtrado de detalle antenas, emplazamiento: {}", emplazamiento);
+		Map<String, Object> resultado = null;
+		try {
+			Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
+			LOGGER.info("Configurando el paginador");
+			PaginadorDto paginador = new PaginadorDto();
+			paginador.setCurrentPage(page.getPageNumber() + 1);
+			paginador.setPageSize(page.getPageSize());
+			
+			resultado = detalleAntenasService.obtenerDetalleAntenas(emplazamiento, page, paginador); 
+		} catch (Exception e) {
+			LOGGER.error("ERROR recuperando las estaciones {}", e.getMessage(), e.getCause());
+		}	
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
+	}
 }
