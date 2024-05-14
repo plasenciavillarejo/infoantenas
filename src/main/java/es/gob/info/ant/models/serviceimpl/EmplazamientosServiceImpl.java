@@ -1,5 +1,7 @@
 package es.gob.info.ant.models.serviceimpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,11 @@ public class EmplazamientosServiceImpl implements IEmplazamientosService {
 	public Page<Object []> listaEmplazamientos(String codProvincia, String codMunicipio,
 			 String direccion, Pageable pageable) {
 		return emplazamientosDao.listaEmplazamientos(codProvincia, codMunicipio, direccion, pageable);
+	}
+
+	@Override
+	public String obtenerDirecciones(String emplazamiento) {
+		return emplazamientosDao.obtenerDireccion(emplazamiento);
 	}
 
 }

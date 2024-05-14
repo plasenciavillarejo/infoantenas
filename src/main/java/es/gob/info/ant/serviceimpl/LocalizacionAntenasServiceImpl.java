@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gob.info.ant.dto.EmplazamientosDto;
-import es.gob.info.ant.dto.EstacionesDto;
+import es.gob.info.ant.dto.DetallesAntenaDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.models.service.IEmplazamientosService;
 import es.gob.info.ant.models.service.IEstacionesService;

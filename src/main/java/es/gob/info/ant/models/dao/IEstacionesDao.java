@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto;
-import es.gob.info.ant.dto.EstacionesDto;
+import es.gob.info.ant.dto.DetallesAntenaDto;
 import es.gob.info.ant.models.entity.Estaciones;
 
 public interface IEstacionesDao extends PagingAndSortingRepository<Estaciones, Long> {
@@ -18,9 +18,9 @@ public interface IEstacionesDao extends PagingAndSortingRepository<Estaciones, L
 			+ " where es.emplazamiento = :emplazamiento")
 	public List<DatosCaracteristicasTecnicasDto> listadoEstaciones(@Param("emplazamiento") String emplazamiento);
 	
-	@Query(value = "select new es.gob.info.ant.dto.EstacionesDto(es.emplazamiento, es.codEstacion, es.operador, es.tpSistema, es.banda,"
+	@Query(value = "select new es.gob.info.ant.dto.DetallesAntenaDto(es.emplazamiento, es.codEstacion, es.operador, es.tpSistema, es.banda,"
 			+ " es.limite, es.provincia, es.referencia) from Estaciones es"
 			+ " where es.emplazamiento = :emplazamiento")
-	public Page<EstacionesDto> listadoEstacionesPageable(String emplazamiento, Pageable page);
+	public Page<DetallesAntenaDto> listadoEstacionesPageable(String emplazamiento, Pageable page);
 	
 }

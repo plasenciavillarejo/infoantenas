@@ -25,4 +25,8 @@ public class DatosCaracteristicasTecnicasDto implements Serializable {
 		this.referencia = referencia;
 	}
 
+	public DatosCaracteristicasTecnicasDto() {
+		super();
+	}
+
 }

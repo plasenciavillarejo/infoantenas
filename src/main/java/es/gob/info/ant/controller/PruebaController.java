@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.gob.info.ant.dto.CacheMunicipiosDto;
 import es.gob.info.ant.dto.CacheProvinciasDto;
 import es.gob.info.ant.dto.EmplazamientosDto;
+import es.gob.info.ant.dto.DetallesAntenaDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.models.entity.Emplazamientos;
 import es.gob.info.ant.models.service.ICacheMunicipiosService;
@@ -113,7 +114,7 @@ public class PruebaController {
 			@RequestParam(value = "emplazamiento", required = false) String emplazamiento) {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de detalle antenas, emplazamiento: {}", emplazamiento);
-		Map<String, Object> resultado = null;
+		Page<DetallesAntenaDto> resultado = null;
 		try {
 			Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
 			LOGGER.info("Configurando el paginador");
