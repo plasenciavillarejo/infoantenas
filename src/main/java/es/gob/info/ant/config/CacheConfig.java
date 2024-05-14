@@ -26,7 +26,7 @@ public class CacheConfig {
   CacheManager cacheManager() {
     CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
     //caffeineCacheManager.setCaffeine(caffeineConfig());
-    caffeineCacheManager.setCacheNames(Arrays.asList("provinciasCacheadas"));
+    caffeineCacheManager.setCacheNames(Arrays.asList("provinciasCacheadas", "municipiosCacheados"));
     return caffeineCacheManager;
   }
   
