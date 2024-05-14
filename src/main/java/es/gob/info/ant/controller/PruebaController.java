@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.gob.info.ant.dto.CacheMunicipiosDto;
 import es.gob.info.ant.dto.CacheProvinciasDto;
+import es.gob.info.ant.dto.DetallesAntenaDto;
 import es.gob.info.ant.dto.FiltradoAntenasDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.models.service.ICacheMunicipiosService;
@@ -83,7 +85,7 @@ public class PruebaController {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de antenas, codProvincia: {}, codMunicipio: {}, calle: {},"
 				+ " numero: {}", codProvincia, codMunicipio, calle, numero );
-		List<FiltradoAntenasDto> resultado = null;
+		Map<String, Object> resultado = null;
 		try {
 			Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
 			LOGGER.info("Configurando el paginador");
@@ -108,7 +110,7 @@ public class PruebaController {
 			@RequestParam(value = "emplazamiento", required = false) String emplazamiento) {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de detalle antenas, emplazamiento: {}", emplazamiento);
-		Map<String, Object> resultado = null;
+		Page<DetallesAntenaDto> resultado = null;
 		try {
 			Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
 			LOGGER.info("Configurando el paginador");
@@ -119,6 +121,7 @@ public class PruebaController {
 			resultado = detalleAntenasService.obtenerDetalleAntenas(emplazamiento, page, paginador); 
 		} catch (Exception e) {
 			LOGGER.error("ERROR recuperando las estaciones {}", e.getMessage(), e.getCause());
+			throw e;
 		}	
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}

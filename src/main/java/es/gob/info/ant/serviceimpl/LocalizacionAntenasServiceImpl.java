@@ -1,7 +1,6 @@
 package es.gob.info.ant.serviceimpl;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 	private IMedicionesService medicioneService;
 	
 	@Override
-	public List<FiltradoAntenasDto> listaAntenas(String codProvincia, String codMunicipio, String calle, Pageable page,
+	public Map<String, Object> listaAntenas(String codProvincia, String codMunicipio, String calle, Pageable page,
 			PaginadorDto paginador) throws Exception {		
 		Page<Object []> emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();
@@ -80,7 +79,8 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 			LOGGER.error("ERROR en la query encargada de buscar los emplazamientos {}", e.getMessage(), e.getCause());
 			throw new Exception("ERROR en la query encargada de buscar los emplazamientos " + e.getMessage() + e.getCause());
 		}
-		return emplDto;
+		param.put("Emplazamiento", emplDto);
+		return param;
 	}
 
 }
