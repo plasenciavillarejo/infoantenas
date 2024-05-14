@@ -46,7 +46,7 @@ public class FiltradoAntenasDto implements Serializable {
 	private List<DatosCaracteristicasTecnicasDto> datosCaracteristicasTecnicas;
 	
 	private List<NivelesMediosDto> nivelesMedios;
-	
+		
 	private static final long serialVersionUID = 6871980887181329666L;
 	
 }
