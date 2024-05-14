@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.repository.query.Param;
 
-import es.gob.info.ant.dto.EstacionesDto;
+import es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto;
 
 public interface IEstacionesService {
 
-	public List<EstacionesDto> listadoEstaciones(@Param("emplazamiento") String emplazamiento);
+	public List<DatosCaracteristicasTecnicasDto> listadoEstaciones(@Param("emplazamiento") String emplazamiento);
 	
 }
