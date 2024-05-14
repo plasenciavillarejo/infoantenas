@@ -7,12 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
 import es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto;
-import es.gob.info.ant.dto.EstacionesDto;
+import es.gob.info.ant.dto.DetallesAntenaDto;
 
 public interface IEstacionesService {
 
 	public List<DatosCaracteristicasTecnicasDto> listadoEstaciones(@Param("emplazamiento") String emplazamiento);
 	
-	public Page<EstacionesDto> listadoEstacionesPageable(@Param("emplazamiento") String emplazamiento, Pageable page);
+	public Page<DetallesAntenaDto> listadoEstacionesPageable(@Param("emplazamiento") String emplazamiento, Pageable page);
 	
 }

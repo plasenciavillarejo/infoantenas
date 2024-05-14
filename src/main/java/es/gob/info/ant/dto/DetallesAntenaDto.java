@@ -2,11 +2,12 @@ package es.gob.info.ant.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import lombok.Data;
 
 @Data
-public class EstacionesDto implements Serializable {
+public class DetallesAntenaDto implements Serializable {
 
 	private String emplazamiento;
 
@@ -24,7 +25,13 @@ public class EstacionesDto implements Serializable {
 
 	private String referencia;
 	
-	public EstacionesDto(String emplazamiento, String codEstacion, String operador, String tpSistema, String banda,
+	private DatosLocalizacionDto datosLocalizacion;
+	
+	private DatosCaracteristicasTecnicasDto datosCaracteristicasTecnicas;
+	
+	private List<NivelesMediosDto> nivelesMedios;
+		
+	public DetallesAntenaDto(String emplazamiento, String codEstacion, String operador, String tpSistema, String banda,
 			BigDecimal limite, String provincia, String referencia) {
 		super();
 		this.emplazamiento = emplazamiento;
@@ -37,7 +44,7 @@ public class EstacionesDto implements Serializable {
 		this.referencia = referencia;
 	}
 
-	public EstacionesDto(String operador, String referencia, String banda,  String emplazamiento) {
+	public DetallesAntenaDto(String operador, String referencia, String banda,  String emplazamiento) {
 		super();
 		this.operador = operador;
 		this.referencia = referencia;

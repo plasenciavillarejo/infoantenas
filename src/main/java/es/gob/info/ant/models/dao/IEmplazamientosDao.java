@@ -1,5 +1,7 @@
 package es.gob.info.ant.models.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +23,10 @@ public interface IEmplazamientosDao extends PagingAndSortingRepository<Emplazami
 	    + " and (:direccion is null or direccion like CONCAT('%', :direccion, '%'))", nativeQuery = true)
 	public Page<Object []> listaEmplazamientos(@Param("codProvincia") String codProvincia, @Param("codMunicipio") String codMunicipio,
 			@Param("direccion") String direccion, Pageable pageable);
+
+	@Query(value = "select emplaza.direccion"
+			+ " from gis.VCNE_Emplazamientos emplaza"
+			+ " where emplaza.emplazamiento = :emplazamiento ", nativeQuery = true)
+	public String obtenerDireccion(@Param("emplazamiento") String emplazamiento);
 	
 }

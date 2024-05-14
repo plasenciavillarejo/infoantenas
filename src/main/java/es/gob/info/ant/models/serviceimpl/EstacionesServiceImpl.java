@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto;
-import es.gob.info.ant.dto.EstacionesDto;
+import es.gob.info.ant.dto.DetallesAntenaDto;
 import es.gob.info.ant.models.dao.IEstacionesDao;
 import es.gob.info.ant.models.service.IEstacionesService;
 
@@ -27,7 +27,7 @@ public class EstacionesServiceImpl implements IEstacionesService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Page<EstacionesDto> listadoEstacionesPageable(String emplazamiento, Pageable page) {
+	public Page<DetallesAntenaDto> listadoEstacionesPageable(String emplazamiento, Pageable page) {
 		return estacionesDao.listadoEstacionesPageable(emplazamiento, page);
 	}
 
