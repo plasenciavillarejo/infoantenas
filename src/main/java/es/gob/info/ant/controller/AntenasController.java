@@ -31,6 +31,7 @@ import es.gob.info.ant.models.service.ICacheMunicipiosService;
 import es.gob.info.ant.models.service.ICacheProvinciasService;
 import es.gob.info.ant.service.IDetalleAntenasService;
 import es.gob.info.ant.service.ILocalizacionAntenasService;
+import es.gob.info.ant.service.ILocalizacionEstacionesService;
 import es.gob.info.ant.service.IProvinciasService;
 import es.gob.info.ant.util.Utilidades;
 
@@ -50,6 +51,9 @@ public class AntenasController {
 	
 	@Autowired
 	private ILocalizacionAntenasService localizacionAntenasService;
+	
+	@Autowired
+	private ILocalizacionEstacionesService localizacionEstacionesService;
 	
 	@Autowired
 	private IDetalleAntenasService detalleAntenasService;
@@ -125,7 +129,7 @@ public class AntenasController {
 					: !calle.isEmpty() && numero.isEmpty()  ? calle : numero;
 			
 			resultado = localizacionAntenasService.listaAntenas(codProvincia.isEmpty() ? null : codProvincia , 
-					codMunicipio.isBlank() ? null : codMunicipio, direccionCompleta, page, paginador); 
+					codMunicipio.isEmpty() ? null : codMunicipio, direccionCompleta, page, paginador); 
 		} catch (FiltroAntenasException e) {
 			throw new FiltroAntenasException(e.getMessage(), e.getCause());
 		}	
@@ -149,6 +153,41 @@ public class AntenasController {
 		} catch (Exception e) {
 			LOGGER.error("ERROR recuperando las estaciones {}", e.getMessage(), e.getCause());
 			throw e;
+		}	
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/filtradoEstaciones")
+	public ResponseEntity<Object> localizarEstaciones(@PageableDefault(page = 1, size = 10) Pageable pageable,
+			@SortDefault(sort = {"localidad", "municipio"}, direction = Direction.ASC) Sort sort,
+			@RequestParam(value = "codProvincia", required = false) String codProvincia,
+			@RequestParam(value = "codMunicipio", required = false) String codMunicipio, 
+			@RequestParam(value = "calle", required = false) String calle,
+			@RequestParam(value = "numero", required = false) String numero,
+			@RequestParam(value = "latitudini", required = false) Double latitudIni,
+			@RequestParam(value = "latitudfin", required = false) Double latitudFin,
+			@RequestParam(value = "longitudini", required = false) Double longitudIni,
+			@RequestParam(value = "longitudfin", required = false) Double longitudFin,
+			@RequestParam(value = "zoom", required = false) Integer zoom
+			) throws Exception {
+		
+		LOGGER.info("Recibiendo los datos para el filtrado de estaciones, codProvincia: {}, codMunicipio: {}, calle: {},"
+				+ " numero: {}, latitud inicial: {}, latitud final: {}, longitud inicial: {}, longitud final: {}, zoom: {}", codProvincia, codMunicipio, calle, numero, latitudIni, latitudFin, longitudIni, longitudFin, zoom );
+		Map<String, Object> resultado = null;
+		try {
+			Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
+			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
+			PaginadorDto paginador = new PaginadorDto();
+			utilidades.configuracionPaginador(paginador, page);
+			
+			String direccionCompleta = !calle.isEmpty() && !numero.isEmpty() ? calle.concat(", ").concat(numero) 
+					: !calle.isEmpty() && numero.isEmpty()  ? calle : numero;
+			
+			resultado = localizacionEstacionesService.listaEstaciones(codProvincia.isEmpty() ? null : codProvincia , 
+					codMunicipio.isEmpty() ? null : codMunicipio, direccionCompleta, latitudIni, latitudFin, longitudIni, longitudFin, zoom, page, paginador); 
+		
+		} catch (FiltroAntenasException e) {
+			throw new FiltroAntenasException(e.getMessage(), e.getCause());
 		}	
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
