@@ -6,12 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-import es.gob.info.ant.dto.FiltradoAntenasDto;
 import es.gob.info.ant.models.entity.VcnEmplazamientos;
 
 public interface IEmplazamientosDao extends PagingAndSortingRepository<VcnEmplazamientos, String> {
 
-	@Query(value = "select *"
+	@Query(value = "select distinct emplaza.emplazamiento, emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
+		+ " emplaza.latitud_ghms, emplaza.longitud_ghms,"
+		+ " emplaza.latitud, emplaza.longitud, emplaza.latitudCC, emplaza.longitudCC, emplaza.latitudIDEE, emplaza.longitudIDEE,"
+		+ " emplaza.fechaActualizacion, emplaza.observaciones, emplaza.latitudETRS89, emplaza.longitudETRS89"
 		+ " from gis.VCNE_Emplazamientos emplaza"
 		+ " left join gis.CacheProvincias provin"
 		+ " on provin.nombreRegistroEntidadesLocales = emplaza.provincia"

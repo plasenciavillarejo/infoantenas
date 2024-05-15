@@ -83,7 +83,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				datosLocalizacion.setDireccion(String.valueOf(empl[1]));
 				em.setDatosLocalizacion(datosLocalizacion);
 				return em;
-			}).distinct().toList();
+			}).toList();
 		} catch (Exception e) {
 			throw new FiltroAntenasException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
 		}
