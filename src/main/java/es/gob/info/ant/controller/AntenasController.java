@@ -1,6 +1,7 @@
 package es.gob.info.ant.controller;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ public class AntenasController {
 	@GetMapping(value = "/listadoProvincias")
 	public ResponseEntity<Object> listarProvincias(@PageableDefault(page = 1, size = 10) Pageable pageable,
 			@SortDefault(sort = "nombreRegistroEntidadesLocales", direction = Direction.ASC) Sort sort) {
-		Map<String, Object> resultado = new HashMap<>();
+		Map<String, Object> resultado = new LinkedHashMap<>();
 
 		Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
 		
@@ -76,7 +77,7 @@ public class AntenasController {
 		}
 		paginador.setInboxSize((int) listaProv.getTotalElements());
 		
-		LOGGER.info("Transformamos el Page de pronvincias a un listado");
+		LOGGER.info("Transformamos el Page de Provincias a un listado");
 		resultado.put("Provincias", listaProv.stream().map(listaProvin -> listaProvin).toList());
 		resultado.put("Paginador", paginador);
 		
@@ -84,10 +85,23 @@ public class AntenasController {
 	}
 	
 	@GetMapping(value = "/listadoMunicipios")
-	public ResponseEntity<Slice<CacheMunicipiosDto>> listarMunicipios(@PageableDefault(page = 1, size = 10) Pageable pageable, 
+	public ResponseEntity<Object> listarMunicipios(@PageableDefault(page = 1, size = 10) Pageable pageable, 
 			@SortDefault(sort = "nombreRegistroEntidadesLocales", direction = Direction.ASC) Sort sort, @RequestParam(name = "codProvincia") Long codProvincia) {	
+		Map<String, Object> resultado = new LinkedHashMap<>();
 		Pageable pageSort = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), sort);
-		return new ResponseEntity<>(cacheMunicipiosService.listarMunicipios(pageSort, codProvincia), HttpStatus.OK);
+		LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
+		PaginadorDto paginador = new PaginadorDto();
+		utilidades.configuracionPaginador(paginador, pageSort);
+		
+		LOGGER.info("Se procede a listar los municipos asociados a las provincias");
+		Page<CacheMunicipiosDto> listaMuni = cacheMunicipiosService.listarMunicipios(pageSort, codProvincia);
+		paginador.setInboxSize((int) listaMuni.getTotalElements());
+
+		LOGGER.info("Transformamos el Page de Municipios a un listado");
+		resultado.put("Municipios", listaMuni.stream().map(list -> list).toList());
+		resultado.put("Paginador", paginador);
+	
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}		
 	
 	@GetMapping(value = "/filtradoAntenas")
