@@ -30,7 +30,10 @@ public interface IEmplazamientosDao extends PagingAndSortingRepository<VcnEmplaz
 			+ " where emplaza.emplazamiento = :emplazamiento ", nativeQuery = true)
 	public String obtenerDireccion(@Param("emplazamiento") String emplazamiento);
 
-	@Query(value = "select disctint(emplaza.emplazamiento) ,*"
+	@Query(value = "select distinct (emplaza.emplazamiento), emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
+			+ " emplaza.latitud_ghms, emplaza.longitud_ghms,"
+			+ " emplaza.latitud, emplaza.longitud, emplaza.latitudCC, emplaza.longitudCC, emplaza.latitudIDEE, emplaza.longitudIDEE,"
+			+ " emplaza.fechaActualizacion, emplaza.observaciones, emplaza.latitudETRS89, emplaza.longitudETRS89"
 			+ " from gis.VCNE_Emplazamientos emplaza"
 			+ " left join gis.CacheProvincias provin"
 			+ " on provin.nombreRegistroEntidadesLocales = emplaza.provincia" 
@@ -44,7 +47,26 @@ public interface IEmplazamientosDao extends PagingAndSortingRepository<VcnEmplaz
 			+ " and (:longitudIni is null or :longitudIni >= provin.longitudEsquinaInferiorIzquierda)"
 			+ " and (:longitudFin is null or :longitudFin <= provin.longitudEsquinaSuperiorDerecha)"
 			+ " and (:zoom is null or :zoom = :zoom)"
-			+ " group by emplaza.emplazamiento", nativeQuery = true)
+			+ " order by emplaza.emplazamiento",
+			countQuery = "select distinct (emplaza.emplazamiento), emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
+					+ "	emplaza.latitud_ghms, emplaza.longitud_ghms,"
+					+ "	emplaza.latitud, emplaza.longitud, emplaza.latitudCC, emplaza.longitudCC, emplaza.latitudIDEE, emplaza.longitudIDEE,"
+					+ "	emplaza.fechaActualizacion, emplaza.observaciones, emplaza.latitudETRS89, emplaza.longitudETRS89"
+					+ "	from gis.VCNE_Emplazamientos emplaza"
+					+ "	left join gis.CacheProvincias provin"
+					+ "	on provin.nombreRegistroEntidadesLocales = emplaza.provincia"
+					+ "	left join gis.CacheMunicipios muni"
+					+ "	on muni.codProvincia = provin.codProvincia"
+					+ "	where (:codProvincia is null or muni.codProvincia = :codProvincia)"
+					+ "	and (:codMunicipio is null or muni.codMunicipio = :codMunicipio)"
+					+ "	and (:direccion is null or direccion like CONCAT('%', :direccion, '%'))"
+					+ "	and (:latitudIni is null or :latitudIni >= provin.latitudEsquinaInferiorIzquierda)"
+					+ "	and (:latitudFin is null or :latitudFin <= provin.latitudEsquinaSuperiorDerecha)"
+					+ "	and (:longitudIni is null or :longitudIni >= provin.longitudEsquinaInferiorIzquierda)"
+					+ "	and (:longitudFin is null or :longitudFin <= provin.longitudEsquinaSuperiorDerecha)"
+					+ "	and (:zoom is null or :zoom = :zoom)"
+					+ "	order by emplaza.emplazamiento",
+			nativeQuery = true)
 	public Page<Object[]> listaEstacionesFiltradas(@Param("codProvincia") String codProvincia,
 			@Param("codMunicipio") String codMunicipio, @Param("direccion") String direccion,
 			@Param("latitudIni") Double latitudIni, @Param("latitudFin") Double latitudFin,

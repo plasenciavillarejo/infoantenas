@@ -47,7 +47,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 		try {
 			LOGGER.info("Buscando desde la pagina: {} hasta la página: {} ", page.getPageNumber(), page.getPageSize());
 			emplazamientos = emplazamientoService.listaEstacionesFiltradas(codProvincia, codMunicipio,calle, latitudIni, latitudFin, longitudIni, longitudFin, zoom, page);
-			
+
 			LOGGER.info("Se han encontrado un total de {} registros", emplazamientos.getNumberOfElements());
 			
 			LOGGER.info("Configurando el tampo del paginador");
@@ -85,7 +85,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 				datosLocalizacion.setDireccion(String.valueOf(empl[1]));
 				em.setDatosLocalizacion(datosLocalizacion);
 				return em;
-			}).distinct().toList();
+			}).toList();
 		} catch (Exception e) {
 			throw new FiltroAntenasException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
 		}
