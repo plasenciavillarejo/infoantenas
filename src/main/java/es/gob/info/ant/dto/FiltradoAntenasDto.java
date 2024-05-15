@@ -5,8 +5,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode
 public class FiltradoAntenasDto implements Serializable {
 
 	private String emplazamiento;
@@ -50,5 +52,19 @@ public class FiltradoAntenasDto implements Serializable {
 	private DatosLocalizacionDto datosLocalizacion; 
 	
 	private static final long serialVersionUID = 6871980887181329666L;
+
+	public FiltradoAntenasDto(String emplazamiento, String direccion) {
+		super();
+		this.emplazamiento = emplazamiento;
+		this.direccion = direccion;
+	}
+
+	public FiltradoAntenasDto() {
+		super();
+	}
+
+
+
+	
 	
 }

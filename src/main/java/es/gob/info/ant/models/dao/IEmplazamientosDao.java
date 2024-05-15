@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import es.gob.info.ant.dto.FiltradoAntenasDto;
 import es.gob.info.ant.models.entity.VcnEmplazamientos;
 
 public interface IEmplazamientosDao extends PagingAndSortingRepository<VcnEmplazamientos, String> {
@@ -19,7 +20,6 @@ public interface IEmplazamientosDao extends PagingAndSortingRepository<VcnEmplaz
 		+ " where (:codProvincia is null or muni.codProvincia = :codProvincia)"
 		+ " and (:codMunicipio is null or muni.codMunicipio = :codMunicipio)" 	
 	    + " and (:direccion is null or direccion like CONCAT('%', :direccion, '%'))",nativeQuery = true)
-	// + " order by emplaza.localidad, emplaza.municipio",
 	public Page<Object []> listaEmplazamientos(@Param("codProvincia") String codProvincia, @Param("codMunicipio") String codMunicipio,
 			@Param("direccion") String direccion, Pageable pageable);
 
