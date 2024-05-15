@@ -10,5 +10,38 @@ public class ConstantesAplicacion {
 	}
 	
 	public static final String CONFIGURACIONPAGINADOR = "Configurando el paginador";
+
+	
+	public static final String QUERYLISTADOEMPLAZAMIENTOS = "select distinct emplaza.emplazamiento, emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
+			+ " emplaza.latitud_ghms, emplaza.longitud_ghms,"
+			+ " emplaza.latitud, emplaza.longitud, emplaza.latitudCC, emplaza.longitudCC, emplaza.latitudIDEE, emplaza.longitudIDEE,"
+			+ " emplaza.fechaActualizacion, emplaza.observaciones, emplaza.latitudETRS89, emplaza.longitudETRS89"
+			+ " from gis.VCNE_Emplazamientos emplaza"
+			+ " left join gis.CacheProvincias provin"
+			+ " on provin.nombreRegistroEntidadesLocales = emplaza.provincia"
+			+ " left join gis.CacheMunicipios muni"
+			+ " on muni.codProvincia = provin.codProvincia"
+			+ " where (:codProvincia is null or muni.codProvincia = :codProvincia)"
+			+ " and (:codMunicipio is null or muni.codMunicipio = :codMunicipio)" 	
+		    + " and (:direccion is null or direccion like CONCAT('%', :direccion, '%'))";
+	
+	public static final String QUERYLISTADOESTACINES = "select distinct (emplaza.emplazamiento), emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
+			+ " emplaza.latitud_ghms, emplaza.longitud_ghms,"
+			+ " emplaza.latitud, emplaza.longitud, emplaza.latitudCC, emplaza.longitudCC, emplaza.latitudIDEE, emplaza.longitudIDEE,"
+			+ " emplaza.fechaActualizacion, emplaza.observaciones, emplaza.latitudETRS89, emplaza.longitudETRS89"
+			+ " from gis.VCNE_Emplazamientos emplaza"
+			+ " left join gis.CacheProvincias provin"
+			+ " on provin.nombreRegistroEntidadesLocales = emplaza.provincia" 
+			+ " left join gis.CacheMunicipios muni"
+			+ " on muni.codProvincia = provin.codProvincia"
+			+ " where (:codProvincia is null or muni.codProvincia = :codProvincia)"
+			+ " and (:codMunicipio is null or muni.codMunicipio = :codMunicipio)"
+			+ " and (:direccion is null or direccion like CONCAT('%', :direccion, '%'))" 
+			+ " and (:latitudIni is null or :latitudIni >= provin.latitudEsquinaInferiorIzquierda)"
+			+ " and (:latitudFin is null or :latitudFin <= provin.latitudEsquinaSuperiorDerecha)"
+			+ " and (:longitudIni is null or :longitudIni >= provin.longitudEsquinaInferiorIzquierda)"
+			+ " and (:longitudFin is null or :longitudFin <= provin.longitudEsquinaSuperiorDerecha)"
+			+ " and (:zoom is null or :zoom = :zoom)"
+			+ " order by emplaza.emplazamiento";
 	
 }
