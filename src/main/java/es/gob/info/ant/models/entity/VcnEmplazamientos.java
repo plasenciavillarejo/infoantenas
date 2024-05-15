@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(schema = "GIS", name = "VCNE_Emplazamientos")
-public class Emplazamientos implements Serializable {
+public class VcnEmplazamientos implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

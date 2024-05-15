@@ -12,8 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import es.gob.info.ant.dto.DatosLocalizacionDto;
 import es.gob.info.ant.dto.FiltradoAntenasDto;
 import es.gob.info.ant.dto.PaginadorDto;
+import es.gob.info.ant.exception.FiltroAntenasException;
 import es.gob.info.ant.models.service.IEmplazamientosService;
 import es.gob.info.ant.models.service.IEstacionesService;
 import es.gob.info.ant.models.service.IMedicionesService;
@@ -35,7 +37,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 	
 	@Override
 	public Map<String, Object> listaAntenas(String codProvincia, String codMunicipio, String calle, Pageable page,
-			PaginadorDto paginador) throws Exception {		
+			PaginadorDto paginador) throws FiltroAntenasException {		
 		Page<Object []> emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();
 		List<FiltradoAntenasDto> emplDto = null;
@@ -73,11 +75,17 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				em.setDatosCaracteristicasTecnicas(estacionesService.listadoEstaciones(String.valueOf(empl[0])));
 				LOGGER.info("Se procede a recuperar los Niveles Medios");
 				em.setNivelesMedios(medicioneService.listarMediciones(String.valueOf(empl[0])));
+				LOGGER.info("Se procede a recuperar los Datos de Localización");
+				// PLASENCIA - DUDA POR QUE ESTE DATO ES IGUAL QUE LOS RECOGIDOS EN DATOS CARACTERISTICAS TÉCNICAS SOLO QUE FALTARÍA EL CÓDIGO DE ESTACION
+				DatosLocalizacionDto datosLocalizacion = new DatosLocalizacionDto();
+				datosLocalizacion.setCodEstacion(null);
+				datosLocalizacion.setEmplazamiento(String.valueOf(empl[0]));
+				datosLocalizacion.setDireccion(String.valueOf(empl[1]));
+				em.setDatosLocalizacion(datosLocalizacion);
 				return em;
 			}).toList();
 		} catch (Exception e) {
-			LOGGER.error("ERROR en la query encargada de buscar los emplazamientos {}", e.getMessage(), e.getCause());
-			throw new Exception("ERROR en la query encargada de buscar los emplazamientos " + e.getMessage() + e.getCause());
+			throw new FiltroAntenasException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
 		}
 		param.put("Emplazamiento", emplDto);
 		return param;

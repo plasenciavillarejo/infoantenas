@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +20,7 @@ public class CacheProvinciasServiceImpl implements ICacheProvinciasService {
 	@Override
 	@Cacheable(value = "provinciasCacheadas")
 	@Transactional(readOnly = true)
-	public Slice<CacheProvinciasDto> listarProvincias(Pageable pageable) {
+	public Page<CacheProvinciasDto> listarProvincias(Pageable pageable) {
 		return provinciasDao.listarProvincias(pageable);
 	}
 

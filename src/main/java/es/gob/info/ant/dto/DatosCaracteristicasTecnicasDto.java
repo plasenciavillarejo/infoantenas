@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class DatosCaracteristicasTecnicasDto implements Serializable {
 
+	private String codEstacion;
+	
 	private String emplazamiento;
 
 	private String operador;
@@ -17,8 +19,9 @@ public class DatosCaracteristicasTecnicasDto implements Serializable {
 
 	private static final long serialVersionUID = 1302762004113640877L;
 
-	public DatosCaracteristicasTecnicasDto(String emplazamiento, String operador, String banda, String referencia) {
+	public DatosCaracteristicasTecnicasDto(String codEstacion,String emplazamiento, String operador, String banda, String referencia) {
 		super();
+		this.codEstacion = codEstacion;
 		this.emplazamiento = emplazamiento;
 		this.operador = operador;
 		this.banda = banda;

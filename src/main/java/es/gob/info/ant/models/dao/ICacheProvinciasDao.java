@@ -2,7 +2,6 @@ package es.gob.info.ant.models.dao;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -13,5 +12,5 @@ public interface ICacheProvinciasDao extends PagingAndSortingRepository<CachePro
 	
 	@Query(value = "select new es.gob.info.ant.dto.CacheProvinciasDto(prov.codProvincia, "
 			+ " prov.nombreRegistroEntidadesLocales) from CacheProvincias prov")
-	public Slice<CacheProvinciasDto> listarProvincias(Pageable pageable);
+	public Page<CacheProvinciasDto> listarProvincias(Pageable pageable);
 }

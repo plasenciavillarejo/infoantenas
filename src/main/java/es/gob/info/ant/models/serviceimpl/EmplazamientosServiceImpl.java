@@ -1,10 +1,9 @@
 package es.gob.info.ant.models.serviceimpl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +24,7 @@ public class EmplazamientosServiceImpl implements IEmplazamientosService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public String obtenerDirecciones(String emplazamiento) {
 		return emplazamientosDao.obtenerDireccion(emplazamiento);
 	}
