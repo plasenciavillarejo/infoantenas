@@ -79,7 +79,6 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				// PLASENCIA - DUDA POR QUE ESTE DATO ES IGUAL QUE LOS RECOGIDOS EN DATOS CARACTERISTICAS TÉCNICAS SOLO QUE FALTARÍA EL CÓDIGO DE ESTACION
 				DatosLocalizacionDto datosLocalizacion = new DatosLocalizacionDto();
 				datosLocalizacion.setCodEstacion(null);
-				datosLocalizacion.setEmplazamiento(String.valueOf(empl[0]));
 				datosLocalizacion.setDireccion(String.valueOf(empl[1]));
 				em.setDatosLocalizacion(datosLocalizacion);
 				return em;

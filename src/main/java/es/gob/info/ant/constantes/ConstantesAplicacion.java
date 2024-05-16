@@ -37,11 +37,10 @@ public class ConstantesAplicacion {
 			+ " where (:codProvincia is null or muni.codProvincia = :codProvincia)"
 			+ " and (:codMunicipio is null or muni.codMunicipio = :codMunicipio)"
 			+ " and (:direccion is null or direccion like CONCAT('%', :direccion, '%'))" 
-			+ " and (:latitudIni is null or :latitudIni >= provin.latitudEsquinaInferiorIzquierda)"
-			+ " and (:latitudFin is null or :latitudFin <= provin.latitudEsquinaSuperiorDerecha)"
-			+ " and (:longitudIni is null or :longitudIni >= provin.longitudEsquinaInferiorIzquierda)"
-			+ " and (:longitudFin is null or :longitudFin <= provin.longitudEsquinaSuperiorDerecha)"
-			+ " and (:zoom is null or :zoom = :zoom)"
+			+ " and (:latitudIni is null or :latitudIni <= emplaza.latitud)"
+			+ " and (:latitudFin is null or :latitudFin >= emplaza.latitud)"
+			+ " and (:longitudIni is null or :longitudIni <= emplaza.longitud)"
+			+ " and (:longitudFin is null or :longitudFin >= emplaza.longitud)"
 			+ " order by emplaza.emplazamiento";
 	
 }

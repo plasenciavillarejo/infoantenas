@@ -14,7 +14,7 @@ import es.gob.info.ant.models.entity.VcnEstaciones;
 
 public interface IEstacionesDao extends PagingAndSortingRepository<VcnEstaciones, Long> {
 
-	@Query(value = "select new es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto(es.codEstacion,es.emplazamiento,es.operador,es.banda,es.referencia) "
+	@Query(value = "select new es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto(es.codEstacion,es.operador,es.banda,es.referencia) "
 			+ " from VcnEstaciones es where es.emplazamiento = :emplazamiento")
 	public List<DatosCaracteristicasTecnicasDto> listadoEstaciones(@Param("emplazamiento") String emplazamiento);
 	

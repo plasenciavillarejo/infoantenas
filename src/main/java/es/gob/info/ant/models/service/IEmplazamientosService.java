@@ -15,6 +15,6 @@ public interface IEmplazamientosService {
 			@Param("codMunicipio") String codMunicipio, @Param("direccion") String direccion,
 			@Param("latitudIni") Double latitudIni, @Param("latitudFin") Double latitudFin,
 			@Param("longitudIni") Double longitudIni, @Param("longitudFin") Double longitudFin,
-			@Param("zoom") Integer zoom, Pageable pageable);
+			Pageable pageable);
 
 }

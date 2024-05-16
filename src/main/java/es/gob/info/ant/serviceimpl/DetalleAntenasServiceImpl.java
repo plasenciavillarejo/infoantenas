@@ -46,12 +46,10 @@ public class DetalleAntenasServiceImpl implements IDetalleAntenasService {
 			estaciones.forEach(estacion -> {
 				DatosLocalizacionDto datosLocalizacion = new DatosLocalizacionDto();
 				datosLocalizacion.setCodEstacion(estacion.getCodEstacion());
-				datosLocalizacion.setEmplazamiento(codEmplazamiento);
 				datosLocalizacion.setDireccion(emplazamientosService.obtenerDirecciones(codEmplazamiento));
 				estacion.setDatosLocalizacion(datosLocalizacion);
 				
 				DatosCaracteristicasTecnicasDto datosCaracteristicasTecnicas = new DatosCaracteristicasTecnicasDto();
-				datosCaracteristicasTecnicas.setEmplazamiento(estacion.getEmplazamiento());
 				datosCaracteristicasTecnicas.setBanda(estacion.getBanda());
 				datosCaracteristicasTecnicas.setOperador(estacion.getOperador());
 				datosCaracteristicasTecnicas.setReferencia(estacion.getReferencia());

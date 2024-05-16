@@ -10,9 +10,7 @@ public class DatosLocalizacionDto implements Serializable {
 	private String codEstacion;
 
 	private String direccion;
-	
-	private String emplazamiento;
-	
+		
 	private static final long serialVersionUID = 3634090982594217663L;
 
 }

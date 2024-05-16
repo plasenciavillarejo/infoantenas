@@ -32,8 +32,8 @@ public class EmplazamientosServiceImpl implements IEmplazamientosService {
 	@Override
 	@Transactional(readOnly =  true)
 	public Page<Object[]> listaEstacionesFiltradas(String codProvincia, String codMunicipio, String direccion,
-			Double latitudIni, Double latitudFin, Double longitudIni, Double longitudFin, Integer zoom, Pageable pageable) {
-		return emplazamientosDao.listaEstacionesFiltradas(codProvincia, codMunicipio, direccion, latitudIni, latitudFin, longitudIni, longitudFin, zoom, pageable);
+			Double latitudIni, Double latitudFin, Double longitudIni, Double longitudFin, Pageable pageable) {
+		return emplazamientosDao.listaEstacionesFiltradas(codProvincia, codMunicipio, direccion, latitudIni, latitudFin, longitudIni, longitudFin, pageable);
 	}
 
 }

@@ -175,17 +175,18 @@ public class AntenasController {
 				+ " numero: {}, latitud inicial: {}, latitud final: {}, longitud inicial: {}, longitud final: {}, zoom: {}", codProvincia, codMunicipio, calle, numero, latitudIni, latitudFin, longitudIni, longitudFin, zoom );
 		Map<String, Object> resultado = null;
 		try {
-			Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
-			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
-			PaginadorDto paginador = new PaginadorDto();
-			utilidades.configuracionPaginador(paginador, page);
-			
-			String direccionCompleta = !calle.isEmpty() && !numero.isEmpty() ? calle.concat(", ").concat(numero) 
-					: !calle.isEmpty() && numero.isEmpty()  ? calle : numero;
-			
-			resultado = localizacionEstacionesService.listaEstaciones(codProvincia.isEmpty() ? null : codProvincia , 
-					codMunicipio.isEmpty() ? null : codMunicipio, direccionCompleta, latitudIni, latitudFin, longitudIni, longitudFin, zoom, page, paginador); 
-		
+			if(zoom != null && zoom <= 20) {
+				Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
+				LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
+				PaginadorDto paginador = new PaginadorDto();
+				utilidades.configuracionPaginador(paginador, page);
+				
+				String direccionCompleta = !calle.isEmpty() && !numero.isEmpty() ? calle.concat(", ").concat(numero) 
+						: !calle.isEmpty() && numero.isEmpty()  ? calle : numero;
+				
+				resultado = localizacionEstacionesService.listaEstaciones(codProvincia.isEmpty() ? null : codProvincia , 
+						codMunicipio.isEmpty() ? null : codMunicipio, direccionCompleta, latitudIni, latitudFin, longitudIni, longitudFin, page, paginador); 
+			}
 		} catch (FiltroAntenasException e) {
 			throw new FiltroAntenasException(e.getMessage(), e.getCause());
 		}	
