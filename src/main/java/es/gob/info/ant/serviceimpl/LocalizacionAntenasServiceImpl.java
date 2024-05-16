@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import es.gob.info.ant.dto.DatosLocalizacionDto;
 import es.gob.info.ant.dto.FiltradoAntenasDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.exception.FiltroAntenasException;
@@ -24,17 +23,17 @@ import es.gob.info.ant.service.ILocalizacionAntenasService;
 @Service
 public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LocalizacionAntenasServiceImpl.class); 
+	private static final Logger LOGGER = LoggerFactory.getLogger(LocalizacionAntenasServiceImpl.class);
 
 	@Autowired
 	private IEmplazamientosService emplazamientoService;
 
 	@Autowired
 	private IEstacionesService estacionesService;
-	
+
 	@Autowired
 	private IMedicionesService medicioneService;
-	
+
 	@Override
 	public Map<String, Object> listaAntenas(String codProvincia, String codMunicipio, String calle, Pageable page,
 			PaginadorDto paginador) throws FiltroAntenasException {		
@@ -71,22 +70,22 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				em.setObservaciones(!String.valueOf(empl[14]).trim().isEmpty() ? String.valueOf(empl[14]).trim() : "");				
 				em.setLatitudEtrs(empl[15] != null ? new BigDecimal(String.valueOf(empl[15])) : null);
 				em.setLongitudEtrs(empl[16] != null ? new BigDecimal(String.valueOf(empl[16])) : null);
-				LOGGER.info("Se procede a recuperar las Características Técnicas asociada a las estaciones ");
+				LOGGER.info("Se procede a recuperar las Características Técnicas asociada a las estaciones "); 
 				em.setDatosCaracteristicasTecnicas(estacionesService.listadoEstaciones(String.valueOf(empl[0])));
 				LOGGER.info("Se procede a recuperar los Niveles Medios");
 				em.setNivelesMedios(medicioneService.listarMediciones(String.valueOf(empl[0])));
 				LOGGER.info("Se procede a recuperar los Datos de Localización");
 				// PLASENCIA - DUDA POR QUE ESTE DATO ES IGUAL QUE LOS RECOGIDOS EN DATOS CARACTERISTICAS TÉCNICAS SOLO QUE FALTARÍA EL CÓDIGO DE ESTACION
-				DatosLocalizacionDto datosLocalizacion = new DatosLocalizacionDto();
+				/*DatosLocalizacionDto datosLocalizacion = new DatosLocalizacionDto();
 				datosLocalizacion.setCodEstacion(null);
 				datosLocalizacion.setDireccion(String.valueOf(empl[1]));
-				em.setDatosLocalizacion(datosLocalizacion);
+				em.setDatosLocalizacion(datosLocalizacion);*/
 				return em;
 			}).toList();
 		} catch (Exception e) {
 			throw new FiltroAntenasException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
 		}
-		param.put("Emplazamiento", emplDto);
+		param.put("emplazamientos", emplDto);
 		return param;
 	}
 

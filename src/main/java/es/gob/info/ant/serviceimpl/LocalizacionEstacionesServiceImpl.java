@@ -79,10 +79,10 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 				em.setNivelesMedios(medicioneService.listarMediciones(String.valueOf(empl[0])));
 				LOGGER.info("Se procede a recuperar los Datos de Localización");
 				// PLASENCIA - DUDA POR QUE ESTE DATO ES IGUAL QUE LOS RECOGIDOS EN DATOS CARACTERISTICAS TÉCNICAS SOLO QUE FALTARÍA EL CÓDIGO DE ESTACION
-				DatosLocalizacionDto datosLocalizacion = new DatosLocalizacionDto();
+				/*DatosLocalizacionDto datosLocalizacion = new DatosLocalizacionDto();
 				datosLocalizacion.setCodEstacion(null);
 				datosLocalizacion.setDireccion(String.valueOf(empl[1]));
-				em.setDatosLocalizacion(datosLocalizacion);
+				em.setDatosLocalizacion(datosLocalizacion);*/
 				return em;
 			}).toList();
 		} catch (Exception e) {
