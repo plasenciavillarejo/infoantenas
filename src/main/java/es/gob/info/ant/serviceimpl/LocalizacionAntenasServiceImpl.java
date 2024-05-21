@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import es.gob.info.ant.dto.FiltradoAntenasDto;
 import es.gob.info.ant.dto.PaginadorDto;
-import es.gob.info.ant.exception.DetalleAntenasException;
+import es.gob.info.ant.exception.ErrorGlobalAntenasException;
 import es.gob.info.ant.exception.FiltroAntenasException;
 import es.gob.info.ant.models.service.IEmplazamientosService;
 import es.gob.info.ant.models.service.IEstacionesService;
@@ -78,7 +78,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 	}
 	
 	@Override
-	public Map<String, Object> obtenerDetalleEstacion(String emplazamiento) throws DetalleAntenasException {		
+	public Map<String, Object> obtenerDetalleEstacion(String emplazamiento) throws ErrorGlobalAntenasException {		
 		Object [] empl = null;
 		Map<String, Object> param = new HashMap<>();
 		FiltradoAntenasDto emplDto = null;
@@ -105,7 +105,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				LOGGER.info("No se ha encontrado el emplazamiento con id emplazamiento: {}", emplazamiento);
 			}
 		} catch (Exception e) {
-			throw new DetalleAntenasException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
+			throw new ErrorGlobalAntenasException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
 		}
 		param.put("emplazamientos", emplDto);
 		return param;

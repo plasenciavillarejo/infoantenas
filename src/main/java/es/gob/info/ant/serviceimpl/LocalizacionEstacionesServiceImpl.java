@@ -12,14 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import es.gob.info.ant.dto.DatosLocalizacionDto;
 import es.gob.info.ant.dto.FiltradoAntenasDto;
 import es.gob.info.ant.dto.PaginadorDto;
-import es.gob.info.ant.exception.FiltroAntenasException;
+import es.gob.info.ant.exception.FiltroEstacionesException;
 import es.gob.info.ant.models.service.IEmplazamientosService;
 import es.gob.info.ant.models.service.IEstacionesService;
 import es.gob.info.ant.models.service.IMedicionesService;
-import es.gob.info.ant.service.ILocalizacionAntenasService;
 import es.gob.info.ant.service.ILocalizacionEstacionesService;
 
 @Service
@@ -38,7 +36,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 
 	@Override
 	public Map<String, Object> listaEstaciones(Double latitud, Double longitud, Double radio, Pageable page,
-			PaginadorDto paginador) throws FiltroAntenasException {
+			PaginadorDto paginador) throws FiltroEstacionesException {
 		Page<Object []> emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();
 		List<FiltradoAntenasDto> emplDto = null;
@@ -71,7 +69,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 				return em;
 			}).toList();
 		} catch (Exception e) {
-			throw new FiltroAntenasException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
+			throw new FiltroEstacionesException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
 		}
 		param.put("Emplazamiento", emplDto);
 		return param;

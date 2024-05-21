@@ -24,8 +24,10 @@ import es.gob.info.ant.constantes.ConstantesAplicacion;
 import es.gob.info.ant.dto.CacheMunicipiosDto;
 import es.gob.info.ant.dto.CacheProvinciasDto;
 import es.gob.info.ant.dto.PaginadorDto;
-import es.gob.info.ant.exception.DetalleAntenasException;
+import es.gob.info.ant.dto.PruebaDto;
+import es.gob.info.ant.exception.ErrorGlobalAntenasException;
 import es.gob.info.ant.exception.FiltroAntenasException;
+import es.gob.info.ant.exception.FiltroEstacionesException;
 import es.gob.info.ant.models.service.ICacheMunicipiosService;
 import es.gob.info.ant.models.service.ICacheProvinciasService;
 import es.gob.info.ant.service.ILocalizacionAntenasService;
@@ -33,6 +35,7 @@ import es.gob.info.ant.service.ILocalizacionEstacionesService;
 import es.gob.info.ant.service.IProvinciasService;
 import es.gob.info.ant.util.Utilidades;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 @RestController
 public class AntenasController {
@@ -57,8 +60,20 @@ public class AntenasController {
 	@Autowired
 	private Utilidades utilidades;
 	
+	
+	
+	
+	
+	// PLASENCIA - SE DEBE CAMBIAR TODOS LOS REQUESTPARAM POR UN DTO QUE ALOJE LOS DATOS PARA PODER UTILIZAR LA ANOTACÍON @VALID EN CASO DE NO HACERLO.
+	// NO SE PUEDE VALIDAR SI UN CAMPO CUMPLE CON LOS REQUISITIOS DE QUE ESTÉ VACIÓS O NO.
+	
+	
+	
+	
+	
+	
 	@GetMapping(value = "/listadoProvincias")
-	public ResponseEntity<Object> listarProvincias() {
+	public ResponseEntity<Object> listarProvincias() throws ErrorGlobalAntenasException {
 		Map<String, Object> resultado = new LinkedHashMap<>();
 		try {
 			List<CacheProvinciasDto> listaProvinciasDto = provinciasCacheService.listarProvincias().stream().map(list -> {
@@ -70,17 +85,18 @@ public class AntenasController {
 			}).toList();	
 			resultado.put("Provincias INE", listaProvinciasDto);
 		} catch (Exception e) {
-			return new ResponseEntity<>(utilidades.errorGlobal(false), HttpStatus.BAD_REQUEST);
+			throw new ErrorGlobalAntenasException();
 		}
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/listadoMunicipios")
-	public ResponseEntity<Object> listarMunicipios(@RequestParam(name = "codProvincia", required = true) Long codProvincia,
+	public ResponseEntity<Object> listarMunicipios(@Valid PruebaDto pruebaDto,
+			//@RequestParam(name = "codProvincia") Long codProvincia,
 			@RequestParam(value = "pagina") int pagina,
 			@RequestParam(value = "tamanioPagina", required = true) int tamanioPagina,
 			@RequestParam(value = "ordenacion", required = true) int ordenacion,
-			@RequestParam(value = "orden", required = true) int orden) {	
+			@RequestParam(value = "orden", required = true) int orden) throws ErrorGlobalAntenasException {	
 		Map<String, Object> resultado = new LinkedHashMap<>();
 		try {
 			Pageable page = PageRequest.of(pagina -1, tamanioPagina,orden == 1 ? Sort.by(ConstantesAplicacion.MUNICIPIO).ascending(): Sort.by(ConstantesAplicacion.MUNICIPIO).descending());
@@ -105,7 +121,7 @@ public class AntenasController {
 			resultado.put("Municipios INE", listaMuncipiosDto);
 			resultado.put("Paginador", paginador);
 		} catch (Exception e) {
-			return new ResponseEntity<>(utilidades.errorGlobal(false), HttpStatus.BAD_REQUEST);
+			throw new ErrorGlobalAntenasException();
 		}
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}		
@@ -119,7 +135,7 @@ public class AntenasController {
 			@RequestParam(value = "pagina") int pagina,
 			@RequestParam(value = "tamanioPagina") int tamanioPagina,
 			@RequestParam(value = "ordenacion", required = true) int ordenacion,
-			@RequestParam(value = "orden", required = true) int orden) throws FiltroAntenasException {
+			@RequestParam(value = "orden", required = true) int orden) throws ErrorGlobalAntenasException {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de antenas, codProvincia: {}, codMunicipio: {}, calle: {},"
 				+ " numero: {}", codProvincia, codMunicipio, direccion, numero );
@@ -137,7 +153,7 @@ public class AntenasController {
 			
 			resultado = localizacionAntenasService.listaAntenas(codProvincia , codMunicipio, direccionCompleta, page, paginador); 
 		} catch (FiltroAntenasException e) {
-			return new ResponseEntity<>(utilidades.errorGlobal(false), HttpStatus.BAD_REQUEST);
+			throw new ErrorGlobalAntenasException();
 		}	
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
@@ -145,7 +161,7 @@ public class AntenasController {
 	@GetMapping(value = "/detalleAntenas")
 	public ResponseEntity<Object> localizarAntenas(@PageableDefault(page = 1, size = 10) Pageable pageable,
 			@SortDefault(sort = "emplazamiento", direction = Direction.ASC) Sort sort,
-			@RequestParam(value = "idAntena") String emplazamiento) throws DetalleAntenasException {
+			@RequestParam(value = "idAntena") String emplazamiento) throws ErrorGlobalAntenasException {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de detalle antenas, emplazamiento: {}", emplazamiento);
 		Map<String, Object> resultado = null;
@@ -156,9 +172,9 @@ public class AntenasController {
 			utilidades.configuracionPaginador(paginador, page);
 			
 			resultado = localizacionAntenasService.obtenerDetalleEstacion(emplazamiento); 
-		} catch (DetalleAntenasException e) {
-			return new ResponseEntity<>(utilidades.errorGlobal(false), HttpStatus.BAD_REQUEST);
-		}	
+		} catch (ErrorGlobalAntenasException e) {
+			throw new ErrorGlobalAntenasException();
+		}
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
@@ -169,7 +185,7 @@ public class AntenasController {
 			@RequestParam(value = "long", required = false) Double longitud,
 			@RequestParam(value = "radio", required = false) Double radio,
 			@RequestParam(value = "zoom", required = false) Integer zoom,
-			HttpServletResponse response) throws Exception {
+			HttpServletResponse response) throws FiltroEstacionesException {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de estaciones, latitud: {}, longitud: {}, radio: {},"
 				+ " zoom: {}", latitud, longitud, radio, zoom);
@@ -184,10 +200,10 @@ public class AntenasController {
 				resultado = localizacionEstacionesService.listaEstaciones(latitud, longitud, radio/1000, page, paginador); 
 			}else {
 				LOGGER.error("El zoom indicado esta fuera del rango permitido");
-				return new ResponseEntity<>(utilidades.errorGlobal(true), HttpStatus.UNAUTHORIZED);		
+				throw new FiltroEstacionesException("El zoom indicado esta fuera del rango permitido");		
 			}
-		} catch (FiltroAntenasException e) {
-			throw new FiltroAntenasException(e.getMessage(), e.getCause());
+		} catch (FiltroEstacionesException e) {
+			throw new FiltroEstacionesException(e.getMessage(), e.getCause());
 		}	
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
