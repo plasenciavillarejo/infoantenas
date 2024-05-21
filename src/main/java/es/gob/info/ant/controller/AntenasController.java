@@ -24,6 +24,7 @@ import es.gob.info.ant.constantes.ConstantesAplicacion;
 import es.gob.info.ant.dto.CacheMunicipiosDto;
 import es.gob.info.ant.dto.CacheProvinciasDto;
 import es.gob.info.ant.dto.PaginadorDto;
+import es.gob.info.ant.exception.DetalleAntenasException;
 import es.gob.info.ant.exception.FiltroAntenasException;
 import es.gob.info.ant.models.service.ICacheMunicipiosService;
 import es.gob.info.ant.models.service.ICacheProvinciasService;
@@ -143,7 +144,7 @@ public class AntenasController {
 	@GetMapping(value = "/detalleAntenas")
 	public ResponseEntity<Object> localizarAntenas(@PageableDefault(page = 1, size = 10) Pageable pageable,
 			@SortDefault(sort = "emplazamiento", direction = Direction.ASC) Sort sort,
-			@RequestParam(value = "idAntena") String emplazamiento) throws Exception {
+			@RequestParam(value = "idAntena") String emplazamiento) throws DetalleAntenasException {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de detalle antenas, emplazamiento: {}", emplazamiento);
 		Map<String, Object> resultado = null;
@@ -154,9 +155,8 @@ public class AntenasController {
 			utilidades.configuracionPaginador(paginador, page);
 			
 			resultado = localizacionAntenasService.obtenerDetalleEstacion(emplazamiento); 
-		} catch (Exception e) {
-			LOGGER.error("ERROR recuperando las estaciones {}", e.getMessage(), e.getCause());
-			throw e;
+		} catch (DetalleAntenasException e) {
+			throw new DetalleAntenasException(e.getMessage(), e.getCause());
 		}	
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
