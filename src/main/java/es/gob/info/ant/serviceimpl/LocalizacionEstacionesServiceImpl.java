@@ -37,8 +37,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 	private IMedicionesService medicioneService;
 
 	@Override
-	public Map<String, Object> listaEstaciones(String codProvincia, String codMunicipio, String calle,
-			Double latitudIni, Double latitudFin, Double longitudIni, Double longitudFin, Pageable page,
+	public Map<String, Object> listaEstaciones(Double latitud, Double longitud, Double radio, Pageable page,
 			PaginadorDto paginador) throws FiltroAntenasException {
 		Page<Object []> emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();
@@ -46,7 +45,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 		LOGGER.info("Se procede a buscar los emplazamientos");
 		try {
 			LOGGER.info("Buscando desde la pagina: {} hasta la página: {} ", page.getPageNumber(), page.getPageSize());
-			emplazamientos = emplazamientoService.listaEstacionesFiltradas(codProvincia, codMunicipio,calle, latitudIni, latitudFin, longitudIni, longitudFin, page);
+			emplazamientos = emplazamientoService.listaEstacionesFiltradas(latitud, longitud, radio, page);
 
 			LOGGER.info("Se han encontrado un total de {} registros", emplazamientos.getNumberOfElements());
 			
@@ -77,12 +76,6 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 				em.setDatosCaracteristicasTecnicas(estacionesService.listadoEstaciones(String.valueOf(empl[0])));
 				LOGGER.info("Se procede a recuperar los Niveles Medios");
 				em.setNivelesMedios(medicioneService.listarMediciones(String.valueOf(empl[0])));
-				LOGGER.info("Se procede a recuperar los Datos de Localización");
-				// PLASENCIA - DUDA POR QUE ESTE DATO ES IGUAL QUE LOS RECOGIDOS EN DATOS CARACTERISTICAS TÉCNICAS SOLO QUE FALTARÍA EL CÓDIGO DE ESTACION
-				/*DatosLocalizacionDto datosLocalizacion = new DatosLocalizacionDto();
-				datosLocalizacion.setCodEstacion(null);
-				datosLocalizacion.setDireccion(String.valueOf(empl[1]));
-				em.setDatosLocalizacion(datosLocalizacion);*/
 				return em;
 			}).toList();
 		} catch (Exception e) {

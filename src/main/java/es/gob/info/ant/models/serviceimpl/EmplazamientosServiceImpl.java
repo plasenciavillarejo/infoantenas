@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.models.dao.IEmplazamientosDao;
 import es.gob.info.ant.models.service.IEmplazamientosService;
 
@@ -31,9 +32,14 @@ public class EmplazamientosServiceImpl implements IEmplazamientosService {
 
 	@Override
 	@Transactional(readOnly =  true)
-	public Page<Object[]> listaEstacionesFiltradas(String codProvincia, String codMunicipio, String direccion,
-			Double latitudIni, Double latitudFin, Double longitudIni, Double longitudFin, Pageable pageable) {
-		return emplazamientosDao.listaEstacionesFiltradas(codProvincia, codMunicipio, direccion, latitudIni, latitudFin, longitudIni, longitudFin, pageable);
+	public Page<Object[]> listaEstacionesFiltradas(Double latitud, Double longitud, Double radio, Pageable page) {
+		return emplazamientosDao.listaEstacionesFiltradas(latitud, longitud, radio, page);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Object[] obtenerDetalleEstacion(String emplazamiento) {
+		return emplazamientosDao.obtenerDetalleEstacion(emplazamiento);
 	}
 
 }

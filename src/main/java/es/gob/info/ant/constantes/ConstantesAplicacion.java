@@ -25,22 +25,32 @@ public class ConstantesAplicacion {
 			+ " and (:codMunicipio is null or muni.codMunicipio = :codMunicipio)" 	
 		    + " and (:direccion is null or direccion like CONCAT('%', :direccion, '%'))";
 	
-	public static final String QUERYLISTADOESTACINES = "select distinct (emplaza.emplazamiento), emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
+	public static final String QUERYLISTADOESTACINES = "select * from("
+			+ "SELECT "
+			+ " distinct (emplaza.emplazamiento), emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
+			+ " emplaza.latitud_ghms, emplaza.longitud_ghms,"
+			+ " emplaza.latitud, emplaza.longitud, emplaza.latitudCC, emplaza.longitudCC, emplaza.latitudIDEE, emplaza.longitudIDEE,"
+			+ " emplaza.fechaActualizacion, emplaza.observaciones, emplaza.latitudETRS89, emplaza.longitudETRS89,"
+			+ " ( 6371 * acos(cos(radians(:latitud)) * cos(radians(em.latitud)) *"
+			+ "	cos(radians(em.longitud) - radians(:longitud)) + sin(radians(:latitud)) *"
+			+ "	sin(radians(em.latitud)))) AS distancia"
+			+ " from gis.VCNE_Emplazamientos emplaza"
+			+ " left join gis.CacheProvincias provin"
+			+ " on provin.nombreRegistroEntidadesLocales = emplaza.provincia" 
+			+ " left join gis.CacheMunicipios muni"
+			+ " on muni.codProvincia = provin.codProvincia) as estaciones"
+			+ " where estaciones.distancia < :radio";
+
+
+	public static final String QUERYESTACION = "select distinct emplaza.emplazamiento, emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
 			+ " emplaza.latitud_ghms, emplaza.longitud_ghms,"
 			+ " emplaza.latitud, emplaza.longitud, emplaza.latitudCC, emplaza.longitudCC, emplaza.latitudIDEE, emplaza.longitudIDEE,"
 			+ " emplaza.fechaActualizacion, emplaza.observaciones, emplaza.latitudETRS89, emplaza.longitudETRS89"
 			+ " from gis.VCNE_Emplazamientos emplaza"
 			+ " left join gis.CacheProvincias provin"
-			+ " on provin.nombreRegistroEntidadesLocales = emplaza.provincia" 
+			+ " on provin.nombreRegistroEntidadesLocales = emplaza.provincia"
 			+ " left join gis.CacheMunicipios muni"
 			+ " on muni.codProvincia = provin.codProvincia"
-			+ " where (:codProvincia is null or muni.codProvincia = :codProvincia)"
-			+ " and (:codMunicipio is null or muni.codMunicipio = :codMunicipio)"
-			+ " and (:direccion is null or direccion like CONCAT('%', :direccion, '%'))" 
-			+ " and (:latitudIni is null or :latitudIni <= emplaza.latitud)"
-			+ " and (:latitudFin is null or :latitudFin >= emplaza.latitud)"
-			+ " and (:longitudIni is null or :longitudIni <= emplaza.longitud)"
-			+ " and (:longitudFin is null or :longitudFin >= emplaza.longitud)"
-			+ " order by emplaza.emplazamiento";
+			+ " where emplaza.emplazamiento = :emplazamiento";
 	
 }

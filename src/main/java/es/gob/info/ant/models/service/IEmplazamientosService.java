@@ -11,10 +11,10 @@ public interface IEmplazamientosService {
 
 	public String obtenerDirecciones(@Param("emplazamiento") String emplazamiento);
 
-	public Page<Object[]> listaEstacionesFiltradas(@Param("codProvincia") String codProvincia,
-			@Param("codMunicipio") String codMunicipio, @Param("direccion") String direccion,
-			@Param("latitudIni") Double latitudIni, @Param("latitudFin") Double latitudFin,
-			@Param("longitudIni") Double longitudIni, @Param("longitudFin") Double longitudFin,
+	public Page<Object[]> listaEstacionesFiltradas(@Param("latitud") Double latitud,
+			@Param("longitud") Double longitud, @Param("radio") Double radio,
 			Pageable pageable);
+
+	public Object[] obtenerDetalleEstacion(@Param("emplazamiento") String emplazamiento);
 
 }

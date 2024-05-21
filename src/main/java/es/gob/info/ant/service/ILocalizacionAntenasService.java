@@ -11,5 +11,7 @@ public interface ILocalizacionAntenasService {
 
 	public Map<String, Object> listaAntenas(String codProvincia, String codMunicipio, String calle, Pageable page,
 			PaginadorDto paginador) throws FiltroAntenasException;
+
+	public Map<String, Object> obtenerDetalleEstacion(String emplazamiento) throws FiltroAntenasException;
 	
 }

@@ -110,9 +110,9 @@ public class AntenasController {
 	
 	@GetMapping(value = "/filtradoAntenas")
 	public ResponseEntity<Object> localizarAntenas(@PageableDefault(page = 1, size = 10) Pageable pageable,
-			@SortDefault(sort = {"localidad", "municipio"}, direction = Direction.ASC) Sort sort,
-			@RequestParam(value = "codProvincia", required = false) String codProvincia,
-			@RequestParam(value = "codMunicipio", required = false) String codMunicipio, 
+			@SortDefault(sort = {"direccion"}, direction = Direction.ASC) Sort sort,
+			@RequestParam(value = "codProvincia") String codProvincia,
+			@RequestParam(value = "codMunicipio") String codMunicipio, 
 			@RequestParam(value = "calle", required = false) String calle,
 			@RequestParam(value = "numero", required = false) String numero) throws Exception {
 		
@@ -128,8 +128,7 @@ public class AntenasController {
 			String direccionCompleta = !calle.isEmpty() && !numero.isEmpty() ? calle.concat(", ").concat(numero) 
 					: !calle.isEmpty() && numero.isEmpty()  ? calle : numero;
 			
-			resultado = localizacionAntenasService.listaAntenas(codProvincia.isEmpty() ? null : codProvincia , 
-					codMunicipio.isEmpty() ? null : codMunicipio, direccionCompleta, page, paginador); 
+			resultado = localizacionAntenasService.listaAntenas(codProvincia , codMunicipio, direccionCompleta, page, paginador); 
 		} catch (FiltroAntenasException e) {
 			throw new FiltroAntenasException(e.getMessage(), e.getCause());
 		}	
@@ -139,7 +138,7 @@ public class AntenasController {
 	@GetMapping(value = "/detalleAntenas")
 	public ResponseEntity<Object> localizarAntenas(@PageableDefault(page = 1, size = 10) Pageable pageable,
 			@SortDefault(sort = "emplazamiento", direction = Direction.ASC) Sort sort,
-			@RequestParam(value = "emplazamiento", required = false) String emplazamiento) {
+			@RequestParam(value = "idAntena") String emplazamiento) {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de detalle antenas, emplazamiento: {}", emplazamiento);
 		Page<DetallesAntenaDto> resultado = null;
@@ -160,19 +159,14 @@ public class AntenasController {
 	@GetMapping(value = "/filtradoEstaciones")
 	public ResponseEntity<Object> localizarEstaciones(@PageableDefault(page = 1, size = 10) Pageable pageable,
 			@SortDefault(sort = {"localidad", "municipio"}, direction = Direction.ASC) Sort sort,
-			@RequestParam(value = "codProvincia", required = false) String codProvincia,
-			@RequestParam(value = "codMunicipio", required = false) String codMunicipio, 
-			@RequestParam(value = "calle", required = false) String calle,
-			@RequestParam(value = "numero", required = false) String numero,
-			@RequestParam(value = "latitudini", required = false) Double latitudIni,
-			@RequestParam(value = "latitudfin", required = false) Double latitudFin,
-			@RequestParam(value = "longitudini", required = false) Double longitudIni,
-			@RequestParam(value = "longitudfin", required = false) Double longitudFin,
+			@RequestParam(value = "lat", required = false) Double latitud,
+			@RequestParam(value = "long", required = false) Double longitud,
+			@RequestParam(value = "radio", required = false) Double radio,
 			@RequestParam(value = "zoom", required = false) Integer zoom
 			) throws Exception {
 		
-		LOGGER.info("Recibiendo los datos para el filtrado de estaciones, codProvincia: {}, codMunicipio: {}, calle: {},"
-				+ " numero: {}, latitud inicial: {}, latitud final: {}, longitud inicial: {}, longitud final: {}, zoom: {}", codProvincia, codMunicipio, calle, numero, latitudIni, latitudFin, longitudIni, longitudFin, zoom );
+		LOGGER.info("Recibiendo los datos para el filtrado de estaciones, latitud: {}, longitud: {}, radio: {},"
+				+ " zoom: {}", latitud, longitud, radio, zoom);
 		Map<String, Object> resultado = null;
 		try {
 			if(zoom != null && zoom <= 20) {
@@ -180,12 +174,8 @@ public class AntenasController {
 				LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
 				PaginadorDto paginador = new PaginadorDto();
 				utilidades.configuracionPaginador(paginador, page);
-				
-				String direccionCompleta = !calle.isEmpty() && !numero.isEmpty() ? calle.concat(", ").concat(numero) 
-						: !calle.isEmpty() && numero.isEmpty()  ? calle : numero;
-				
-				resultado = localizacionEstacionesService.listaEstaciones(codProvincia.isEmpty() ? null : codProvincia , 
-						codMunicipio.isEmpty() ? null : codMunicipio, direccionCompleta, latitudIni, latitudFin, longitudIni, longitudFin, page, paginador); 
+				// El radio nos lo pasan en metros, nosotros lo necesitamos en kilometros
+				resultado = localizacionEstacionesService.listaEstaciones(latitud, longitud, radio/1000, page, paginador); 
 			}
 		} catch (FiltroAntenasException e) {
 			throw new FiltroAntenasException(e.getMessage(), e.getCause());

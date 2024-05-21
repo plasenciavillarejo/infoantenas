@@ -25,10 +25,12 @@ public interface IEmplazamientosDao extends PagingAndSortingRepository<VcnEmplaz
 	@Query(value = ConstantesAplicacion.QUERYLISTADOESTACINES,
 			countQuery = ConstantesAplicacion.QUERYLISTADOESTACINES,
 			nativeQuery = true)
-	public Page<Object[]> listaEstacionesFiltradas(@Param("codProvincia") String codProvincia,
-			@Param("codMunicipio") String codMunicipio, @Param("direccion") String direccion,
-			@Param("latitudIni") Double latitudIni, @Param("latitudFin") Double latitudFin,
-			@Param("longitudIni") Double longitudIni, @Param("longitudFin") Double longitudFin,
-			Pageable pageable);
+	public Page<Object[]> listaEstacionesFiltradas(@Param("latitud") Double latitud, @Param("longitud") Double longitud,
+			@Param("radio") Double radio, Pageable pageable);
+
+	@Query(value = ConstantesAplicacion.QUERYESTACION,
+			countQuery = ConstantesAplicacion.QUERYESTACION,
+			nativeQuery = true)
+	public Object[] obtenerDetalleEstacion(@Param("emplazamiento") String emplazamiento);
 
 }
