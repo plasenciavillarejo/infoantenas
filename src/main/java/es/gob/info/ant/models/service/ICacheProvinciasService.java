@@ -1,11 +1,9 @@
 package es.gob.info.ant.models.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import es.gob.info.ant.dto.CacheProvinciasDto;
+import java.util.List;
 
 public interface ICacheProvinciasService {
 
-	public Page<CacheProvinciasDto> listarProvincias(Pageable pageable);
+	public List<Object []> listarProvincias();
+	
 }

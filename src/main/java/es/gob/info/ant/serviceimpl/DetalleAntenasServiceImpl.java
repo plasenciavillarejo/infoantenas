@@ -40,7 +40,7 @@ public class DetalleAntenasServiceImpl implements IDetalleAntenasService {
 			estaciones = estacionesService.listadoEstacionesPageable(codEmplazamiento, page);
 			
 			LOGGER.info("Configurando el tampo del paginador");
-			paginador.setInboxSize((int)estaciones.getTotalElements());
+			paginador.setRegistros((int)estaciones.getTotalElements());
 			
 			LOGGER.info("Rellenamos los datos de datosLocalizacion, datosCaracteristicasTecnicas y nivelesMedios");
 			estaciones.forEach(estacion -> {

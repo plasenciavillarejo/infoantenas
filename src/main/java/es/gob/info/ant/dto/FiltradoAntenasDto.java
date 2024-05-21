@@ -21,36 +21,18 @@ public class FiltradoAntenasDto implements Serializable {
 
 	private String provincia;
 
-	private String latitudGhms;
-
-	private String longitudGhms;
-
 	private BigDecimal latitud;
 
 	private BigDecimal longitud;
-
-	private BigDecimal latitudCc;
-
-	private BigDecimal longitudCc;
-
-	private BigDecimal latitudIdee;
-
-	private BigDecimal longitudIdee;
 
 	private String fechaActualizacion;
 
 	private String observaciones;
 
-	private BigDecimal latitudEtrs;
-
-	private BigDecimal longitudEtrs;
-
 	private List<DatosCaracteristicasTecnicasDto> datosCaracteristicasTecnicas;
 	
 	private List<NivelesMediosDto> nivelesMedios;
-	
-	//private DatosLocalizacionDto datosLocalizacion; 
-	
+		
 	private static final long serialVersionUID = 6871980887181329666L;
 
 	public FiltradoAntenasDto(String emplazamiento, String direccion) {
