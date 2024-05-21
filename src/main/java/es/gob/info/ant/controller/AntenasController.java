@@ -105,7 +105,7 @@ public class AntenasController {
 			utilidades.configuracionPaginador(paginador, page);
 			
 			LOGGER.info("Se procede a listar los municipos asociados a las provincias");
-			Page<Object []> listaMuncipios = cacheMunicipiosService.listarMunicipios(page, codProvincia);
+			Page<Object []> listaMuncipios = cacheMunicipiosService.listarMunicipios(page, pruebaDto.getCodProvincia());
 			
 			paginador.setRegistros((int) listaMuncipios.getTotalElements());
 			
