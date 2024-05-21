@@ -1,6 +1,5 @@
 package es.gob.info.ant.controller;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -24,12 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 import es.gob.info.ant.constantes.ConstantesAplicacion;
 import es.gob.info.ant.dto.CacheMunicipiosDto;
 import es.gob.info.ant.dto.CacheProvinciasDto;
-import es.gob.info.ant.dto.DetallesAntenaDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.exception.FiltroAntenasException;
 import es.gob.info.ant.models.service.ICacheMunicipiosService;
 import es.gob.info.ant.models.service.ICacheProvinciasService;
-import es.gob.info.ant.service.IDetalleAntenasService;
 import es.gob.info.ant.service.ILocalizacionAntenasService;
 import es.gob.info.ant.service.ILocalizacionEstacionesService;
 import es.gob.info.ant.service.IProvinciasService;
@@ -54,9 +50,6 @@ public class AntenasController {
 	
 	@Autowired
 	private ILocalizacionEstacionesService localizacionEstacionesService;
-	
-	@Autowired
-	private IDetalleAntenasService detalleAntenasService;
 	
 	@Autowired
 	private Utilidades utilidades;
@@ -138,17 +131,17 @@ public class AntenasController {
 	@GetMapping(value = "/detalleAntenas")
 	public ResponseEntity<Object> localizarAntenas(@PageableDefault(page = 1, size = 10) Pageable pageable,
 			@SortDefault(sort = "emplazamiento", direction = Direction.ASC) Sort sort,
-			@RequestParam(value = "idAntena") String emplazamiento) {
+			@RequestParam(value = "idAntena") String emplazamiento) throws Exception {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de detalle antenas, emplazamiento: {}", emplazamiento);
-		Page<DetallesAntenaDto> resultado = null;
+		Map<String, Object> resultado = null;
 		try {
 			Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
 			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
 			PaginadorDto paginador = new PaginadorDto();
 			utilidades.configuracionPaginador(paginador, page);
 			
-			resultado = detalleAntenasService.obtenerDetalleAntenas(emplazamiento, page, paginador); 
+			resultado = localizacionAntenasService.obtenerDetalleEstacion(emplazamiento); 
 		} catch (Exception e) {
 			LOGGER.error("ERROR recuperando las estaciones {}", e.getMessage(), e.getCause());
 			throw e;
