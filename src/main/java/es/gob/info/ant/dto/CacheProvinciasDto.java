@@ -9,15 +9,9 @@ public class CacheProvinciasDto implements Serializable {
 
 	private Long codProvincia;
 
-	private String siglasProvincia;
+	private String siglaProvincia;
 	
-	private String nombreRegistroEntidadesLocales;
-
-	public CacheProvinciasDto(Long codProvincia, String nombreRegistroEntidadesLocales) {
-		super();
-		this.codProvincia = codProvincia;
-		this.nombreRegistroEntidadesLocales = nombreRegistroEntidadesLocales;
-	}
+	private String nombreProvincia;
 
 	private static final long serialVersionUID = -6341724841328477522L;
 

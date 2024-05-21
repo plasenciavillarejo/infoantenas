@@ -14,17 +14,13 @@ public class NivelesMediosDto implements Serializable {
 
 	private String medida;
 
-	private String emplazamiento;
-
 	private String provincia;
 
-	public NivelesMediosDto(BigDecimal distancia, BigDecimal acimut, String medida, String emplazamiento,
-			String provincia) {
+	public NivelesMediosDto(BigDecimal distancia, BigDecimal acimut, String medida,String provincia) {
 		super();
 		this.distancia = distancia;
 		this.acimut = acimut;
 		this.medida = medida;
-		this.emplazamiento = emplazamiento;
 		this.provincia = provincia;
 	}
 

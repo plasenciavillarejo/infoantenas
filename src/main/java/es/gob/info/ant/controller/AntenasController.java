@@ -1,6 +1,7 @@
 package es.gob.info.ant.controller;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -55,71 +56,82 @@ public class AntenasController {
 	private Utilidades utilidades;
 	
 	@GetMapping(value = "/listadoProvincias")
-	public ResponseEntity<Object> listarProvincias(@PageableDefault(page = 1, size = 10) Pageable pageable,
-			@SortDefault(sort = "nombreRegistroEntidadesLocales", direction = Direction.ASC) Sort sort) {
+	public ResponseEntity<Object> listarProvincias() {
 		Map<String, Object> resultado = new LinkedHashMap<>();
+		
+		List<CacheProvinciasDto> listaProvinciasDto = provinciasCacheService.listarProvincias().stream().map(list -> {
+			CacheProvinciasDto provinDto = new CacheProvinciasDto();
+			provinDto.setCodProvincia(Long.valueOf(String.valueOf(list[0])));
+			provinDto.setNombreProvincia(String.valueOf(list[1]));
+			provinDto.setSiglaProvincia(proviciasService.siglasProvincias(String.valueOf(list[1])));
+			return provinDto;
+		}).toList();
 
-		Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
-		
-		LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
-		PaginadorDto paginador = new PaginadorDto();
-		utilidades.configuracionPaginador(paginador, page);
-		
-		Page<CacheProvinciasDto> listaProv = provinciasCacheService.listarProvincias(page);
-		
-	    boolean siglasNoInicializadas = listaProv.stream().anyMatch(list -> list.getSiglasProvincia() == null);
-		
-		if(siglasNoInicializadas) {
-			listaProv.forEach(prov -> prov.setSiglasProvincia(proviciasService.siglasProvincias(prov.getNombreRegistroEntidadesLocales())));
-		}
-		paginador.setInboxSize((int) listaProv.getTotalElements());
-		
 		LOGGER.info("Transformamos el Page de Provincias a un listado");
-		resultado.put("Provincias", listaProv.stream().map(listaProvin -> listaProvin).toList());
-		resultado.put("Paginador", paginador);
+		resultado.put("Provincias INE", listaProvinciasDto);
 		
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/listadoMunicipios")
-	public ResponseEntity<Object> listarMunicipios(@PageableDefault(page = 1, size = 10) Pageable pageable, 
-			@SortDefault(sort = "nombreRegistroEntidadesLocales", direction = Direction.ASC) Sort sort, @RequestParam(name = "codProvincia") Long codProvincia) {	
+	public ResponseEntity<Object> listarMunicipios(@RequestParam(name = "codProvincia", required = true) Long codProvincia,
+			@RequestParam(value = "pagina") int pagina,
+			@RequestParam(value = "tamanioPagina", required = true) int tamanioPagina,
+			@RequestParam(value = "ordenacion", required = true) int ordenacion,
+			@RequestParam(value = "orden", required = true) int orden) {	
 		Map<String, Object> resultado = new LinkedHashMap<>();
-		Pageable pageSort = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), sort);
+		
+		Pageable page = PageRequest.of(pagina -1, tamanioPagina,orden == 1 ? Sort.by(ConstantesAplicacion.MUNICIPIO).ascending(): Sort.by(ConstantesAplicacion.MUNICIPIO).descending());
 		LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
 		PaginadorDto paginador = new PaginadorDto();
-		utilidades.configuracionPaginador(paginador, pageSort);
+		utilidades.configuracionPaginador(paginador, page);
 		
 		LOGGER.info("Se procede a listar los municipos asociados a las provincias");
-		Page<CacheMunicipiosDto> listaMuni = cacheMunicipiosService.listarMunicipios(pageSort, codProvincia);
-		paginador.setInboxSize((int) listaMuni.getTotalElements());
-
+		Page<Object []> listaMuncipios = cacheMunicipiosService.listarMunicipios(page, codProvincia);
+		
+		paginador.setRegistros((int) listaMuncipios.getTotalElements());
+		
+		List<CacheMunicipiosDto> listaMuncipiosDto = listaMuncipios.stream().map(muni -> {
+			CacheMunicipiosDto municiposDto = new CacheMunicipiosDto();
+			/* Nos aseguramos de que cualquier número se formatee con al menos 2 dígitos para provincias y 3 para municipios,
+				rellenando con ceros a la izquierda si es necesario. */
+			municiposDto.setCodProvincia(String.format("%02d", Long.valueOf(String.valueOf(muni[0]))));
+			municiposDto.setCodMunicipio(String.format("%03d", Long.valueOf(String.valueOf(muni[1]))));
+			municiposDto.setNombreMunicipo(String.valueOf(muni[2]));
+			return municiposDto;
+		}).toList();
+		
 		LOGGER.info("Transformamos el Page de Municipios a un listado");
-		resultado.put("Municipios", listaMuni.stream().map(list -> list).toList());
+		resultado.put("Municipios INE", listaMuncipiosDto);
 		resultado.put("Paginador", paginador);
 	
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}		
 	
 	@GetMapping(value = "/filtradoAntenas")
-	public ResponseEntity<Object> localizarAntenas(@PageableDefault(page = 1, size = 10) Pageable pageable,
-			@SortDefault(sort = {"direccion"}, direction = Direction.ASC) Sort sort,
-			@RequestParam(value = "codProvincia") String codProvincia,
-			@RequestParam(value = "codMunicipio") String codMunicipio, 
-			@RequestParam(value = "calle", required = false) String calle,
-			@RequestParam(value = "numero", required = false) String numero) throws Exception {
+	public ResponseEntity<Object> localizarAntenas(
+			@RequestParam(value = "codProvincia", required = true) String codProvincia,
+			@RequestParam(value = "codMunicipio", required = true) String codMunicipio, 
+			@RequestParam(value = "direccion", required = false) String direccion,
+			@RequestParam(value = "numero", required = false) String numero,
+			@RequestParam(value = "pagina") int pagina,
+			@RequestParam(value = "tamanioPagina") int tamanioPagina,
+			@RequestParam(value = "ordenacion", required = true) int ordenacion,
+			@RequestParam(value = "orden", required = true) int orden) throws FiltroAntenasException {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de antenas, codProvincia: {}, codMunicipio: {}, calle: {},"
-				+ " numero: {}", codProvincia, codMunicipio, calle, numero );
+				+ " numero: {}", codProvincia, codMunicipio, direccion, numero );
 		Map<String, Object> resultado = null;
 		try {
-			Pageable page = PageRequest.of(pageable.getPageNumber() -1, pageable.getPageSize(), sort);
+					
+			Pageable page = PageRequest.of(pagina -1, tamanioPagina,orden == 1 ? Sort.by("direccion").ascending(): Sort.by("direccion").descending());
 			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
+			
 			PaginadorDto paginador = new PaginadorDto();
 			utilidades.configuracionPaginador(paginador, page);
 			
-			String direccionCompleta = !calle.isEmpty() && !numero.isEmpty() ? calle.concat(", ").concat(numero) 
-					: !calle.isEmpty() && numero.isEmpty()  ? calle : numero;
+			String direccionCompleta = !direccion.isEmpty() && !numero.isEmpty() ? direccion.concat(", ").concat(numero) 
+					: !direccion.isEmpty() && numero.isEmpty()  ? direccion : numero;
 			
 			resultado = localizacionAntenasService.listaAntenas(codProvincia , codMunicipio, direccionCompleta, page, paginador); 
 		} catch (FiltroAntenasException e) {
