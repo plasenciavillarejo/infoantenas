@@ -10,7 +10,6 @@ public class ConstantesAplicacion {
 	}
 	
 	public static final String CONFIGURACIONPAGINADOR = "Configurando el paginador";
-
 	
 	public static final String QUERYLISTADOEMPLAZAMIENTOS = "select distinct emplaza.emplazamiento, emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
 			+ " emplaza.latitud, emplaza.longitud, emplaza.fechaActualizacion, emplaza.observaciones"
@@ -24,11 +23,8 @@ public class ConstantesAplicacion {
 		    + " and (:direccion is null or direccion like CONCAT('%', :direccion, '%'))";
 	
 	public static final String QUERYLISTADOESTACINES = "select * from("
-			+ "SELECT "
-			+ " distinct (emplaza.emplazamiento), emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
-			+ " emplaza.latitud_ghms, emplaza.longitud_ghms,"
-			+ " emplaza.latitud, emplaza.longitud, emplaza.latitudCC, emplaza.longitudCC, emplaza.latitudIDEE, emplaza.longitudIDEE,"
-			+ " emplaza.fechaActualizacion, emplaza.observaciones, emplaza.latitudETRS89, emplaza.longitudETRS89,"
+			+ "select distinct emplaza.emplazamiento, emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
+			+ "	emplaza.latitud, emplaza.longitud, emplaza.fechaActualizacion, emplaza.observaciones,"
 			+ " ( 6371 * acos(cos(radians(:latitud)) * cos(radians(emplaza.latitud)) *"
 			+ "	cos(radians(emplaza.longitud) - radians(:longitud)) + sin(radians(:latitud)) *"
 			+ "	sin(radians(emplaza.latitud)))) AS distancia"
@@ -38,7 +34,6 @@ public class ConstantesAplicacion {
 			+ " left join gis.CacheMunicipios muni"
 			+ " on muni.codProvincia = provin.codProvincia) as estaciones"
 			+ " where estaciones.distancia < :radio";
-
 
 	public static final String QUERYESTACION = "select distinct emplaza.emplazamiento, emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
 			+ " emplaza.latitud, emplaza.longitud, emplaza.fechaActualizacion, emplaza.observaciones"
@@ -56,5 +51,7 @@ public class ConstantesAplicacion {
 	public static final String BADREQUEST= "Bad Request";
 	
 	public static final String FORMATOFECHA = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+	public static final String ERROR = "error";
 	
 }

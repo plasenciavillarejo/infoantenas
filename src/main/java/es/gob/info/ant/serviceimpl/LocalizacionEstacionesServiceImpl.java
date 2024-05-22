@@ -35,22 +35,16 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 	private IMedicionesService medicioneService;
 
 	@Override
-	public Map<String, Object> listaEstaciones(Double latitud, Double longitud, Double radio, Pageable page,
-			PaginadorDto paginador) throws FiltroEstacionesException {
-		Page<Object []> emplazamientos = null;
+	public Map<String, Object> listaEstaciones(Double latitud, Double longitud, Double radio) throws FiltroEstacionesException {
+		List<Object []> emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();
 		List<FiltradoAntenasDto> emplDto = null;
 		LOGGER.info("Se procede a buscar los emplazamientos");
 		try {
-			LOGGER.info("Buscando desde la pagina: {} hasta la página: {} ", page.getPageNumber(), page.getPageSize());
-			emplazamientos = emplazamientoService.listaEstacionesFiltradas(latitud, longitud, radio, page);
+			emplazamientos = emplazamientoService.listaEstacionesFiltradas(latitud, longitud, radio);
 
-			LOGGER.info("Se han encontrado un total de {} registros", emplazamientos.getNumberOfElements());
-			
-			LOGGER.info("Configurando el tampo del paginador");
-			paginador.setRegistros((int)emplazamientos.getTotalElements());
-			param.put("Paginador", paginador);
-			
+			LOGGER.info("Se han encontrado un total de {} registros", emplazamientos.size());
+
 			emplDto = emplazamientos.stream().map(empl -> {
 				FiltradoAntenasDto em = new FiltradoAntenasDto();							
 				em.setEmplazamiento(empl[0] != null ? String.valueOf(empl[0]): "");

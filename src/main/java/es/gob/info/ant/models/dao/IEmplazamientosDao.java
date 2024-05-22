@@ -1,5 +1,7 @@
 package es.gob.info.ant.models.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -24,8 +26,8 @@ public interface IEmplazamientosDao extends PagingAndSortingRepository<VcnEmplaz
 	@Query(value = ConstantesAplicacion.QUERYLISTADOESTACINES,
 			countQuery = ConstantesAplicacion.QUERYLISTADOESTACINES,
 			nativeQuery = true)
-	public Page<Object[]> listaEstacionesFiltradas(@Param("latitud") Double latitud, @Param("longitud") Double longitud,
-			@Param("radio") Double radio, Pageable pageable);
+	public List<Object[]> listaEstacionesFiltradas(@Param("latitud") Double latitud, @Param("longitud") Double longitud,
+			@Param("radio") Double radio);
 
 	@Query(value = ConstantesAplicacion.QUERYESTACION,
 			countQuery = ConstantesAplicacion.QUERYESTACION,

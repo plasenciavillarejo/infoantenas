@@ -10,7 +10,6 @@ import es.gob.info.ant.exception.FiltroEstacionesException;
 
 public interface ILocalizacionEstacionesService {
 
-	public Map<String, Object> listaEstaciones(Double latitud, Double longitud, Double radio, Pageable page,
-			PaginadorDto paginador) throws FiltroEstacionesException;
+	public Map<String, Object> listaEstaciones(Double latitud, Double longitud, Double radio) throws FiltroEstacionesException;
 	
 }
