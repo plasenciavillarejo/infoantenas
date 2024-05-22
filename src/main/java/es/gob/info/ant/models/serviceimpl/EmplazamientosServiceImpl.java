@@ -38,7 +38,7 @@ public class EmplazamientosServiceImpl implements IEmplazamientosService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Object[] obtenerDetalleEstacion(String emplazamiento) {
+	public Object obtenerDetalleEstacion(String emplazamiento) {
 		return emplazamientosDao.obtenerDetalleEstacion(emplazamiento);
 	}
 

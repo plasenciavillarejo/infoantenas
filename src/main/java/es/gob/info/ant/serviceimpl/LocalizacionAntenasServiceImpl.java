@@ -79,12 +79,14 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 	
 	@Override
 	public Map<String, Object> obtenerDetalleEstacion(String emplazamiento) throws ErrorGlobalAntenasException {		
-		Object [] empl = null;
+		Object emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();
 		FiltradoAntenasDto emplDto = null;
 		LOGGER.info("Se procede a buscar los emplazamientos");
 		try {
-			empl = emplazamientoService.obtenerDetalleEstacion(emplazamiento);
+			emplazamientos = emplazamientoService.obtenerDetalleEstacion(emplazamiento);
+			Object[] empl = (Object[]) emplazamientos;
+			
 			if(empl != null) {
 				LOGGER.info("Se han encontrado un elemento con id emplazamiento {}", emplazamiento);
 				emplDto = new FiltradoAntenasDto();							
