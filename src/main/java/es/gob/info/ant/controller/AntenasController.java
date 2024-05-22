@@ -147,7 +147,7 @@ public class AntenasController {
 	@GetMapping(value = "/detalleAntenas")
 	public ResponseEntity<Object> localizarAntenas(@PageableDefault(page = 1, size = 10) Pageable pageable,
 			@SortDefault(sort = "emplazamiento", direction = Direction.ASC) Sort sort,
-			@RequestParam(value = "idAntena") String emplazamiento) throws ErrorGlobalAntenasException {
+			@RequestParam(value = "idAntena", required = true) String emplazamiento) throws ErrorGlobalAntenasException {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de detalle antenas, emplazamiento: {}", emplazamiento);
 		Map<String, Object> resultado = null;

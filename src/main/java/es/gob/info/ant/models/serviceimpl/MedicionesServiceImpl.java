@@ -19,7 +19,11 @@ public class MedicionesServiceImpl implements IMedicionesService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<NivelesMediosDto> listarMediciones(String emplazamiento) {
-		return medicionesDao.listarMediciones(emplazamiento);
+		List<NivelesMediosDto> nivelesMedios = medicionesDao.listarMediciones(emplazamiento);
+		nivelesMedios.stream().forEach(nivel -> nivel.setMedida(nivel.getMedida().contains("<") 
+				? "<".concat(String.valueOf(Math.sqrt((Double.valueOf((nivel.getMedida().replace("<", "")))*376.73)/100))) 
+						: String.valueOf(Math.sqrt((Double.valueOf((nivel.getMedida()))*376.73)/100))));
+		return nivelesMedios;
 	}
 
 }

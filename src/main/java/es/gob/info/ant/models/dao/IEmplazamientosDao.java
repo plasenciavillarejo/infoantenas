@@ -1,5 +1,7 @@
 package es.gob.info.ant.models.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -31,6 +33,6 @@ public interface IEmplazamientosDao extends PagingAndSortingRepository<VcnEmplaz
 	@Query(value = ConstantesAplicacion.QUERYESTACION,
 			countQuery = ConstantesAplicacion.QUERYESTACION,
 			nativeQuery = true)
-	public Object[] obtenerDetalleEstacion(@Param("emplazamiento") String emplazamiento);
+	public Object obtenerDetalleEstacion(@Param("emplazamiento") String emplazamiento);
 
 }
