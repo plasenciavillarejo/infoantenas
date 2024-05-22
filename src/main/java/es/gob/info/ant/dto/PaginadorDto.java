@@ -1,7 +1,6 @@
 package es.gob.info.ant.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import lombok.Data;
 
@@ -9,109 +8,110 @@ import lombok.Data;
 public class PaginadorDto implements Serializable {
 
 	// Número de elementos que se muestran por página
-	private Integer pageSize;
+	private Integer tamanioPagina;
 
 	// Página mostrada de entre todas las que tiene la búsqueda
-	private Integer currentPage;
+	private Integer paginaActual;
 
 	// Número de paginas que tiene la búsqueda
-	private Integer numPages;
+	private Integer paginas;
 
 	// Número total de elementos que tiene la búsqueda
-	private Integer inboxSize;
+	private Integer registros;
 
 	// Verdadero si se está posicionado en la primera página
-	private boolean isFirst;
+	private boolean inicio;
 
 	// Verdadero si se está posicionado en la última página
-	private boolean isLast;
+	private boolean fin;
 
-	private ArrayList<Integer> pages;
+	//private ArrayList<Integer> pages;
 
 	public PaginadorDto() {
-	   this.currentPage = 1;
-	   this.pageSize = 10;
+	   this.paginaActual = 1;
+	   this.tamanioPagina = 10;
 	 }
 
-	public PaginadorDto(Integer currentPage) {
-	   this.pageSize = 10;
-	   this.currentPage = currentPage;
+	public PaginadorDto(Integer paginaActual) {
+	   this.tamanioPagina = 10;
+	   this.paginaActual = paginaActual;
 	 }
 
-	public PaginadorDto(Integer inboxSize, Integer pageSize) {
-	   this.inboxSize = inboxSize;
-	   this.pageSize = pageSize;
-	   this.currentPage = 1;
-	   this.numPages = this.getNumPages();
+	public PaginadorDto(Integer registros, Integer tamanioPagina) {
+	   this.registros = registros;
+	   this.tamanioPagina = tamanioPagina;
+	   this.paginaActual = 1;
+	   this.paginas = this.getPaginas();
 	 }
 
-	public Integer getPageSize() {
-		return pageSize;
+	public Integer getTamanioPagina() {
+		return tamanioPagina;
 	}
 
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
+	public void setTamanioPagina(Integer tamanioPagina) {
+		this.tamanioPagina = tamanioPagina;
 	}
 
-	public Integer getCurrentPage() {
-		return currentPage;
+	public Integer getPaginaActual() {
+		return paginaActual;
 	}
 
-	public void setCurrentPage(Integer currentPage) {
-		this.currentPage = currentPage;
+	public void setPaginaActual(Integer paginaActual) {
+		this.paginaActual = paginaActual;
 	}
 
-	public Integer getInboxSize() {
-		return inboxSize;
+	public Integer getRegistros() {
+		return registros;
 	}
 
-	public void setInboxSize(Integer inboxSize) {
-		this.inboxSize = inboxSize;
+	public void setRegistros(Integer registros) {
+		this.registros = registros;
 	}
 
-	public boolean isIsFirst() {
-		this.isFirst = this.currentPage == 1;
-		return this.isFirst;
+	public boolean isInicio() {
+		this.inicio = this.paginaActual == 1;
+		return this.inicio;
 	}
 
-	public void setIsFirst(boolean isFirst) {
-		this.isFirst = isFirst;
+	public void setInicio(boolean inicio) {
+		this.inicio = inicio;
 	}
 
-	public boolean isIsLast() {
-		this.isLast = this.currentPage.equals(this.numPages);
-		return isLast;
+	public boolean isFin() {
+		this.fin = this.paginaActual.equals(this.paginas);
+		return fin;
 	}
 
-	public void setIsLast(boolean isLast) {
-		this.isLast = isLast;
+	public void setFin(boolean fin) {
+		this.fin = fin;
 	}
-
-	public Integer getNumPages() {
-		if (inboxSize != null) {
-			this.numPages = (int) Math.ceil((double) inboxSize / (double) pageSize);
+	
+	public Integer getPaginas() {
+		if (registros != null) {
+			this.paginas = (int) Math.ceil((double) registros / (double) tamanioPagina);
 		} else {
-			this.numPages = 0;
+			this.paginas = 0;
 		}
-		setPages();
-		return numPages;
+		//setPages();
+		return paginas;
 	}
 
-	public void setNumPages(Integer numPages) {
-		this.numPages = numPages;
+	public void setPaginas(Integer paginas) {
+		this.paginas = paginas;
 	}
 
+	/*
 	public ArrayList<Integer> getPages() {
 		return pages;
 	}
 
 	public void setPages() {
 		pages = new ArrayList<Integer>();
-		for (int i = 1; i <= numPages; i++) {
+		for (int i = 1; i <= paginas; i++) {
 			pages.add(i);
 		}
 	}
-
+*/
 	private static final long serialVersionUID = 2204195332241839710L;
 
 }

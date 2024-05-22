@@ -4,13 +4,14 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @Embeddable
 public class CacheMunicipiosPk implements Serializable {
 
 	@Column(name = "codProvincia", length = 2)
-	@NotNull
+	@Min(value =1, message = "El código de la provincia como mínimo debe ser 01")
 	private Long codProvincia;
 	
 	@Column(name = "codMunicipio", length = 3)

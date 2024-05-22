@@ -12,14 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import es.gob.info.ant.dto.DatosLocalizacionDto;
 import es.gob.info.ant.dto.FiltradoAntenasDto;
 import es.gob.info.ant.dto.PaginadorDto;
-import es.gob.info.ant.exception.FiltroAntenasException;
+import es.gob.info.ant.exception.FiltroEstacionesException;
 import es.gob.info.ant.models.service.IEmplazamientosService;
 import es.gob.info.ant.models.service.IEstacionesService;
 import es.gob.info.ant.models.service.IMedicionesService;
-import es.gob.info.ant.service.ILocalizacionAntenasService;
 import es.gob.info.ant.service.ILocalizacionEstacionesService;
 
 @Service
@@ -38,7 +36,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 
 	@Override
 	public Map<String, Object> listaEstaciones(Double latitud, Double longitud, Double radio, Pageable page,
-			PaginadorDto paginador) throws FiltroAntenasException {
+			PaginadorDto paginador) throws FiltroEstacionesException {
 		Page<Object []> emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();
 		List<FiltradoAntenasDto> emplDto = null;
@@ -50,7 +48,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 			LOGGER.info("Se han encontrado un total de {} registros", emplazamientos.getNumberOfElements());
 			
 			LOGGER.info("Configurando el tampo del paginador");
-			paginador.setInboxSize((int)emplazamientos.getTotalElements());
+			paginador.setRegistros((int)emplazamientos.getTotalElements());
 			param.put("Paginador", paginador);
 			
 			emplDto = emplazamientos.stream().map(empl -> {
@@ -60,18 +58,10 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 				em.setLocalidad(empl[2] != null ? String.valueOf(empl[2]): "");
 				em.setMunicipio(empl[3] != null ? String.valueOf(empl[3]): "");
 				em.setProvincia(empl[4] != null ? String.valueOf(empl[4]): "");
-				em.setLatitudGhms(empl[5] != null ? String.valueOf(empl[5]): "");
-				em.setLongitudGhms(empl[6] != null ? String.valueOf(empl[6]): "");
-				em.setLatitud(empl[7] != null ?  new BigDecimal(String.valueOf(empl[7])) : null);
-				em.setLongitud(empl[8] != null ?  new BigDecimal(String.valueOf(empl[8])) : null);
-				em.setLatitudCc(empl[9] != null ?  new BigDecimal(String.valueOf(empl[9])) : null);
-				em.setLongitudCc(empl[10] != null ?  new BigDecimal(String.valueOf(empl[10])) : null);
-				em.setLatitudIdee(empl[11] != null ?  new BigDecimal(String.valueOf(empl[11])) : null);
-				em.setLongitudIdee(empl[12] != null ?  new BigDecimal(String.valueOf(empl[12])) : null);				
-				em.setFechaActualizacion(empl[13] != null ? String.valueOf(empl[13]): "");
-				em.setObservaciones(!String.valueOf(empl[14]).trim().isEmpty() ? String.valueOf(empl[14]).trim() : "");				
-				em.setLatitudEtrs(empl[15] != null ? new BigDecimal(String.valueOf(empl[15])) : null);
-				em.setLongitudEtrs(empl[16] != null ? new BigDecimal(String.valueOf(empl[16])) : null);
+				em.setLatitud(empl[5] != null ?  new BigDecimal(String.valueOf(empl[5])) : null);
+				em.setLongitud(empl[6] != null ?  new BigDecimal(String.valueOf(empl[6])) : null);
+				em.setFechaActualizacion(empl[7] != null ? String.valueOf(empl[7]): "");
+				em.setObservaciones(!String.valueOf(empl[8]).trim().isEmpty() ? String.valueOf(empl[8]).trim() : "");				
 				LOGGER.info("Se procede a recuperar las Características Técnicas asociada a las estaciones ");
 				em.setDatosCaracteristicasTecnicas(estacionesService.listadoEstaciones(String.valueOf(empl[0])));
 				LOGGER.info("Se procede a recuperar los Niveles Medios");
@@ -79,7 +69,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 				return em;
 			}).toList();
 		} catch (Exception e) {
-			throw new FiltroAntenasException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
+			throw new FiltroEstacionesException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
 		}
 		param.put("Emplazamiento", emplDto);
 		return param;
