@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import es.gob.info.ant.constantes.ConstantesAplicacion;
 import es.gob.info.ant.dto.ErrorZoomDto;
 import es.gob.info.ant.dto.ErrorZoomExtendidoDto;
 
@@ -19,8 +20,22 @@ public class InfoAntenasExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Error de validación: ".concat(ex.getBindingResult().getFieldError().getDefaultMessage()));
+    	
+    	Map<String, Object> errorRespuesta = new HashMap<>();
+		ErrorZoomDto errorZoom = new ErrorZoomDto();
+		errorZoom.setErrorCode(HttpStatus.BAD_REQUEST.value() );
+		SimpleDateFormat formatter = new SimpleDateFormat(ConstantesAplicacion.FORMATOFECHA);
+		errorZoom.setError_date_time(formatter.format(new Date()));
+		errorZoom.setError_type(ConstantesAplicacion.BADREQUEST);
+		errorZoom.setError_description(ex.getBindingResult().getFieldError().getDefaultMessage());
+		errorZoom.setError_extended_info(new ErrorZoomExtendidoDto());			
+		errorZoom.getError_extended_info().setError_message(ex.getBindingResult().getFieldError().getDefaultMessage());
+		errorZoom.getError_extended_info().setCorrelation_id("50c81057-7242-41c8-8663-bf40ae675a8b");
+		errorZoom.getError_extended_info().setError_id(HttpStatus.BAD_REQUEST.value());
+		errorZoom.getError_extended_info().setError_alias("");		
+		errorRespuesta.put("error", errorZoom);
+    	
+        return new ResponseEntity<>(errorRespuesta,HttpStatus.BAD_REQUEST);
     }
 	   
     @ExceptionHandler(FiltroEstacionesException.class)
@@ -28,7 +43,7 @@ public class InfoAntenasExceptionHandler {
 		Map<String, Object> errorRespuesta = new HashMap<>();
 		ErrorZoomDto errorZoom = new ErrorZoomDto();
 		errorZoom.setErrorCode(HttpStatus.UNAUTHORIZED.value());
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		SimpleDateFormat formatter = new SimpleDateFormat(ConstantesAplicacion.FORMATOFECHA);
 		errorZoom.setError_date_time(formatter.format(new Date()));
 		errorZoom.setError_type("Bad Request");
 		errorZoom.setError_description("Zoom Invalid");
@@ -46,7 +61,7 @@ public class InfoAntenasExceptionHandler {
     	Map<String, Object> errorRespuesta = new HashMap<>();
 		ErrorZoomDto errorZoom = new ErrorZoomDto();
 		errorZoom.setErrorCode(HttpStatus.BAD_REQUEST.value() );
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		SimpleDateFormat formatter = new SimpleDateFormat(ConstantesAplicacion.FORMATOFECHA);
 		errorZoom.setError_date_time(formatter.format(new Date()));
 		errorZoom.setError_type("Bad Request");
 		errorZoom.setError_description("Invalid field codProvincia");

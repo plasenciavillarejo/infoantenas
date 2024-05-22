@@ -17,6 +17,7 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ import es.gob.info.ant.constantes.ConstantesAplicacion;
 import es.gob.info.ant.dto.CacheMunicipiosDto;
 import es.gob.info.ant.dto.CacheProvinciasDto;
 import es.gob.info.ant.dto.PaginadorDto;
-import es.gob.info.ant.dto.PruebaDto;
+import es.gob.info.ant.dto.ParametrosAntenasDto;
 import es.gob.info.ant.exception.ErrorGlobalAntenasException;
 import es.gob.info.ant.exception.FiltroAntenasException;
 import es.gob.info.ant.exception.FiltroEstacionesException;
@@ -60,18 +61,6 @@ public class AntenasController {
 	@Autowired
 	private Utilidades utilidades;
 	
-	
-	
-	
-	
-	// PLASENCIA - SE DEBE CAMBIAR TODOS LOS REQUESTPARAM POR UN DTO QUE ALOJE LOS DATOS PARA PODER UTILIZAR LA ANOTACÍON @VALID EN CASO DE NO HACERLO.
-	// NO SE PUEDE VALIDAR SI UN CAMPO CUMPLE CON LOS REQUISITIOS DE QUE ESTÉ VACIÓS O NO.
-	
-	
-	
-	
-	
-	
 	@GetMapping(value = "/listadoProvincias")
 	public ResponseEntity<Object> listarProvincias() throws ErrorGlobalAntenasException {
 		Map<String, Object> resultado = new LinkedHashMap<>();
@@ -91,21 +80,18 @@ public class AntenasController {
 	}
 	
 	@GetMapping(value = "/listadoMunicipios")
-	public ResponseEntity<Object> listarMunicipios(@Valid PruebaDto pruebaDto,
-			//@RequestParam(name = "codProvincia") Long codProvincia,
-			@RequestParam(value = "pagina") int pagina,
-			@RequestParam(value = "tamanioPagina", required = true) int tamanioPagina,
-			@RequestParam(value = "ordenacion", required = true) int ordenacion,
-			@RequestParam(value = "orden", required = true) int orden) throws ErrorGlobalAntenasException {	
+	public ResponseEntity<Object> listarMunicipios(@Valid @RequestBody ParametrosAntenasDto parametrosDto) throws ErrorGlobalAntenasException {	
 		Map<String, Object> resultado = new LinkedHashMap<>();
 		try {
-			Pageable page = PageRequest.of(pagina -1, tamanioPagina,orden == 1 ? Sort.by(ConstantesAplicacion.MUNICIPIO).ascending(): Sort.by(ConstantesAplicacion.MUNICIPIO).descending());
+			Pageable page = PageRequest.of(parametrosDto.getPagina() -1, parametrosDto.getTamanopagina(),parametrosDto.getOrden() == 1 
+					? Sort.by(ConstantesAplicacion.MUNICIPIO).ascending() 
+							: Sort.by(ConstantesAplicacion.MUNICIPIO).descending());
 			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
 			PaginadorDto paginador = new PaginadorDto();
 			utilidades.configuracionPaginador(paginador, page);
 			
 			LOGGER.info("Se procede a listar los municipos asociados a las provincias");
-			Page<Object []> listaMuncipios = cacheMunicipiosService.listarMunicipios(page, pruebaDto.getCodProvincia());
+			Page<Object []> listaMuncipios = cacheMunicipiosService.listarMunicipios(page, parametrosDto.getCodProvincia());
 			
 			paginador.setRegistros((int) listaMuncipios.getTotalElements());
 			

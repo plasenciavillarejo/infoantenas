@@ -55,4 +55,8 @@ public class ConstantesAplicacion {
 	
 	public static final String MUNICIPIO = "nombreRegistroEntidadesLocales";
 	
+	public static final String BADREQUEST= "Bad Request";
+	
+	public static final String FORMATOFECHA = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+	
 }
