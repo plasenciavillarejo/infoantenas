@@ -11,8 +11,8 @@ import es.gob.info.ant.exception.FiltroAntenasException;
 public interface ILocalizacionAntenasService {
 
 	public Map<String, Object> listaAntenas(Long codProvincia, Long codMunicipio, String calle, Pageable page,
-			PaginadorDto paginador) throws FiltroAntenasException;
+			PaginadorDto paginador) throws FiltroAntenasException, ErrorGlobalAntenasException;
 
-	public Map<String, Object> obtenerDetalleEstacion(String emplazamiento) throws ErrorGlobalAntenasException;
+	public Map<String, Object> obtenerDetalleEstacion(String emplazamiento) throws Exception;
 	
 }

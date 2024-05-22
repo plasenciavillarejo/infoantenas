@@ -37,7 +37,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 
 	@Override
 	public Map<String, Object> listaAntenas(Long codProvincia, Long codMunicipio, String calle, Pageable page,
-			PaginadorDto paginador) throws FiltroAntenasException {		
+			PaginadorDto paginador) throws FiltroAntenasException, ErrorGlobalAntenasException {		
 		Page<Object []> emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();
 		List<FiltradoAntenasDto> emplDto = null;
@@ -71,14 +71,14 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				return em;
 			}).toList();
 		} catch (Exception e) {
-			throw new FiltroAntenasException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
+			throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
 		}
 		param.put("emplazamientos", emplDto);
 		return param;
 	}
 	
 	@Override
-	public Map<String, Object> obtenerDetalleEstacion(String emplazamiento) throws ErrorGlobalAntenasException {		
+	public Map<String, Object> obtenerDetalleEstacion(String emplazamiento) throws Exception {		
 		Object emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();
 		FiltradoAntenasDto emplDto = null;
@@ -107,7 +107,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				LOGGER.info("No se ha encontrado el emplazamiento con id emplazamiento: {}", emplazamiento);
 			}
 		} catch (Exception e) {
-			throw new ErrorGlobalAntenasException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
+			throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
 		}
 		param.put("emplazamientos", emplDto);
 		return param;

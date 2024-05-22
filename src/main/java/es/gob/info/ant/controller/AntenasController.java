@@ -11,14 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.gob.info.ant.constantes.ConstantesAplicacion;
@@ -38,7 +34,6 @@ import es.gob.info.ant.service.ILocalizacionAntenasService;
 import es.gob.info.ant.service.ILocalizacionEstacionesService;
 import es.gob.info.ant.service.IProvinciasService;
 import es.gob.info.ant.util.Utilidades;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -88,9 +83,8 @@ public class AntenasController {
 		try {
 			Pageable page = null;
 			try {
-				page = PageRequest.of(parametrosDto.getPagina() -1, parametrosDto.getTamanioPagina(),parametrosDto.getOrden() == 1 
-					? Sort.by(ConstantesAplicacion.MUNICIPIO).ascending() 
-							: Sort.by(ConstantesAplicacion.MUNICIPIO).descending());
+				page = utilidades.configurarPageRequest(parametrosDto.getPagina(), parametrosDto.getTamanioPagina(), 
+						parametrosDto.getOrden(), ConstantesAplicacion.MUNICIPIO);						
 			} catch (Exception e) {
 				throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
 			}
@@ -114,8 +108,8 @@ public class AntenasController {
 				/* Nos aseguramos de que cualquier número se formatee con al menos 2 dígitos para provincias y 3 para municipios,
 					rellenando con ceros a la izquierda si es necesario. */
 				//municiposDto.setCodProvincia(String.format("%02d", Long.valueOf(String.valueOf(muni[0]))));
-				municiposDto.setCodMunicipio(String.format("%03d", Long.valueOf(String.valueOf(muni[1]))));
-				municiposDto.setNombreMunicipo(String.valueOf(muni[2]));
+				municiposDto.setCodMunicipio(String.format("%03d", Long.valueOf(String.valueOf(muni[0]))));
+				municiposDto.setNombreMunicipo(String.valueOf(muni[1]));
 				return municiposDto;
 			}).toList();
 			} catch (Exception e) {
@@ -140,15 +134,13 @@ public class AntenasController {
 		try {
 			Pageable page = null;
 			try {
-				page = PageRequest.of(parametrosDto.getPagina() -1, parametrosDto.getTamanioPagina(),parametrosDto.getOrden() == 1 
-					? Sort.by("direccion").ascending() 
-							: Sort.by("direccion").descending());
+				page = utilidades.configurarPageRequest(parametrosDto.getPagina(), parametrosDto.getTamanioPagina(), 
+						parametrosDto.getOrden(), ConstantesAplicacion.DIRECCION);						
 			} catch (Exception e) {
 				throw new FiltroAntenasException(e.getMessage(), e.getCause());
 			}
 			
-			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
-			
+			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);			
 			PaginadorDto paginador = new PaginadorDto();
 			utilidades.configuracionPaginador(paginador, page);
 			
@@ -167,14 +159,14 @@ public class AntenasController {
 	}
 	
 	@GetMapping(value = "/detalleAntenas")
-	public ResponseEntity<Object> localizarAntenas(@Valid @RequestBody ParametrosDetalleAntenasDto parametrosDto) throws ErrorGlobalAntenasException {
+	public ResponseEntity<Object> localizarAntenas(@Valid @RequestBody ParametrosDetalleAntenasDto parametrosDto) throws Exception {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de detalle antenas, emplazamiento: {}", parametrosDto.getIdAntena());
 		Map<String, Object> resultado = null;
 		try {			
 			resultado = localizacionAntenasService.obtenerDetalleEstacion(parametrosDto.getIdAntena()); 
 		} catch (ErrorGlobalAntenasException e) {
-			throw new ErrorGlobalAntenasException();
+			throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
 		}
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
