@@ -36,7 +36,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 	private IMedicionesService medicioneService;
 
 	@Override
-	public Map<String, Object> listaAntenas(String codProvincia, String codMunicipio, String calle, Pageable page,
+	public Map<String, Object> listaAntenas(Long codProvincia, Long codMunicipio, String calle, Pageable page,
 			PaginadorDto paginador) throws FiltroAntenasException {		
 		Page<Object []> emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();

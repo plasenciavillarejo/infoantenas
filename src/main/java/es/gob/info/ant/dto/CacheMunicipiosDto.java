@@ -1,14 +1,11 @@
 package es.gob.info.ant.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import lombok.Data;
 
 @Data
 public class CacheMunicipiosDto implements Serializable {
-
-	private String codProvincia;
 
 	private String codMunicipio;
 	

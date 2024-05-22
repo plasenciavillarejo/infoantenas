@@ -6,17 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class ParametrosAntenasDto implements Serializable {
-
+public class ParametrosMunicipiosDto implements Serializable {
+	
 	@NotNull(message = "Invalid field codProvincia")
 	private Long codProvincia;
-	
-	@NotNull(message = "Invalid field codMunicipio")
-	private Long codMunicipio;
-	
-	private String direccion;
-	
-	private String numero;
 	
 	private int pagina;
 	
@@ -25,7 +18,7 @@ public class ParametrosAntenasDto implements Serializable {
 	private int ordenacion;
 	
 	private int orden;
-		
-	private static final long serialVersionUID = 3827730379937221915L;
 	
+	private static final long serialVersionUID = 5348629082797540388L;
+
 }

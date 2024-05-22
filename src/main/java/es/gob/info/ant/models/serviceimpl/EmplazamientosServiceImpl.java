@@ -19,7 +19,7 @@ public class EmplazamientosServiceImpl implements IEmplazamientosService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Object []> listaEmplazamientos(String codProvincia, String codMunicipio,
+	public Page<Object []> listaEmplazamientos(Long codProvincia, Long codMunicipio,
 			 String direccion, Pageable pageable) {
 		return emplazamientosDao.listaEmplazamientos(codProvincia, codMunicipio, direccion, pageable);
 	}

@@ -26,6 +26,7 @@ import es.gob.info.ant.dto.CacheMunicipiosDto;
 import es.gob.info.ant.dto.CacheProvinciasDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.dto.ParametrosAntenasDto;
+import es.gob.info.ant.dto.ParametrosMunicipiosDto;
 import es.gob.info.ant.exception.ErrorGlobalAntenasException;
 import es.gob.info.ant.exception.FiltroAntenasException;
 import es.gob.info.ant.exception.FiltroEstacionesException;
@@ -80,10 +81,10 @@ public class AntenasController {
 	}
 	
 	@GetMapping(value = "/listadoMunicipios")
-	public ResponseEntity<Object> listarMunicipios(@Valid @RequestBody ParametrosAntenasDto parametrosDto) throws ErrorGlobalAntenasException {	
+	public ResponseEntity<Object> listarMunicipios(@Valid @RequestBody ParametrosMunicipiosDto parametrosDto) throws ErrorGlobalAntenasException {	
 		Map<String, Object> resultado = new LinkedHashMap<>();
 		try {
-			Pageable page = PageRequest.of(parametrosDto.getPagina() -1, parametrosDto.getTamanopagina(),parametrosDto.getOrden() == 1 
+			Pageable page = PageRequest.of(parametrosDto.getPagina() -1, parametrosDto.getTamanioPagina(),parametrosDto.getOrden() == 1 
 					? Sort.by(ConstantesAplicacion.MUNICIPIO).ascending() 
 							: Sort.by(ConstantesAplicacion.MUNICIPIO).descending());
 			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
@@ -99,7 +100,7 @@ public class AntenasController {
 				CacheMunicipiosDto municiposDto = new CacheMunicipiosDto();
 				/* Nos aseguramos de que cualquier número se formatee con al menos 2 dígitos para provincias y 3 para municipios,
 					rellenando con ceros a la izquierda si es necesario. */
-				municiposDto.setCodProvincia(String.format("%02d", Long.valueOf(String.valueOf(muni[0]))));
+				//municiposDto.setCodProvincia(String.format("%02d", Long.valueOf(String.valueOf(muni[0]))));
 				municiposDto.setCodMunicipio(String.format("%03d", Long.valueOf(String.valueOf(muni[1]))));
 				municiposDto.setNombreMunicipo(String.valueOf(muni[2]));
 				return municiposDto;
@@ -113,31 +114,26 @@ public class AntenasController {
 	}		
 	
 	@GetMapping(value = "/filtradoAntenas")
-	public ResponseEntity<Object> localizarAntenas(
-			@RequestParam(value = "codProvincia", required = true) String codProvincia,
-			@RequestParam(value = "codMunicipio", required = true) String codMunicipio, 
-			@RequestParam(value = "direccion", required = false) String direccion,
-			@RequestParam(value = "numero", required = false) String numero,
-			@RequestParam(value = "pagina") int pagina,
-			@RequestParam(value = "tamanioPagina") int tamanioPagina,
-			@RequestParam(value = "ordenacion", required = true) int ordenacion,
-			@RequestParam(value = "orden", required = true) int orden) throws ErrorGlobalAntenasException {
+	public ResponseEntity<Object> localizarAntenas(@Valid @RequestBody ParametrosAntenasDto parametrosDto) throws ErrorGlobalAntenasException {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de antenas, codProvincia: {}, codMunicipio: {}, calle: {},"
-				+ " numero: {}", codProvincia, codMunicipio, direccion, numero );
+				+ " numero: {}", parametrosDto.getCodProvincia(), parametrosDto.getCodMunicipio(), 
+				parametrosDto.getDireccion(), parametrosDto.getNumero() );
 		Map<String, Object> resultado = null;
 		try {
 					
-			Pageable page = PageRequest.of(pagina -1, tamanioPagina,orden == 1 ? Sort.by("direccion").ascending(): Sort.by("direccion").descending());
+			Pageable page = PageRequest.of(parametrosDto.getPagina() -1, parametrosDto.getTamanioPagina(),parametrosDto.getOrden() == 1 
+					? Sort.by("direccion").ascending() 
+							: Sort.by("direccion").descending());
 			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
 			
 			PaginadorDto paginador = new PaginadorDto();
 			utilidades.configuracionPaginador(paginador, page);
 			
-			String direccionCompleta = !direccion.isEmpty() && !numero.isEmpty() ? direccion.concat(", ").concat(numero) 
-					: !direccion.isEmpty() && numero.isEmpty()  ? direccion : numero;
+			String direccionCompleta = !parametrosDto.getDireccion().isEmpty() && !parametrosDto.getNumero().isEmpty() ? parametrosDto.getDireccion().concat(", ").concat(parametrosDto.getNumero()) 
+					: !parametrosDto.getDireccion().isEmpty() && parametrosDto.getNumero().isEmpty()  ? parametrosDto.getDireccion() : parametrosDto.getNumero();
 			
-			resultado = localizacionAntenasService.listaAntenas(codProvincia , codMunicipio, direccionCompleta, page, paginador); 
+			resultado = localizacionAntenasService.listaAntenas(parametrosDto.getCodProvincia(), parametrosDto.getCodMunicipio(), direccionCompleta, page, paginador); 
 		} catch (FiltroAntenasException e) {
 			throw new ErrorGlobalAntenasException();
 		}	

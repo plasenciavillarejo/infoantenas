@@ -10,7 +10,7 @@ import es.gob.info.ant.models.entity.CacheMunicipios;
 
 public interface ICacheMunicipiosDao extends JpaRepository<CacheMunicipios, Long>{
 
-	@Query(value = "select muni.cacheMunicipiosPk.codProvincia, muni.cacheMunicipiosPk.codMunicipio, muni.nombreRegistroEntidadesLocales"
+	@Query(value = "select muni.cacheMunicipiosPk.codMunicipio, muni.nombreRegistroEntidadesLocales"
 			+ " from CacheMunicipios muni"
 			+ " where muni.cacheMunicipiosPk.codProvincia = :codProvincia")
 	public Page<Object []> listarMunicipios(Pageable pageable, @Param("codProvincia") Long codProvincia);
