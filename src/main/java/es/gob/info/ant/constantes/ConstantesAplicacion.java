@@ -10,7 +10,6 @@ public class ConstantesAplicacion {
 	}
 	
 	public static final String CONFIGURACIONPAGINADOR = "Configurando el paginador";
-
 	
 	public static final String QUERYLISTADOEMPLAZAMIENTOS = "select distinct emplaza.emplazamiento, emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
 			+ " emplaza.latitud, emplaza.longitud, emplaza.fechaActualizacion, emplaza.observaciones"
@@ -39,7 +38,6 @@ public class ConstantesAplicacion {
 			+ " on muni.codProvincia = provin.codProvincia) as estaciones"
 			+ " where estaciones.distancia < :radio";
 
-
 	public static final String QUERYESTACION = "select distinct emplaza.emplazamiento, emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"
 			+ " emplaza.latitud, emplaza.longitud, emplaza.fechaActualizacion, emplaza.observaciones"
 			+ " from gis.VCNE_Emplazamientos emplaza"
@@ -56,5 +54,7 @@ public class ConstantesAplicacion {
 	public static final String BADREQUEST= "Bad Request";
 	
 	public static final String FORMATOFECHA = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+	public static final String ERROR = "error";
 	
 }

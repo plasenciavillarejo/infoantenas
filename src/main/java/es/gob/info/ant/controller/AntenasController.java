@@ -75,7 +75,7 @@ public class AntenasController {
 			}).toList();	
 			resultado.put("Provincias INE", listaProvinciasDto);
 		} catch (Exception e) {
-			throw new ErrorGlobalAntenasException();
+			throw new ErrorGlobalAntenasException(e.getCause());
 		}
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
@@ -84,19 +84,30 @@ public class AntenasController {
 	public ResponseEntity<Object> listarMunicipios(@Valid @RequestBody ParametrosMunicipiosDto parametrosDto) throws ErrorGlobalAntenasException {	
 		Map<String, Object> resultado = new LinkedHashMap<>();
 		try {
-			Pageable page = PageRequest.of(parametrosDto.getPagina() -1, parametrosDto.getTamanioPagina(),parametrosDto.getOrden() == 1 
+			Pageable page = null;
+			try {
+				page = PageRequest.of(parametrosDto.getPagina() -1, parametrosDto.getTamanioPagina(),parametrosDto.getOrden() == 1 
 					? Sort.by(ConstantesAplicacion.MUNICIPIO).ascending() 
 							: Sort.by(ConstantesAplicacion.MUNICIPIO).descending());
+			} catch (Exception e) {
+				throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
+			}
 			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
+			
 			PaginadorDto paginador = new PaginadorDto();
 			utilidades.configuracionPaginador(paginador, page);
 			
 			LOGGER.info("Se procede a listar los municipos asociados a las provincias");
-			Page<Object []> listaMuncipios = cacheMunicipiosService.listarMunicipios(page, parametrosDto.getCodProvincia());
-			
+			Page<Object []> listaMuncipios = null;
+			try {
+				listaMuncipios = cacheMunicipiosService.listarMunicipios(page, parametrosDto.getCodProvincia());
+			} catch (Exception e) {
+				throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
+			}
 			paginador.setRegistros((int) listaMuncipios.getTotalElements());
-			
-			List<CacheMunicipiosDto> listaMuncipiosDto = listaMuncipios.stream().map(muni -> {
+			List<CacheMunicipiosDto> listaMuncipiosDto = null;
+			try  {
+				listaMuncipiosDto = listaMuncipios.stream().map(muni -> {
 				CacheMunicipiosDto municiposDto = new CacheMunicipiosDto();
 				/* Nos aseguramos de que cualquier número se formatee con al menos 2 dígitos para provincias y 3 para municipios,
 					rellenando con ceros a la izquierda si es necesario. */
@@ -105,10 +116,14 @@ public class AntenasController {
 				municiposDto.setNombreMunicipo(String.valueOf(muni[2]));
 				return municiposDto;
 			}).toList();
+			} catch (Exception e) {
+				throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
+			}
 			resultado.put("Municipios INE", listaMuncipiosDto);
 			resultado.put("Paginador", paginador);
 		} catch (Exception e) {
-			throw new ErrorGlobalAntenasException();
+			LOGGER.error("Error: {}", e.getMessage(), e.getCause());
+			throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
 		}
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}		
@@ -121,10 +136,15 @@ public class AntenasController {
 				parametrosDto.getDireccion(), parametrosDto.getNumero() );
 		Map<String, Object> resultado = null;
 		try {
-					
-			Pageable page = PageRequest.of(parametrosDto.getPagina() -1, parametrosDto.getTamanioPagina(),parametrosDto.getOrden() == 1 
+			Pageable page = null;
+			try {
+				page = PageRequest.of(parametrosDto.getPagina() -1, parametrosDto.getTamanioPagina(),parametrosDto.getOrden() == 1 
 					? Sort.by("direccion").ascending() 
 							: Sort.by("direccion").descending());
+			} catch (Exception e) {
+				throw new FiltroAntenasException(e.getMessage(), e.getCause());
+			}
+			
 			LOGGER.info(ConstantesAplicacion.CONFIGURACIONPAGINADOR);
 			
 			PaginadorDto paginador = new PaginadorDto();
@@ -132,10 +152,14 @@ public class AntenasController {
 			
 			String direccionCompleta = !parametrosDto.getDireccion().isEmpty() && !parametrosDto.getNumero().isEmpty() ? parametrosDto.getDireccion().concat(", ").concat(parametrosDto.getNumero()) 
 					: !parametrosDto.getDireccion().isEmpty() && parametrosDto.getNumero().isEmpty()  ? parametrosDto.getDireccion() : parametrosDto.getNumero();
-			
-			resultado = localizacionAntenasService.listaAntenas(parametrosDto.getCodProvincia(), parametrosDto.getCodMunicipio(), direccionCompleta, page, paginador); 
+			try {
+				resultado = localizacionAntenasService.listaAntenas(parametrosDto.getCodProvincia(),parametrosDto.getCodMunicipio(),
+						direccionCompleta, page, paginador);
+			} catch (Exception e) {
+				throw new FiltroAntenasException(e.getMessage(), e.getCause());
+			}
 		} catch (FiltroAntenasException e) {
-			throw new ErrorGlobalAntenasException();
+			throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
 		}	
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
