@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto;
 import es.gob.info.ant.models.entity.VcnEstaciones;
 
-public interface IEstacionesDao extends PagingAndSortingRepository<VcnEstaciones, Long> {
+public interface IEstacionesDao extends PagingAndSortingRepository<VcnEstaciones, String> {
 
 	@Query(value = "select new es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto(es.codEstacion,es.operador,es.banda,es.referencia) "
 			+ " from VcnEstaciones es where es.emplazamiento = :emplazamiento")
