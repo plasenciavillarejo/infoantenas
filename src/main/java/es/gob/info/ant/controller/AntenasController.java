@@ -37,7 +37,7 @@ import jakarta.validation.Valid;
 @RestController
 public class AntenasController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AntenasController.class); 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConstantesAplicacion.CONSTANTELOGGUERINFOANTENAS); 
 	
 	@Autowired
 	private ICacheProvinciasService provinciasCacheService;

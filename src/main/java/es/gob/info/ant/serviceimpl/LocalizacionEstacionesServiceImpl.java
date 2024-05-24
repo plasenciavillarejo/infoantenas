@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.gob.info.ant.constantes.ConstantesAplicacion;
 import es.gob.info.ant.dto.FiltradoAntenasDto;
 import es.gob.info.ant.exception.FiltroEstacionesException;
 import es.gob.info.ant.models.service.IEmplazamientosService;
@@ -20,7 +21,7 @@ import es.gob.info.ant.service.ILocalizacionEstacionesService;
 @Service
 public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacionesService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LocalizacionEstacionesServiceImpl.class); 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConstantesAplicacion.CONSTANTELOGGUERINFOANTENAS); 
 
 	@Autowired
 	private IEmplazamientosService emplazamientoService;

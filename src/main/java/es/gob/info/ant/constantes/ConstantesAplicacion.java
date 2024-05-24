@@ -56,4 +56,6 @@ public class ConstantesAplicacion {
 	
 	public static final int ZOOMPERMITODO = 20;
 	
+	public static final String CONSTANTELOGGUERINFOANTENAS = "es.gob.info.ant";
+	
 }

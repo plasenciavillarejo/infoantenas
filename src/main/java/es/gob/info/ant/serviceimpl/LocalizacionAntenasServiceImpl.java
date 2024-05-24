@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import es.gob.info.ant.constantes.ConstantesAplicacion;
 import es.gob.info.ant.dto.FiltradoAntenasDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.exception.ErrorGlobalAntenasException;
@@ -24,7 +25,7 @@ import es.gob.info.ant.service.ILocalizacionAntenasService;
 @Service
 public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LocalizacionAntenasServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConstantesAplicacion.CONSTANTELOGGUERINFOANTENAS);
 
 	@Autowired
 	private IEmplazamientosService emplazamientoService;
