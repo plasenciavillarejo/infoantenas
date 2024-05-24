@@ -77,7 +77,69 @@
 
 	</dependencies>
 
+<!-- Profile de ejecución segun el entorno -->
+	<!-- ##################################### -->
+	<profiles>
+		<!-- Perfil DEV -->
+		<profile>
+			<id>dev</id>
+			<!-- Por defecto, si no le indicamos ningún perfil al compilar, cargará el perfil DEV -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+			<!-- Se le indica lo que va a construir cuando se haga el maven clean package -->
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>application-dev.properties</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		
+		<profile>
+			<id>pre</id>	
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>pre</spring.profiles.active>
+			</properties>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>application-pre.properties</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<!-- Agrega más perfiles según sea necesario -->
+	</profiles>
+
 	<build>
+		<!-- Activacion filtro de perfiles  -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<!-- Comentar para trabajar con Spring Boot   
+				<excludes>
+					<exclude>application-*.properties</exclude>
+				</excludes> -->
+			</resource>
+		</resources>
+		
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
