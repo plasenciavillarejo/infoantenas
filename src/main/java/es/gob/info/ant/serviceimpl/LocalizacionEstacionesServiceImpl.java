@@ -8,12 +8,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gob.info.ant.dto.FiltradoAntenasDto;
-import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.exception.FiltroEstacionesException;
 import es.gob.info.ant.models.service.IEmplazamientosService;
 import es.gob.info.ant.models.service.IEstacionesService;
@@ -41,10 +38,8 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 		List<FiltradoAntenasDto> emplDto = null;
 		LOGGER.info("Se procede a buscar los emplazamientos");
 		try {
-			emplazamientos = emplazamientoService.listaEstacionesFiltradas(latitud, longitud, radio);
-
+			emplazamientos = emplazamientoService.listaEstacionesFiltradas(latitud, longitud, radio);			
 			LOGGER.info("Se han encontrado un total de {} registros", emplazamientos.size());
-
 			emplDto = emplazamientos.stream().map(empl -> {
 				FiltradoAntenasDto em = new FiltradoAntenasDto();							
 				em.setEmplazamiento(empl[0] != null ? String.valueOf(empl[0]): "");
@@ -63,7 +58,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 				return em;
 			}).toList();
 		} catch (Exception e) {
-			throw new FiltroEstacionesException("Error en la obtención de las query para el filtrado de las Antenas: "+  e.getCause() + " " + e.getCause());
+			throw new FiltroEstacionesException(e.getMessage(), e.getCause());
 		}
 		param.put("Emplazamiento", emplDto);
 		return param;

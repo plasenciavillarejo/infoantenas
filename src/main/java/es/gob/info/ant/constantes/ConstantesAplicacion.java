@@ -54,4 +54,6 @@ public class ConstantesAplicacion {
 
 	public static final String ERROR = "error";
 	
+	public static final int ZOOMPERMITODO = 20;
+	
 }
