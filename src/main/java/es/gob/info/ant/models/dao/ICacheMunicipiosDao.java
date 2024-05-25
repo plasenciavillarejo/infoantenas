@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import es.gob.info.ant.models.entity.CacheMunicipios;
+import es.gob.info.ant.models.entity.CacheMunicipiosPk;
 
-public interface ICacheMunicipiosDao extends JpaRepository<CacheMunicipios, Long>{
+public interface ICacheMunicipiosDao extends JpaRepository<CacheMunicipios, CacheMunicipiosPk>{
 
 	@Query(value = "select muni.cacheMunicipiosPk.codMunicipio, muni.nombreRegistroEntidadesLocales"
 			+ " from CacheMunicipios muni"
