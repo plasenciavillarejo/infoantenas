@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY ./target/infoantenas-0.0.1-SNAPSHOT.jar .
 
-EXPOSE 8001
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "infoantenas-0.0.1-SNAPSHOT.jar"]
