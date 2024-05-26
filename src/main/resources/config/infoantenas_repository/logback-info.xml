@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds">
-
-	<property name="LOGS" value="C:/infoantenas_repository/logs" />
+	<!-- Ponemos la direcion /config.... porque es donde hemos montado el directorio externo donde se veran reflejados los logs -->
+	<property name="LOGS" value="/config/logs" />
 
 	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
