@@ -1,0 +1,431 @@
+26/05/2024 10:42:37:981 ERROR o.s.b.d.LoggingFailureAnalysisReporter.report:40 - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'logging.level.org.hibernate.sql' to org.springframework.boot.logging.LogLevel:
+
+    Property: logging.level.org.hibernate.sql
+    Value: "${logging.level}"
+    Origin: class path resource [application-dev.properties] - 29:33
+    Reason: failed to convert java.lang.String to org.springframework.boot.logging.LogLevel (caused by java.lang.IllegalArgumentException: No enum constant org.springframework.boot.logging.LogLevel.${logging.level})
+
+Action:
+
+Update your application's configuration. The following values are valid:
+
+    DEBUG
+    ERROR
+    FATAL
+    INFO
+    OFF
+    TRACE
+    WARN
+
+26/05/2024 10:49:43:160 INFO  o.h.v.i.u.Version.<clinit>:21 - HV000001: Hibernate Validator 8.0.1.Final
+26/05/2024 10:49:43:188 INFO  o.s.b.StartupInfoLogger.logStarting:50 - Starting InfoantenasApplication using Java 17.0.3 with PID 5708 (/Users/joseplasenciavillarejo/git/infoantenas/target/classes started by joseplasenciavillarejo in /Users/joseplasenciavillarejo/git/infoantenas)
+26/05/2024 10:49:43:189 INFO  o.s.b.SpringApplication.logStartupProfileInfo:660 - The following 1 profile is active: "dev"
+26/05/2024 10:49:43:691 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:143 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+26/05/2024 10:49:43:734 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:211 - Finished Spring Data repository scanning in 37 ms. Found 5 JPA repository interfaces.
+26/05/2024 10:49:44:092 INFO  o.s.b.w.e.t.TomcatWebServer.initialize:109 - Tomcat initialized with port 8080 (http)
+26/05/2024 10:49:44:099 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing ProtocolHandler ["http-nio-8080"]
+26/05/2024 10:49:44:100 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting service [Tomcat]
+26/05/2024 10:49:44:101 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting Servlet engine: [Apache Tomcat/10.1.20]
+26/05/2024 10:49:44:135 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing Spring embedded WebApplicationContext
+26/05/2024 10:49:44:136 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext:296 - Root WebApplicationContext: initialization completed in 921 ms
+26/05/2024 10:49:44:184 WARN  o.s.c.s.AbstractApplicationContext.refresh:632 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+26/05/2024 10:49:44:186 INFO  o.a.j.l.DirectJDKLog.log:173 - Stopping service [Tomcat]
+26/05/2024 10:49:44:235 INFO  o.s.b.a.l.ConditionEvaluationReportLogger.logMessage:82 - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+26/05/2024 10:49:44:247 ERROR o.s.b.SpringApplication.reportFailure:851 - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:313)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1234)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:952)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at es.gob.info.ant.InfoantenasApplication.main(InfoantenasApplication.java:10)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:636)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 21 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	... 35 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot load driver class: ${driver-class-name}
+	at org.springframework.util.Assert.state(Assert.java:97)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:175)
+	at org.springframework.boot.autoconfigure.jdbc.PropertiesJdbcConnectionDetails.getDriverClassName(PropertiesJdbcConnectionDetails.java:49)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:55)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:117)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	... 36 common frames omitted
+26/05/2024 10:50:15:427 INFO  o.h.v.i.u.Version.<clinit>:21 - HV000001: Hibernate Validator 8.0.1.Final
+26/05/2024 10:50:15:455 INFO  o.s.b.StartupInfoLogger.logStarting:50 - Starting InfoantenasApplication using Java 17.0.3 with PID 5717 (/Users/joseplasenciavillarejo/git/infoantenas/target/classes started by joseplasenciavillarejo in /Users/joseplasenciavillarejo/git/infoantenas)
+26/05/2024 10:50:15:455 INFO  o.s.b.SpringApplication.logStartupProfileInfo:660 - The following 1 profile is active: "dev"
+26/05/2024 10:50:15:960 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:143 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+26/05/2024 10:50:16:003 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:211 - Finished Spring Data repository scanning in 38 ms. Found 5 JPA repository interfaces.
+26/05/2024 10:50:16:358 INFO  o.s.b.w.e.t.TomcatWebServer.initialize:109 - Tomcat initialized with port 8080 (http)
+26/05/2024 10:50:16:365 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing ProtocolHandler ["http-nio-8080"]
+26/05/2024 10:50:16:366 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting service [Tomcat]
+26/05/2024 10:50:16:367 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting Servlet engine: [Apache Tomcat/10.1.20]
+26/05/2024 10:50:16:401 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing Spring embedded WebApplicationContext
+26/05/2024 10:50:16:402 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext:296 - Root WebApplicationContext: initialization completed in 920 ms
+26/05/2024 10:50:16:451 WARN  o.s.c.s.AbstractApplicationContext.refresh:632 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+26/05/2024 10:50:16:453 INFO  o.a.j.l.DirectJDKLog.log:173 - Stopping service [Tomcat]
+26/05/2024 10:50:16:503 INFO  o.s.b.a.l.ConditionEvaluationReportLogger.logMessage:82 - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+26/05/2024 10:50:16:515 ERROR o.s.b.SpringApplication.reportFailure:851 - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:313)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1234)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:952)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at es.gob.info.ant.InfoantenasApplication.main(InfoantenasApplication.java:10)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:636)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 21 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	... 35 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot load driver class: ${driver-class-name}
+	at org.springframework.util.Assert.state(Assert.java:97)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:175)
+	at org.springframework.boot.autoconfigure.jdbc.PropertiesJdbcConnectionDetails.getDriverClassName(PropertiesJdbcConnectionDetails.java:49)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:55)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:117)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	... 36 common frames omitted
+26/05/2024 10:57:31:339 INFO  o.h.v.i.u.Version.<clinit>:21 - HV000001: Hibernate Validator 8.0.1.Final
+26/05/2024 10:57:31:367 INFO  o.s.b.StartupInfoLogger.logStarting:50 - Starting InfoantenasApplication using Java 17.0.3 with PID 5863 (/Users/joseplasenciavillarejo/git/infoantenas/target/classes started by joseplasenciavillarejo in /Users/joseplasenciavillarejo/git/infoantenas)
+26/05/2024 10:57:31:368 INFO  o.s.b.SpringApplication.logStartupProfileInfo:660 - The following 1 profile is active: "dev"
+26/05/2024 10:57:31:871 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:143 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+26/05/2024 10:57:31:915 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:211 - Finished Spring Data repository scanning in 37 ms. Found 5 JPA repository interfaces.
+26/05/2024 10:57:32:268 INFO  o.s.b.w.e.t.TomcatWebServer.initialize:109 - Tomcat initialized with port 8080 (http)
+26/05/2024 10:57:32:276 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing ProtocolHandler ["http-nio-8080"]
+26/05/2024 10:57:32:277 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting service [Tomcat]
+26/05/2024 10:57:32:278 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting Servlet engine: [Apache Tomcat/10.1.20]
+26/05/2024 10:57:32:315 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing Spring embedded WebApplicationContext
+26/05/2024 10:57:32:315 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext:296 - Root WebApplicationContext: initialization completed in 921 ms
+26/05/2024 10:57:32:364 WARN  o.s.c.s.AbstractApplicationContext.refresh:632 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+26/05/2024 10:57:32:366 INFO  o.a.j.l.DirectJDKLog.log:173 - Stopping service [Tomcat]
+26/05/2024 10:57:32:415 INFO  o.s.b.a.l.ConditionEvaluationReportLogger.logMessage:82 - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+26/05/2024 10:57:32:426 ERROR o.s.b.SpringApplication.reportFailure:851 - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:313)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1234)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:952)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at es.gob.info.ant.InfoantenasApplication.main(InfoantenasApplication.java:10)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:636)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 21 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	... 35 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot load driver class: ${driver-class-name}
+	at org.springframework.util.Assert.state(Assert.java:97)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:175)
+	at org.springframework.boot.autoconfigure.jdbc.PropertiesJdbcConnectionDetails.getDriverClassName(PropertiesJdbcConnectionDetails.java:49)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:55)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:117)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	... 36 common frames omitted
+26/05/2024 11:00:20:310 INFO  o.h.v.i.u.Version.<clinit>:21 - HV000001: Hibernate Validator 8.0.1.Final
+26/05/2024 11:00:20:337 INFO  o.s.b.StartupInfoLogger.logStarting:50 - Starting InfoantenasApplication using Java 17.0.3 with PID 5926 (/Users/joseplasenciavillarejo/git/infoantenas/target/classes started by joseplasenciavillarejo in /Users/joseplasenciavillarejo/git/infoantenas)
+26/05/2024 11:00:20:338 INFO  o.s.b.SpringApplication.logStartupProfileInfo:660 - The following 1 profile is active: "dev"
+26/05/2024 11:00:20:850 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:143 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+26/05/2024 11:00:20:894 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:211 - Finished Spring Data repository scanning in 38 ms. Found 5 JPA repository interfaces.
+26/05/2024 11:00:21:248 INFO  o.s.b.w.e.t.TomcatWebServer.initialize:109 - Tomcat initialized with port 8080 (http)
+26/05/2024 11:00:21:255 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing ProtocolHandler ["http-nio-8080"]
+26/05/2024 11:00:21:257 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting service [Tomcat]
+26/05/2024 11:00:21:257 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting Servlet engine: [Apache Tomcat/10.1.20]
+26/05/2024 11:00:21:292 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing Spring embedded WebApplicationContext
+26/05/2024 11:00:21:292 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext:296 - Root WebApplicationContext: initialization completed in 928 ms
+26/05/2024 11:00:21:342 WARN  o.s.c.s.AbstractApplicationContext.refresh:632 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+26/05/2024 11:00:21:343 INFO  o.a.j.l.DirectJDKLog.log:173 - Stopping service [Tomcat]
+26/05/2024 11:00:21:392 INFO  o.s.b.a.l.ConditionEvaluationReportLogger.logMessage:82 - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+26/05/2024 11:00:21:403 ERROR o.s.b.SpringApplication.reportFailure:851 - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:313)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1234)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:952)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at es.gob.info.ant.InfoantenasApplication.main(InfoantenasApplication.java:10)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:636)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 21 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: ${driver-class-name}
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	... 35 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot load driver class: ${driver-class-name}
+	at org.springframework.util.Assert.state(Assert.java:97)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:175)
+	at org.springframework.boot.autoconfigure.jdbc.PropertiesJdbcConnectionDetails.getDriverClassName(PropertiesJdbcConnectionDetails.java:49)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:55)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:117)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	... 36 common frames omitted
+26/05/2024 11:04:53:010 INFO  o.h.v.i.u.Version.<clinit>:21 - HV000001: Hibernate Validator 8.0.1.Final
+26/05/2024 11:04:53:038 INFO  o.s.b.StartupInfoLogger.logStarting:50 - Starting InfoantenasApplication using Java 17.0.3 with PID 6000 (/Users/joseplasenciavillarejo/git/infoantenas/target/classes started by joseplasenciavillarejo in /Users/joseplasenciavillarejo/git/infoantenas)
+26/05/2024 11:04:53:039 INFO  o.s.b.SpringApplication.logStartupProfileInfo:660 - The following 1 profile is active: "dev"
+26/05/2024 11:04:53:554 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:143 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+26/05/2024 11:04:53:598 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:211 - Finished Spring Data repository scanning in 38 ms. Found 5 JPA repository interfaces.
+26/05/2024 11:04:53:952 INFO  o.s.b.w.e.t.TomcatWebServer.initialize:109 - Tomcat initialized with port 8080 (http)
+26/05/2024 11:04:53:959 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing ProtocolHandler ["http-nio-8080"]
+26/05/2024 11:04:53:960 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting service [Tomcat]
+26/05/2024 11:04:53:960 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting Servlet engine: [Apache Tomcat/10.1.20]
+26/05/2024 11:04:53:996 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing Spring embedded WebApplicationContext
+26/05/2024 11:04:53:997 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext:296 - Root WebApplicationContext: initialization completed in 932 ms
+26/05/2024 11:04:54:114 INFO  c.z.h.HikariDataSource.getConnection:110 - HikariPool-1 - Starting...
+26/05/2024 11:05:24:892 ERROR c.z.h.p.HikariPool.throwPoolInitializationException:594 - HikariPool-1 - Exception during pool initialization.
+com.microsoft.sqlserver.jdbc.SQLServerException: No se pudo realizar la conexión TCP/IP al host host.docker.internal, puerto 1433. Error: "host.docker.internal. Verifique las propiedades de conexión, compruebe que hay una instancia de SQL Server ejecutándose en el host y aceptando las conexiones TCP/IP en el puerto y compruebe que no hay ningún firewall bloqueando las conexiones TCP en el puerto.".
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDriverError(SQLServerException.java:237)
+	at com.microsoft.sqlserver.jdbc.SQLServerException.ConvertConnectExceptionToSQLServerException(SQLServerException.java:288)
+	at com.microsoft.sqlserver.jdbc.SocketFinder.findSocket(IOBuffer.java:2720)
+	at com.microsoft.sqlserver.jdbc.TDSChannel.open(IOBuffer.java:761)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.connectHelper(SQLServerConnection.java:3180)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.login(SQLServerConnection.java:2833)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.connectInternal(SQLServerConnection.java:2671)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.connect(SQLServerConnection.java:1640)
+	at com.microsoft.sqlserver.jdbc.SQLServerDriver.connect(SQLServerDriver.java:936)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:359)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:201)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:470)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:100)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:160)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:118)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:342)
+	at org.springframework.boot.jdbc.EmbeddedDatabaseConnection.isEmbedded(EmbeddedDatabaseConnection.java:168)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateDefaultDdlAutoProvider.getDefaultDdlAuto(HibernateDefaultDdlAutoProvider.java:42)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration.lambda$getVendorProperties$1(HibernateJpaConfiguration.java:142)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings.getDdlAuto(HibernateSettings.java:41)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties.determineDdlAuto(HibernateProperties.java:118)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties.getAdditionalProperties(HibernateProperties.java:87)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties.determineHibernateProperties(HibernateProperties.java:80)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration.getVendorProperties(HibernateJpaConfiguration.java:143)
+	at org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration.entityManagerFactory(JpaBaseConfiguration.java:132)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:636)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1234)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:952)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at es.gob.info.ant.InfoantenasApplication.main(InfoantenasApplication.java:10)
+26/05/2024 11:05:24:939 INFO  o.h.j.i.u.LogHelper.logPersistenceUnitInformation:31 - HHH000204: Processing PersistenceUnitInfo [name: default]
+26/05/2024 11:05:24:978 INFO  o.h.Version.logVersion:44 - HHH000412: Hibernate ORM core version 6.4.4.Final
+26/05/2024 11:05:24:999 INFO  o.h.c.i.RegionFactoryInitiator.initiateService:50 - HHH000026: Second-level cache disabled
+26/05/2024 11:05:25:148 INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer:87 - No LoadTimeWeaver setup: ignoring JPA class transformer
+26/05/2024 11:05:25:167 INFO  c.z.h.HikariDataSource.getConnection:110 - HikariPool-1 - Starting...
+26/05/2024 11:06:09:472 INFO  o.h.v.i.u.Version.<clinit>:21 - HV000001: Hibernate Validator 8.0.1.Final
+26/05/2024 11:06:09:498 INFO  o.s.b.StartupInfoLogger.logStarting:50 - Starting InfoantenasApplication using Java 17.0.3 with PID 6028 (/Users/joseplasenciavillarejo/git/infoantenas/target/classes started by joseplasenciavillarejo in /Users/joseplasenciavillarejo/git/infoantenas)
+26/05/2024 11:06:09:499 INFO  o.s.b.SpringApplication.logStartupProfileInfo:660 - The following 1 profile is active: "dev"
+26/05/2024 11:06:10:013 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:143 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+26/05/2024 11:06:10:057 INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn:211 - Finished Spring Data repository scanning in 38 ms. Found 5 JPA repository interfaces.
+26/05/2024 11:06:10:406 INFO  o.s.b.w.e.t.TomcatWebServer.initialize:109 - Tomcat initialized with port 8080 (http)
+26/05/2024 11:06:10:414 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing ProtocolHandler ["http-nio-8080"]
+26/05/2024 11:06:10:415 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting service [Tomcat]
+26/05/2024 11:06:10:415 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting Servlet engine: [Apache Tomcat/10.1.20]
+26/05/2024 11:06:10:451 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing Spring embedded WebApplicationContext
+26/05/2024 11:06:10:451 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext:296 - Root WebApplicationContext: initialization completed in 926 ms
+26/05/2024 11:06:10:569 INFO  c.z.h.HikariDataSource.getConnection:110 - HikariPool-1 - Starting...
+26/05/2024 11:06:10:776 INFO  c.z.h.p.HikariPool.checkFailFast:565 - HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: 86223625-40bb-48ee-92ec-5b2cebedc844
+26/05/2024 11:06:10:778 INFO  c.z.h.HikariDataSource.getConnection:123 - HikariPool-1 - Start completed.
+26/05/2024 11:06:10:807 INFO  o.h.j.i.u.LogHelper.logPersistenceUnitInformation:31 - HHH000204: Processing PersistenceUnitInfo [name: default]
+26/05/2024 11:06:10:847 INFO  o.h.Version.logVersion:44 - HHH000412: Hibernate ORM core version 6.4.4.Final
+26/05/2024 11:06:10:869 INFO  o.h.c.i.RegionFactoryInitiator.initiateService:50 - HHH000026: Second-level cache disabled
+26/05/2024 11:06:11:015 INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer:87 - No LoadTimeWeaver setup: ignoring JPA class transformer
+26/05/2024 11:06:11:044 WARN  o.h.e.j.d.i.DialectFactoryImpl.constructDialect:153 - HHH90000025: SQLServer2012Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+26/05/2024 11:06:11:044 WARN  o.h.e.j.d.i.DialectFactoryImpl.logSelectedDialect:101 - HHH90000026: SQLServer2012Dialect has been deprecated; use org.hibernate.dialect.SQLServerDialect instead
+26/05/2024 11:06:11:297 WARN  o.h.m.RootClass.checkCompositeIdentifier:341 - HHH000038: Composite-id class does not override equals(): es.gob.info.ant.models.entity.CacheMunicipiosPk
+26/05/2024 11:06:11:297 WARN  o.h.m.RootClass.checkCompositeIdentifier:344 - HHH000039: Composite-id class does not override hashCode(): es.gob.info.ant.models.entity.CacheMunicipiosPk
+26/05/2024 11:06:11:755 INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService:58 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+26/05/2024 11:06:11:757 INFO  o.s.o.j.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory:437 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+26/05/2024 11:06:11:912 INFO  o.s.d.j.r.q.QueryEnhancerFactory.<clinit>:49 - Hibernate is in classpath; If applicable, HQL parser will be used.
+26/05/2024 11:06:16:783 INFO  e.g.i.a.i.InicializacionAplicacion.iniciarAplicacion:26 - Inicializando la lista de las provincias cacheadas
+26/05/2024 11:06:16:784 INFO  e.g.i.a.i.InicializacionAplicacion.iniciarAplicacion:29 - Consulta cacheada  - OKEY
+26/05/2024 11:06:16:912 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor:232 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+26/05/2024 11:06:17:228 INFO  o.a.j.l.DirectJDKLog.log:173 - Starting ProtocolHandler ["http-nio-8080"]
+26/05/2024 11:06:17:248 INFO  o.s.b.w.e.t.TomcatWebServer.start:241 - Tomcat started on port 8080 (http) with context path '/app'
+26/05/2024 11:06:17:258 INFO  o.s.b.StartupInfoLogger.logStarted:56 - Started InfoantenasApplication in 8.062 seconds (process running for 8.524)
+26/05/2024 11:06:50:024 INFO  o.a.j.l.DirectJDKLog.log:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+26/05/2024 11:06:50:025 INFO  o.s.w.s.FrameworkServlet.initServletBean:532 - Initializing Servlet 'dispatcherServlet'
+26/05/2024 11:06:50:026 INFO  o.s.w.s.FrameworkServlet.initServletBean:554 - Completed initialization in 1 ms
+26/05/2024 11:06:50:139 INFO  e.g.i.a.c.AntenasController.listarMunicipios:86 - Se procede a listar los municipos asocidados a: 20
+26/05/2024 11:06:50:140 INFO  e.g.i.a.c.AntenasController.listarMunicipios:93 - Configurando el paginador
+26/05/2024 11:06:50:280 INFO  e.g.i.a.c.AntenasController.listarMunicipios:100 - Busqueda para la página: 1 se ha encontrado un total de 100 municipos 
+26/05/2024 11:06:50:280 INFO  e.g.i.a.c.AntenasController.listarMunicipios:108 - Se procede almacenar la información dentro del dto
+26/05/2024 11:06:50:284 INFO  e.g.i.a.c.AntenasController.listarMunicipios:119 - Se ha completado la busqueda de las municipios
