@@ -61,7 +61,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 		} catch (Exception e) {
 			throw new FiltroEstacionesException(e.getMessage(), e.getCause());
 		}
-		param.put("Emplazamiento", emplDto);
+		param.put("emplazamientos", emplDto);
 		return param;
 	}
 
