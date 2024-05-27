@@ -15,6 +15,9 @@ COPY pom.xml ./
 COPY .mvn ./.mvn
 COPY mvnw ./
 
+# Cambiar permisos para el archivo mvnw
+RUN chmod +x mvnw
+
 # Compilamos el proyecto saltando los test, no compile el test y no va a ejecutar nada relacionado al codigo fuente.
 RUN ./mvnw clean package -Dmaven-test-skip -Dmaven.main.skip -Dspring-boot.repackage.skip && rm -r ./target/
 
