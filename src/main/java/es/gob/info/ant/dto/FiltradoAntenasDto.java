@@ -45,6 +45,20 @@ public class FiltradoAntenasDto implements Serializable {
 		super();
 	}
 
+	public FiltradoAntenasDto(String emplazamiento, String direccion, String localidad, String municipio, String provincia,
+			BigDecimal latitud, BigDecimal longitud, String fechaActualizacion, String observaciones) {
+		super();
+		this.emplazamiento = emplazamiento;
+		this.direccion = direccion;
+		this.localidad = localidad;
+		this.municipio = municipio;
+		this.provincia = provincia;
+		this.latitud = latitud;
+		this.longitud = longitud;
+		this.fechaActualizacion = fechaActualizacion;
+		this.observaciones = observaciones;
+	}
+
 
 
 	

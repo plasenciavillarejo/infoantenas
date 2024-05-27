@@ -6,13 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-import es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto;
+import es.gob.info.ant.dto.ListaDatosCaracteristicasTecnicasDto;
 import es.gob.info.ant.models.entity.VcnEstaciones;
 
 public interface IEstacionesDao extends PagingAndSortingRepository<VcnEstaciones, String> {
 
-	@Query(value = "select new es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto(es.codEstacion,es.operador,es.banda,es.referencia) "
-			+ " from VcnEstaciones es where es.emplazamiento = :emplazamiento")
-	public List<DatosCaracteristicasTecnicasDto> listadoEstaciones(@Param("emplazamiento") String emplazamiento);
+	@Query(value = "select new es.gob.info.ant.dto.ListaDatosCaracteristicasTecnicasDto(es.codEstacion,es.operador,es.banda,es.referencia, es.emplazamiento) "
+			+ " from VcnEstaciones es where es.emplazamiento IN (:emplazamiento)")
+	public List<ListaDatosCaracteristicasTecnicasDto> listadoEstaciones(@Param("emplazamiento") List<String> emplazamiento);
 	
 }

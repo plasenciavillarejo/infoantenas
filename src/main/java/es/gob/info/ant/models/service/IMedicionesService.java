@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.repository.query.Param;
 
-import es.gob.info.ant.dto.NivelesMediosDto;
+import es.gob.info.ant.dto.ListaNivelesMediosDto;
 
 public interface IMedicionesService {
 
-	public List<NivelesMediosDto> listarMediciones(@Param("emplazamiento") String emplazamiento);
+	public List<ListaNivelesMediosDto> listarMediciones(@Param("emplazamiento") List<String> list);
 	
 }

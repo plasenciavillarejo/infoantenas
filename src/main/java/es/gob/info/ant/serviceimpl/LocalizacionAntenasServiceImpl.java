@@ -1,6 +1,7 @@
 package es.gob.info.ant.serviceimpl;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gob.info.ant.constantes.ConstantesAplicacion;
+import es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto;
 import es.gob.info.ant.dto.FiltradoAntenasDto;
+import es.gob.info.ant.dto.ListaDatosCaracteristicasTecnicasDto;
+import es.gob.info.ant.dto.ListaNivelesMediosDto;
+import es.gob.info.ant.dto.NivelesMediosDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.exception.ErrorGlobalAntenasException;
 import es.gob.info.ant.exception.FiltroAntenasException;
@@ -53,6 +58,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 			paginador.setRegistros((int)emplazamientos.getTotalElements());
 			param.put("Paginador", paginador);
 			
+			LOGGER.info("Obtenemos los emplazamientos");
 			emplDto = emplazamientos.stream().map(empl -> {
 				FiltradoAntenasDto em = new FiltradoAntenasDto();							
 				em.setEmplazamiento(empl[0] != null ? String.valueOf(empl[0]): "");
@@ -63,14 +69,26 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				em.setLatitud(empl[5] != null ?  new BigDecimal(String.valueOf(empl[5])) : null);
 				em.setLongitud(empl[6] != null ?  new BigDecimal(String.valueOf(empl[6])) : null);
 				em.setFechaActualizacion(empl[7] != null ? String.valueOf(empl[7]): "");
-				em.setObservaciones(!String.valueOf(empl[8]).trim().isEmpty() ? String.valueOf(empl[8]).trim() : "");				
-				LOGGER.info("Se procede a recuperar las Características Técnicas asociada a las estaciones "); 
-				em.setDatosCaracteristicasTecnicas(estacionesService.listadoEstaciones(String.valueOf(empl[0])));
-				LOGGER.info("Se procede a recuperar los Niveles Medios");
-				em.setNivelesMedios(medicioneService.listarMediciones(String.valueOf(empl[0])));
-				LOGGER.info("Se procede a recuperar los Datos de Localización");
+				em.setObservaciones(!String.valueOf(empl[8]).trim().isEmpty() ? String.valueOf(empl[8]).trim() : "");		
 				return em;
 			}).toList();
+			
+			LOGGER.info("Rellenamos las caracteristicas tecnicas");
+			List<ListaDatosCaracteristicasTecnicasDto> datosCaracteristicasTecnicas = estacionesService.listadoEstaciones(emplDto.stream()
+					.map(em -> em.getEmplazamiento()).toList());
+			
+			emplDto.forEach(em -> em.setDatosCaracteristicasTecnicas(datosCaracteristicasTecnicas.stream()
+					.filter(da -> da.getEmplazamiento().equals(em.getEmplazamiento()))
+					.map(DatosCaracteristicasTecnicasDto::new).toList()));
+			
+			LOGGER.info("Rellenamos los niveles medios");
+			List<ListaNivelesMediosDto> nivelesMediosDto = medicioneService.listarMediciones(emplDto.stream()
+					.map(em -> em.getEmplazamiento()).toList());
+			
+			emplDto.forEach(em -> em.setNivelesMedios(nivelesMediosDto.stream()
+					.filter(da -> da.getEmplazamiento().equals(em.getEmplazamiento()))
+					.map(NivelesMediosDto::new).toList()));
+			
 		} catch (Exception e) {
 			throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
 		}
@@ -101,9 +119,11 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				emplDto.setFechaActualizacion(empl[7] != null ? String.valueOf(empl[7]): "");
 				emplDto.setObservaciones(!String.valueOf(empl[8]).trim().isEmpty() ? String.valueOf(empl[8]).trim() : "");				
 				LOGGER.info("Se procede a recuperar las Características Técnicas asociada a las estaciones "); 
-				emplDto.setDatosCaracteristicasTecnicas(estacionesService.listadoEstaciones(String.valueOf(empl[0])));
+				emplDto.setDatosCaracteristicasTecnicas(estacionesService.listadoEstaciones(Arrays.asList(String.valueOf(empl[0])))
+						.stream().map(DatosCaracteristicasTecnicasDto::new).toList());
+				
 				LOGGER.info("Se procede a recuperar los Niveles Medios");
-				emplDto.setNivelesMedios(medicioneService.listarMediciones(String.valueOf(empl[0])));
+				emplDto.setNivelesMedios(medicioneService.listarMediciones(Arrays.asList(String.valueOf(empl[0]))).stream().map(NivelesMediosDto::new).toList());;
 			}else {
 				LOGGER.info("No se ha encontrado el emplazamiento con id emplazamiento: {}", emplazamiento);
 			}

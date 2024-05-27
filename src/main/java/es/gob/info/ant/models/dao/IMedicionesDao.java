@@ -6,14 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import es.gob.info.ant.dto.NivelesMediosDto;
+import es.gob.info.ant.dto.ListaNivelesMediosDto;
 import es.gob.info.ant.models.entity.VcnMediciones;
 
 public interface IMedicionesDao extends JpaRepository<VcnMediciones, String> {
 
-	@Query(value = "select new es.gob.info.ant.dto.NivelesMediosDto(me.distancia, me.acimut, me.medida, me.provincia) "
+	@Query(value = "select new es.gob.info.ant.dto.ListaNivelesMediosDto(me.distancia, me.acimut, me.medida, me.provincia, me.emplazamiento) "
 		+ " from VcnMediciones me"
-		+ " where me.emplazamiento = :emplazamiento")
-	public List<NivelesMediosDto> listarMediciones(@Param("emplazamiento") String emplazamiento);
+		+ " where me.emplazamiento IN (:emplazamiento)")
+	public List<ListaNivelesMediosDto> listarMediciones(@Param("emplazamiento") List<String> emplazamiento);
 	
 }

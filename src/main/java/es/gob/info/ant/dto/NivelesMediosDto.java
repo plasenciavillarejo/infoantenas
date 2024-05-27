@@ -12,19 +12,18 @@ public class NivelesMediosDto implements Serializable {
 
 	private BigDecimal acimut;
 
-	private String medida;
+	private String valorMedio;
 
 	private String provincia;
 
-	public NivelesMediosDto(BigDecimal distancia, BigDecimal acimut, String medida,String provincia) {
+	public NivelesMediosDto(ListaNivelesMediosDto dato) {
 		super();
-		this.distancia = distancia;
-		this.acimut = acimut;
-		this.medida = medida;
-		this.provincia = provincia;
+		this.distancia = dato.getDistancia();
+		this.acimut = dato.getAcimut();
+		this.valorMedio = dato.getValorMedio();
+		this.provincia = dato.getProvincia();
 	}
 
-	private static final long serialVersionUID = -269070475929510900L;
+	private static final long serialVersionUID = -4653948116315639407L;
 
-	
 }
