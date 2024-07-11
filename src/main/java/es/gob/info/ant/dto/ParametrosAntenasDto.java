@@ -22,7 +22,7 @@ public class ParametrosAntenasDto implements Serializable {
 	
 	private int tamanioPagina;
 	
-	private int ordenacion;
+	private Integer ordenacion;
 	
 	private int orden;
 		

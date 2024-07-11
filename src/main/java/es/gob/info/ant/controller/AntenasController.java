@@ -11,8 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.gob.info.ant.constantes.ConstantesAplicacion;
@@ -79,7 +79,7 @@ public class AntenasController {
 	}
 	
 	@GetMapping(value = "/listadoMunicipios")
-	public ResponseEntity<Object> listarMunicipios(@Valid @RequestBody ParametrosMunicipiosDto parametrosDto) throws ErrorGlobalAntenasException {	
+	public ResponseEntity<Object> listarMunicipios(@Valid ParametrosMunicipiosDto parametrosDto) throws ErrorGlobalAntenasException {	
 		Map<String, Object> resultado = new LinkedHashMap<>();
 		try {
 			Pageable page = null;
@@ -127,7 +127,8 @@ public class AntenasController {
 	}		
 	
 	@GetMapping(value = "/filtradoAntenas")
-	public ResponseEntity<Object> localizarAntenas(@Valid @RequestBody ParametrosAntenasDto parametrosDto) throws ErrorGlobalAntenasException {		
+	public ResponseEntity<Object> localizarAntenas(@Valid ParametrosAntenasDto parametrosDto) throws ErrorGlobalAntenasException, MissingServletRequestParameterException {
+				
 		LOGGER.info("Recibiendo los datos para el filtrado de antenas, codProvincia: {}, codMunicipio: {}, calle: {},"
 				+ " numero: {}", parametrosDto.getCodProvincia(), parametrosDto.getCodMunicipio(), 
 				parametrosDto.getDireccion(), parametrosDto.getNumero() );
@@ -146,11 +147,14 @@ public class AntenasController {
 			PaginadorDto paginador = new PaginadorDto();
 			utilidades.configuracionPaginador(paginador, page);
 			
-			String direccionCompleta = !parametrosDto.getDireccion().isEmpty() && !parametrosDto.getNumero().isEmpty() 
+			String direccionCompleta =  parametrosDto.getDireccion() != null && parametrosDto.getNumero() != null
+						 && !parametrosDto.getDireccion().isEmpty() && !parametrosDto.getNumero().isEmpty() 
 					? parametrosDto.getDireccion().concat(", ").concat(parametrosDto.getNumero()) 
-					: !parametrosDto.getDireccion().isEmpty() && parametrosDto.getNumero().isEmpty() 
+					: parametrosDto.getDireccion() != null  && !parametrosDto.getDireccion().isEmpty() 
+					&& (parametrosDto.getNumero() == null || parametrosDto.getNumero().isEmpty())
 					? parametrosDto.getDireccion() : parametrosDto.getNumero();
-			LOGGER.info(!direccionCompleta.isEmpty() ? "Filtrado de estaciones por la dirección: {}" : "Filtrado de estaciones sin dirección.",  direccionCompleta);
+			LOGGER.info(direccionCompleta != null && !direccionCompleta.isEmpty() ? 
+					"Filtrado de estaciones por la dirección: {}" : "Filtrado de estaciones sin dirección.",  direccionCompleta);
 			try {
 				LOGGER.info("Se procede a reliazar el filtrado");
 				resultado = localizacionAntenasService.listaAntenas(parametrosDto.getCodProvincia(),parametrosDto.getCodMunicipio(),
@@ -168,7 +172,7 @@ public class AntenasController {
 	}
 	
 	@GetMapping(value = "/detalleAntenas")
-	public ResponseEntity<Object> localizarAntenas(@Valid @RequestBody ParametrosDetalleAntenasDto parametrosDto) throws Exception {
+	public ResponseEntity<Object> localizarAntenas(@Valid ParametrosDetalleAntenasDto parametrosDto) throws Exception {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de detalle antenas, emplazamiento: {}", parametrosDto.getIdAntena());
 		Map<String, Object> resultado = null;
@@ -182,7 +186,7 @@ public class AntenasController {
 	}
 	
 	@GetMapping(value = "/filtradoEstaciones")
-	public ResponseEntity<Object> localizarEstaciones(@Valid @RequestBody ParametrosFiltradoEstacionesDto parametrosDto) throws FiltroEstacionesException {
+	public ResponseEntity<Object> localizarEstaciones(@Valid ParametrosFiltradoEstacionesDto parametrosDto) throws FiltroEstacionesException {
 		
 		LOGGER.info("Recibiendo los datos para el filtrado de estaciones, latitud: {}, longitud: {}, radio: {},"
 				+ " zoom: {}", parametrosDto.getLatitud(), parametrosDto.getLongitud(), parametrosDto.getRadio(), parametrosDto.getZoom());

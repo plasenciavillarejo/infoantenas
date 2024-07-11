@@ -18,9 +18,9 @@ public class ConstantesAplicacion {
 			+ " on provin.nombreRegistroEntidadesLocales = emplaza.provincia"
 			+ " left join gis.CacheMunicipios muni"
 			+ " on muni.codProvincia = provin.codProvincia"
-			+ " where (:codProvincia is null or muni.codProvincia = :codProvincia)"
-			+ " and (:codMunicipio is null or muni.codMunicipio = :codMunicipio)" 	
-		    + " and (:direccion is null or direccion like CONCAT('%', :direccion, '%'))";
+			+ " where muni.codProvincia = :codProvincia"
+			+ " and muni.codMunicipio = :codMunicipio" 	
+		    + " and (coalesce(:direccion,null) is null or direccion like CONCAT('%', :direccion, '%'))";
 	
 	public static final String QUERYLISTADOESTACINES = "select * from("
 			+ "select distinct emplaza.emplazamiento, emplaza.direccion, emplaza.localidad, emplaza.municipio, emplaza.provincia,"

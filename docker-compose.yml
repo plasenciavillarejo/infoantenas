@@ -1,0 +1,15 @@
+services:
+  app:
+    image: info.antenas
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - /Users/joseplasenciavillarejo/Desktop/infoantenas_repository:/config
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:sqlserver://host.docker.internal:1443;encrypt=true;trustServerCertificate=true;databaseName=GestExp
+#      SPRING_DATASOURCE_USERNAME: GestExp_User
+#      SPRING_DATASOURCE_PASSWORD: Joseplasencia10
+#      TZ: Europe/Madrid

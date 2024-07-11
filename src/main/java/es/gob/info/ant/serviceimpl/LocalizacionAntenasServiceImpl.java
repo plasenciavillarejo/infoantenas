@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import es.gob.info.ant.constantes.ConstantesAplicacion;
 import es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto;
 import es.gob.info.ant.dto.FiltradoAntenasDto;
-import es.gob.info.ant.dto.ListaDatosCaracteristicasTecnicasDto;
-import es.gob.info.ant.dto.ListaNivelesMediosDto;
 import es.gob.info.ant.dto.NivelesMediosDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.exception.ErrorGlobalAntenasException;
@@ -26,6 +24,7 @@ import es.gob.info.ant.models.service.IEmplazamientosService;
 import es.gob.info.ant.models.service.IEstacionesService;
 import es.gob.info.ant.models.service.IMedicionesService;
 import es.gob.info.ant.service.ILocalizacionAntenasService;
+import es.gob.info.ant.util.Utilidades;
 
 @Service
 public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasService {
@@ -41,6 +40,9 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 	@Autowired
 	private IMedicionesService medicioneService;
 
+	@Autowired
+	private Utilidades utilidades;
+	
 	@Override
 	public Map<String, Object> listaAntenas(Long codProvincia, Long codMunicipio, String calle, Pageable page,
 			PaginadorDto paginador) throws FiltroAntenasException, ErrorGlobalAntenasException {		
@@ -73,21 +75,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				return em;
 			}).toList();
 			
-			LOGGER.info("Rellenamos las caracteristicas tecnicas");
-			List<ListaDatosCaracteristicasTecnicasDto> datosCaracteristicasTecnicas = estacionesService.listadoEstaciones(emplDto.stream()
-					.map(em -> em.getEmplazamiento()).toList());
-			
-			emplDto.forEach(em -> em.setDatosCaracteristicasTecnicas(datosCaracteristicasTecnicas.stream()
-					.filter(da -> da.getEmplazamiento().equals(em.getEmplazamiento()))
-					.map(DatosCaracteristicasTecnicasDto::new).toList()));
-			
-			LOGGER.info("Rellenamos los niveles medios");
-			List<ListaNivelesMediosDto> nivelesMediosDto = medicioneService.listarMediciones(emplDto.stream()
-					.map(em -> em.getEmplazamiento()).toList());
-			
-			emplDto.forEach(em -> em.setNivelesMedios(nivelesMediosDto.stream()
-					.filter(da -> da.getEmplazamiento().equals(em.getEmplazamiento()))
-					.map(NivelesMediosDto::new).toList()));
+			utilidades.completarDatosCaracteristicaYNivelesMedios(emplDto, estacionesService, medicioneService);
 			
 		} catch (Exception e) {
 			throw new ErrorGlobalAntenasException(e.getMessage(), e.getCause());
