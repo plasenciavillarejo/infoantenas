@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: info.antenas
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: info.antenas
+  template:
+    metadata:
+      labels:
+        app: info.antenas
+    spec:
+      containers:
+      - image: info.antenas:1.0.0
+        name: info-antenas-x9lsg
+        ports:
+        - containerPort: 8080
+        env:
+       # En la IP debemos indicar la de minikube, en caso contrario, nunca nos dejara desplegar, la ip la indicamos como info.antenas que internamente llevara la ip de minikube
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:sqlserver://infoantenas;encrypt=true;trustServerCertificate=true;databaseName=GestExp
+          - name: SPRING_DATASOURCE_USERNAME
+            value: GestExp_User
+          - name: SPRING_DATASOURCE_PASSWORD
+            value: Joseplasencia10
