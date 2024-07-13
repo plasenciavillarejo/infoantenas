@@ -25,8 +25,6 @@ public class PaginadorDto implements Serializable {
 	// Verdadero si se está posicionado en la última página
 	private boolean fin;
 
-	//private ArrayList<Integer> pages;
-
 	public PaginadorDto() {
 	   this.paginaActual = 1;
 	   this.tamanioPagina = 10;
@@ -92,7 +90,6 @@ public class PaginadorDto implements Serializable {
 		} else {
 			this.paginas = 0;
 		}
-		//setPages();
 		return paginas;
 	}
 
@@ -100,18 +97,6 @@ public class PaginadorDto implements Serializable {
 		this.paginas = paginas;
 	}
 
-	/*
-	public ArrayList<Integer> getPages() {
-		return pages;
-	}
-
-	public void setPages() {
-		pages = new ArrayList<Integer>();
-		for (int i = 1; i <= paginas; i++) {
-			pages.add(i);
-		}
-	}
-*/
 	private static final long serialVersionUID = 2204195332241839710L;
 
 }

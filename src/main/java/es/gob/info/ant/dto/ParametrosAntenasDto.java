@@ -24,7 +24,7 @@ public class ParametrosAntenasDto implements Serializable {
 	
 	private Integer ordenacion;
 	
-	private int orden;
+	private int orden = 1;
 		
 	private static final long serialVersionUID = 3827730379937221915L;
 	

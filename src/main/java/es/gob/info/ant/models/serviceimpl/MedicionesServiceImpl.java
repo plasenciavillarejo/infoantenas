@@ -1,6 +1,7 @@
 package es.gob.info.ant.models.serviceimpl;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,16 @@ public class MedicionesServiceImpl implements IMedicionesService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<ListaNivelesMediosDto> listarMediciones(List<String> emplazamiento) {
-		List<ListaNivelesMediosDto> nivelesMedios = medicionesDao.listarMediciones(emplazamiento);
-		nivelesMedios.stream().forEach(nivel -> nivel.setValorMedio(nivel.getValorMedio().contains("<") 
-				? "<".concat(String.valueOf(Math.sqrt((Double.valueOf((nivel.getValorMedio().replace("<", "")))*376.73)/100))) 
-						: String.valueOf(Math.sqrt((Double.valueOf((nivel.getValorMedio()))*376.73)/100))));
-		return nivelesMedios;
+	public CompletableFuture<List<ListaNivelesMediosDto>> listarMediciones(List<String> emplazamiento) {
+		return medicionesDao.listarMediciones(emplazamiento).thenApply(nivelesMedios -> {
+			nivelesMedios.stream().forEach(nivel -> {
+				if (!nivel.getValorMedio().contains("<ERR")) {
+	            	nivel.setValorMedio(nivel.getValorMedio().contains("<") 
+	                    ? "<".concat(String.valueOf(Math.sqrt((Double.valueOf((nivel.getValorMedio().replace("<", "")))*376.73)/100))) 
+	                    : String.valueOf(Math.sqrt((Double.valueOf((nivel.getValorMedio()))*376.73)/100)));
+	            }
+			});
+	        return nivelesMedios;
+	    });
 	}
-
 }

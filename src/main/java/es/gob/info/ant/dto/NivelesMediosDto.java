@@ -24,6 +24,10 @@ public class NivelesMediosDto implements Serializable {
 		this.provincia = dato.getProvincia();
 	}
 
+	public NivelesMediosDto() {
+		super();
+	}
+
 	private static final long serialVersionUID = -4653948116315639407L;
 
 }

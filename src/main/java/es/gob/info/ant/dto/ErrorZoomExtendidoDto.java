@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 public class ErrorZoomExtendidoDto implements Serializable{
 	
-	private String error_message;
+	private String errorMessage;
 	
-	private String correlation_id;
+	private String correlationId;
 	
-	private int error_id;
+	private int errorId;
 	
-	private String error_alias;
+	private String errorAlias;
 	
 	private static final long serialVersionUID = 4706554041621855884L;
 

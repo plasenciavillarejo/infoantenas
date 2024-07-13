@@ -1,6 +1,7 @@
 package es.gob.info.ant.models.serviceimpl;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class EstacionesServiceImpl implements IEstacionesService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<ListaDatosCaracteristicasTecnicasDto> listadoEstaciones(List<String> emplazamiento) {
-		return estacionesDao.listadoEstaciones(emplazamiento);
+	public CompletableFuture<List<ListaDatosCaracteristicasTecnicasDto>> listadoEstaciones(List<String> emplazamiento) {
+	    return estacionesDao.listadoEstaciones(emplazamiento);
 	}
 
 }

@@ -4,7 +4,7 @@ metadata:
   name: info.antenas
 spec:
   replicas: 1
-  selector: 
+  selector:
     matchLabels:
       app: info.antenas
   template:
@@ -18,10 +18,21 @@ spec:
         ports:
         - containerPort: 8080
         env:
-       # En la IP debemos indicar la de minikube, en caso contrario, nunca nos dejara desplegar, la ip la indicamos como info.antenas que internamente llevara la ip de minikube
           - name: SPRING_DATASOURCE_URL
-            value: jdbc:sqlserver://infoantenas;encrypt=true;trustServerCertificate=true;databaseName=GestExp
+            value: "jdbc:sqlserver://host.docker.internal;encrypt=true;trustServerCertificate=true;databaseName=GestExp"
           - name: SPRING_DATASOURCE_USERNAME
-            value: GestExp_User
+            value: "GestExp_User"
           - name: SPRING_DATASOURCE_PASSWORD
-            value: Joseplasencia10
+            value: "Joseplasencia10"
+          - name: show-sql
+            value: "true"
+          - name: format_sql
+            value: "true"
+          - name: driver-class-name
+            value: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+          - name: database-platform
+            value: "org.hibernate.dialect.SQLServer2012Dialect"
+          - name: logging.level
+            value: "info"
+          - name: hibernate.naming.physical-strategy
+            value: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"

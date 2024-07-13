@@ -59,9 +59,7 @@ public class LocalizacionEstacionesServiceImpl implements ILocalizacionEstacione
 				em.setObservaciones(!String.valueOf(empl[8]).trim().isEmpty() ? String.valueOf(empl[8]).trim() : "");		
 				return em;
 			}).toList();
-			
 			utilidades.completarDatosCaracteristicaYNivelesMedios(emplDto, estacionesService, medicioneService);
-			
 		} catch (Exception e) {
 			throw new FiltroEstacionesException(e.getMessage(), e.getCause());
 		}

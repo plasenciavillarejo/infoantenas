@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +19,8 @@ import org.springframework.stereotype.Service;
 import es.gob.info.ant.constantes.ConstantesAplicacion;
 import es.gob.info.ant.dto.DatosCaracteristicasTecnicasDto;
 import es.gob.info.ant.dto.FiltradoAntenasDto;
+import es.gob.info.ant.dto.ListaDatosCaracteristicasTecnicasDto;
+import es.gob.info.ant.dto.ListaNivelesMediosDto;
 import es.gob.info.ant.dto.NivelesMediosDto;
 import es.gob.info.ant.dto.PaginadorDto;
 import es.gob.info.ant.exception.ErrorGlobalAntenasException;
@@ -70,8 +75,7 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 				em.setProvincia(empl[4] != null ? String.valueOf(empl[4]): "");
 				em.setLatitud(empl[5] != null ?  new BigDecimal(String.valueOf(empl[5])) : null);
 				em.setLongitud(empl[6] != null ?  new BigDecimal(String.valueOf(empl[6])) : null);
-				em.setFechaActualizacion(empl[7] != null ? String.valueOf(empl[7]): "");
-				em.setObservaciones(!String.valueOf(empl[8]).trim().isEmpty() ? String.valueOf(empl[8]).trim() : "");		
+				completarFiltradoAntenas(em, empl);
 				return em;
 			}).toList();
 			
@@ -84,11 +88,16 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 		return param;
 	}
 	
+	private void completarFiltradoAntenas(FiltradoAntenasDto em, Object [] empl) {
+		em.setFechaActualizacion(empl[7] != null ? String.valueOf(empl[7]): "");
+		em.setObservaciones(!String.valueOf(empl[8]).trim().isEmpty() ? String.valueOf(empl[8]).trim() : "");	
+	}
+	
 	@Override
 	public Map<String, Object> obtenerDetalleEstacion(String emplazamiento) throws Exception {		
 		Object emplazamientos = null;
 		Map<String, Object> param = new HashMap<>();
-		FiltradoAntenasDto emplDto = null;
+		AtomicReference<FiltradoAntenasDto> emplDto = new AtomicReference<>(new FiltradoAntenasDto());
 		LOGGER.info("Se procede a buscar los emplazamientos");
 		try {
 			emplazamientos = emplazamientoService.obtenerDetalleEstacion(emplazamiento);
@@ -96,22 +105,37 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 			
 			if(empl != null) {
 				LOGGER.info("Se han encontrado un elemento con id emplazamiento {}", emplazamiento);
-				emplDto = new FiltradoAntenasDto();							
-				emplDto.setEmplazamiento(empl[0] != null ? String.valueOf(empl[0]): "");
-				emplDto.setDireccion(empl[1] != null ? String.valueOf(empl[1]): "");
-				emplDto.setLocalidad(empl[2] != null ? String.valueOf(empl[2]): "");
-				emplDto.setMunicipio(empl[3] != null ? String.valueOf(empl[3]): "");
-				emplDto.setProvincia(empl[4] != null ? String.valueOf(empl[4]): "");
-				emplDto.setLatitud(empl[5] != null ?  new BigDecimal(String.valueOf(empl[5])) : null);
-				emplDto.setLongitud(empl[6] != null ?  new BigDecimal(String.valueOf(empl[6])) : null);
-				emplDto.setFechaActualizacion(empl[7] != null ? String.valueOf(empl[7]): "");
-				emplDto.setObservaciones(!String.valueOf(empl[8]).trim().isEmpty() ? String.valueOf(empl[8]).trim() : "");				
+				emplDto.get().setEmplazamiento(empl[0] != null ? String.valueOf(empl[0]): "");
+				emplDto.get().setDireccion(empl[1] != null ? String.valueOf(empl[1]): "");
+				emplDto.get().setLocalidad(empl[2] != null ? String.valueOf(empl[2]): "");
+				emplDto.get().setMunicipio(empl[3] != null ? String.valueOf(empl[3]): "");
+				completarDestalleEstacion(emplDto, empl);
+
 				LOGGER.info("Se procede a recuperar las Características Técnicas asociada a las estaciones "); 
-				emplDto.setDatosCaracteristicasTecnicas(estacionesService.listadoEstaciones(Arrays.asList(String.valueOf(empl[0])))
-						.stream().map(DatosCaracteristicasTecnicasDto::new).toList());
-				
+				CompletableFuture<CompletableFuture<List<ListaDatosCaracteristicasTecnicasDto>>> datosCaracteristicasTecnicas =
+			                CompletableFuture.supplyAsync(() ->
+			                        estacionesService.listadoEstaciones(Arrays.asList(String.valueOf(empl[0]))));
+				 
 				LOGGER.info("Se procede a recuperar los Niveles Medios");
-				emplDto.setNivelesMedios(medicioneService.listarMediciones(Arrays.asList(String.valueOf(empl[0]))).stream().map(NivelesMediosDto::new).toList());;
+				CompletableFuture<CompletableFuture<List<ListaNivelesMediosDto>>> nivelesMediosDto = 
+						CompletableFuture.supplyAsync(() ->
+							medicioneService.listarMediciones(Arrays.asList(String.valueOf(empl[0]))));
+				
+				 // Esperar a que ambas consultas se completen
+				CompletableFuture<Void> compFuture = datosCaracteristicasTecnicas.thenCombine(nivelesMediosDto,
+		                (caracteristicasTecnicas, nivelesMedios) -> {
+		                    try {
+								emplDto.get().setDatosCaracteristicasTecnicas(caracteristicasTecnicas.get().stream()
+								        .map(DatosCaracteristicasTecnicasDto::new).toList());
+					            emplDto.get().setNivelesMedios(nivelesMedios.get().stream()
+					            		.filter(niv -> !niv.getValorMedio().contains("<ERR"))
+			                            .map(NivelesMediosDto::new).toList());
+							} catch (InterruptedException | ExecutionException e) {
+								throw new ThreadDeath();
+							}
+		                    return null;
+		                });
+				compFuture.join();
 			}else {
 				LOGGER.info("No se ha encontrado el emplazamiento con id emplazamiento: {}", emplazamiento);
 			}
@@ -122,4 +146,12 @@ public class LocalizacionAntenasServiceImpl implements ILocalizacionAntenasServi
 		return param;
 	}
 
+	private void completarDestalleEstacion(AtomicReference<FiltradoAntenasDto> emplDto,Object[] empl) {
+		emplDto.get().setProvincia(empl[4] != null ? String.valueOf(empl[4]): "");
+		emplDto.get().setLatitud(empl[5] != null ?  new BigDecimal(String.valueOf(empl[5])) : null);
+		emplDto.get().setLongitud(empl[6] != null ?  new BigDecimal(String.valueOf(empl[6])) : null);
+		emplDto.get().setFechaActualizacion(empl[7] != null ? String.valueOf(empl[7]): "");
+		emplDto.get().setObservaciones(!String.valueOf(empl[8]).trim().isEmpty() ? String.valueOf(empl[8]).trim() : "");
+	}
+	
 }
