@@ -11,7 +11,7 @@ import es.gob.info.ant.constantes.ConstantesExternalPaths;
 import jakarta.annotation.PostConstruct;
 
 @Component
-@PropertySource(ConstantesExternalPaths.INFOANTENAS_CONFIGURATION_PROPERTIES_PATH)
+//@PropertySource(ConstantesExternalPaths.INFOANTENAS_CONFIGURATION_PROPERTIES_PATH)
 public class InicializacionAplicacion {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConstantesAplicacion.CONSTANTELOGGUERINFOANTENAS);

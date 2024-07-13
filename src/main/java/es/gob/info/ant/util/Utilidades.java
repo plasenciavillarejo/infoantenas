@@ -58,7 +58,7 @@ public class Utilidades {
 				CompletableFuture.supplyAsync(() ->
 					medicioneService.listarMediciones(emplDto.stream()
 							.map(em -> em.getEmplazamiento()).toList()));
-				
+		
 	    CompletableFuture<Void> compFuture = datosCaracteristicasTecnicas.thenCombineAsync(nivelesMediosDto, (caracteristicasTecnicas, nivelesMedios) -> {
 	    	emplDto.forEach(em -> {
 	        	try {
