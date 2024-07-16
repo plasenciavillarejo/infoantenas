@@ -28,7 +28,7 @@ spec:
             value: "true"
           - name: format_sql
             value: "true"
-          - name: driver-class-name
+          - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
             value: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
           - name: database-platform
             value: "org.hibernate.dialect.SQLServer2012Dialect"
