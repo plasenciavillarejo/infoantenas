@@ -37,3 +37,20 @@ spec:
             value: "info"
           - name: hibernate.naming.physical-strategy
             value: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
+          - name: PATH_LOGBACK
+            value: file:/Users/joseplasenciavillarejo/Desktop/infoantenas_repository/logback-info.xml
+        volumeMounts:
+            - mountPath: /config
+              name: logback-config
+            - mountPath: /config/logs
+              name: logs
+      volumes:
+        - name: logback-config
+          hostPath:
+            path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository
+            type: DirectoryOrCreate
+        - name: logs
+          hostPath:
+            path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository/logs
+            type: DirectoryOrCreate
+
