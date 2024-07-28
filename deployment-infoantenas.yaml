@@ -18,6 +18,7 @@ spec:
         name: info-antenas-x9lsg
         ports:
         - containerPort: 8080
+        # Variables para cargar el application-dev.properties
         env:
           - name: SPRING_DATASOURCE_URL
             value: "jdbc:sqlserver://host.docker.internal;encrypt=true;trustServerCertificate=true;databaseName=GestExp"
@@ -40,17 +41,24 @@ spec:
           - name: PATH_LOGBACK
             value: file:/Users/joseplasenciavillarejo/Desktop/infoantenas_repository/logback-info.xml
         volumeMounts:
-            - mountPath: /config
-              name: logback-config
-            - mountPath: /config/logs
-              name: logs
+            - name: logback-config
+              mountPath: /app/config/logback.xml
+              subPath: logback-info.xml
+            - name: logs
+              mountPath: /app/logs
       volumes:
         - name: logback-config
-          hostPath:
-            path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository
-            type: DirectoryOrCreate
-        - name: logs
-          hostPath:
-            path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository/logs
-            type: DirectoryOrCreate
-
+          persistentVolumeClaim:
+            claimName: infoantenas-pvc
+        - name: logback-config
+          configMap:
+            name: logback-configmap
+           
+          #hostPath:
+          #  path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository
+          #  type: DirectoryOrCreate
+        #- name: logs
+        #  hostPath:
+        #    path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository/logs
+            
+            
