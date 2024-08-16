@@ -42,17 +42,13 @@ spec:
             value: file:/Users/joseplasenciavillarejo/Desktop/infoantenas_repository/logback-info.xml
         volumeMounts:
             - name: logback-config
-              mountPath: /app/config/logback.xml
-              subPath: logback-info.xml
-            - name: logs
-              mountPath: /app/logs
+              mountPath: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository
+            #- name: logs
+            #  mountPath: /config/logs
       volumes:
         - name: logback-config
           persistentVolumeClaim:
             claimName: infoantenas-pvc
-        - name: logback-config
-          configMap:
-            name: logback-configmap
            
           #hostPath:
           #  path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository
