@@ -21,11 +21,28 @@ spec:
         # Variables para cargar el application-dev.properties
         env:
           - name: SPRING_DATASOURCE_URL
-            value: "jdbc:sqlserver://host.docker.internal;encrypt=true;trustServerCertificate=true;databaseName=GestExp"
+            # Para que cargue de forma directa se hace de está forma
+            #value: "jdbc:sqlserver://host.docker.internal;encrypt=true;trustServerCertificate=true;databaseName=GestExp"
+            # Si queremos que se cargue mediente el confimap.yml se hace de la siguiente forma:
+            valueFrom:
+              configMapKeyRef:
+              # Le indicamos el metadata asociado al configmap.yml
+                name: info.antenas.config.bbdd
+                key: db_host
           - name: SPRING_DATASOURCE_USERNAME
-            value: "GestExp_User"
+            #value: "GestExp_User"
+            valueFrom:
+              #configMapKeyRef:
+              # Cuando se utiliza el secret.yml se debe indicar de la siguiente forma:
+              secretKeyRef:
+                name: info.antenas.config.bbdd
+                key: username
           - name: SPRING_DATASOURCE_PASSWORD
-            value: "Joseplasencia10"
+            #value: "Joseplasencia10"
+            valueFrom:
+              secretKeyRef:
+                name: info.antenas.config.bbdd
+                key: password
           - name: show-sql
             value: "true"
           - name: format_sql

@@ -1,0 +1,23 @@
+# Archivo de configuracion de forma globar para todos los archivos "yml"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: info.antenas.config.bbdd
+data:
+  port: "8080"
+  db_host: "jdbc:sqlserver://host.docker.internal;encrypt=true;trustServerCertificate=true;databaseName=GestExp"
+  # Se comenta ya que se esta utilizando el del secret.yml que está configurado en base64
+  #username: "GestExp_User"
+  #password: "Joseplasencia10"
+# Para obtener diferentes configuraciones en un mismo fichero basta con solo indicarle --- y generar nuevamente otra configuración
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: info.antenas.config.sql
+data:
+  sho_sql: "true"
+  form-sql: "true"
+  dr_cls_name: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+  db_platform: "org.hibernate.dialect.SQLServer2012Dialect"
+  
