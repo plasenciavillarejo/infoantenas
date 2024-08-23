@@ -17,6 +17,7 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -74,6 +75,34 @@
 		</dependency>
 		<!--  FIN: Depencencia cache -->
 		<!--  ###################### -->
+
+		<!-- INI: Dependencia Spring cloud kubernetes. 
+		Si incluyo la dependencia spring-cloud-starter-kubernetes-client-all por defecto 
+		incluye las siguientes dependencias:
+				spring-cloud-starter-kubernetes-client-config
+				spring-cloud-starter-kubernetes-client-loadbalancer
+			Para este ejemplo, añado todas las dependnecias de forma directa.
+		  -->
+		  <!--  ###################################### -->
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-kubernetes-client</artifactId>
+		    <version>3.1.3</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-kubernetes-client-config</artifactId>
+		    <version>3.1.3</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-kubernetes-client-loadbalancer</artifactId>
+		    <version>3.1.3</version>
+		</dependency>
+		<!-- FIN: Dependencia Spring cloud kubernetes -->
+		<!--  ####################################### -->
 
 	</dependencies>
 
