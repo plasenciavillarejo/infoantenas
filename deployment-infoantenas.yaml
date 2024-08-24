@@ -14,12 +14,22 @@ spec:
         app: info.antenas
     spec:
       containers:
-      - image: info.antenas:1.0.0
-        name: info-antenas-x9lsg
+      - name: info-antenas-x9lsg
+        image: info.antenas:1.0.0
         ports:
         - containerPort: 8080
         # Variables para cargar el application-dev.properties
         env:
+        # Para agregar de forma automática el host:puerto de la instancia podemos hacerlo de la siguiente forma:
+          - name: HOST_MAQUINA
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: HOST_PUERTO
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+         # FIN: Forma de agregar Host y puerto de forma automática
           - name: SPRING_DATASOURCE_URL
             # Para que cargue de forma directa se hace de está forma
             #value: "jdbc:sqlserver://host.docker.internal;encrypt=true;trustServerCertificate=true;databaseName=GestExp"
@@ -39,7 +49,7 @@ spec:
                 name: info.antenas.config.bbdd
                 key: username
           - name: SPRING_DATASOURCE_PASSWORD
-            #value: "Joseplasencia10"
+            #value: "Joseplasencia11"
             valueFrom:
               secretKeyRef:
                 name: info.antenas.config.bbdd
@@ -63,18 +73,16 @@ spec:
           - name: PATH_LOGBACK
             value: file:/Users/joseplasenciavillarejo/Desktop/infoantenas_repository/logback-info.xml
         volumeMounts:
-            - name: logback-config
-              mountPath: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository
-            #- name: logs
-            #  mountPath: /config/logs
+            - name: config-volume
+              mountPath: /config
       volumes:
-        - name: logback-config
-          persistentVolumeClaim:
-            claimName: infoantenas-pvc
-           
-          #hostPath:
-          #  path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository
-          #  type: DirectoryOrCreate
+        - name: config-volume
+          hostPath:
+            path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository
+            type: Directory
+          #persistentVolumeClaim:
+          #claimName: infoantenas-pvc
+          
         #- name: logs
         #  hostPath:
         #    path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository/logs
