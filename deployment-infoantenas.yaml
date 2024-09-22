@@ -78,6 +78,8 @@ spec:
       volumes:
         - name: config-volume
           hostPath:
+          # Esto me va a crear una carpeta dentro de este repositorio, tengo que ver por que si existe,
+          # no me utiliza la que ya tengo por defecto
             path: /Users/joseplasenciavillarejo/Desktop/infoantenas_repository
             type: Directory
           #persistentVolumeClaim:
