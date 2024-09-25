@@ -7,10 +7,10 @@ services:
     ports:
       - "8080:8080"
 # Forma en la que se indica de forma externas las propiedades en el fichero applicaiton.properties
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:sqlserver://host.docker.internal;encrypt=true;trustServerCertificate=true;databaseName=GestExp
-      SPRING_DATASOURCE_USERNAME: GestExp_User
-      SPRING_DATASOURCE_PASSWORD: Joseplasencia10
+    #environment:
+    #  SPRING_DATASOURCE_URL: jdbc:sqlserver://host.docker.internal;encrypt=true;trustServerCertificate=true;databaseName=GestExp
+    #  SPRING_DATASOURCE_USERNAME: GestExp_User
+    #  SPRING_DATASOURCE_PASSWORD: Joseplasencia10
 #     TZ: Europe/Madrid
     volumes:
       - /Users/joseplasenciavillarejo/Desktop/infoantenas_repository:/config
